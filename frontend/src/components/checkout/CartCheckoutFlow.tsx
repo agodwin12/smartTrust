@@ -6,11 +6,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/features/auth/AuthProvider";
-import { useCart } from "@/features/cart/CartProvider";
+import { toCartItem, useCart } from "@/features/cart/CartProvider";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { CartItem, CheckoutGroup, PaymentMethod } from "@/types";
+import type { CartItem, CheckoutGroup, PaymentMethod, Product } from "@/types";
 import { Container } from "@/components/layout/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 
@@ -22,8 +22,12 @@ const POLL_TIMEOUT_MS = 3 * 60 * 1000;
 const field = "h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-foreground outline-none transition-colors focus:border-brand-blue";
 const label = "mb-1 block text-xs font-semibold text-foreground-secondary";
 
-/** Whole-cart checkout: one reference and one payment for every item, for members and guests alike. */
-export function CartCheckoutFlow() {
+/**
+ * Checkout for members and guests alike: one reference and one payment for every item.
+ * Without props it checks out the whole cart; with `product` (+ `quantity`) it is the
+ * single-item "Buy now" path and leaves the cart untouched.
+ */
+export function CartCheckoutFlow({ product, quantity = 1 }: { product?: Product; quantity?: number } = {}) {
   const t = useTranslations("checkout");
   const tc = useTranslations("checkout.cart");
   const locale = useLocale();
@@ -44,13 +48,21 @@ export function CartCheckoutFlow() {
   useEffect(() => () => window.clearInterval(pollTimer.current), []);
 
   const isGuest = status !== "authenticated";
-  const codBlockedBy = useMemo(() => [...new Set(cart.items.filter((i) => i.acceptsCashOnDelivery === false).map((i) => i.storeName))], [cart.items]);
+  const single = Boolean(product);
+  const items = useMemo<CartItem[]>(() => (product ? [{ ...toCartItem(product), quantity }] : cart.items), [product, quantity, cart.items]);
+  const hydrated = single || cart.hydrated;
+  const count = items.reduce((sum, i) => sum + i.quantity, 0);
+  const subtotal = items.reduce((sum, i) => sum + Number(i.price) * i.quantity, 0);
+  const clearCart = () => {
+    if (!single) cart.clear();
+  };
+  const codBlockedBy = useMemo(() => [...new Set(items.filter((i) => i.acceptsCashOnDelivery === false).map((i) => i.storeName))], [items]);
   const cod = method === "CASH_ON_DELIVERY";
   const byStore = useMemo(() => {
     const map = new Map<string, CartItem[]>();
-    for (const item of cart.items) map.set(item.storeName, [...(map.get(item.storeName) ?? []), item]);
+    for (const item of items) map.set(item.storeName, [...(map.get(item.storeName) ?? []), item]);
     return [...map.entries()];
-  }, [cart.items]);
+  }, [items]);
 
   const trackingUrl = group ? `${typeof window === "undefined" ? "" : window.location.origin}${locale === "en" ? "" : `/${locale}`}/orders/track?id=${group.id}&token=${group.accessToken ?? ""}` : "";
 
@@ -64,7 +76,7 @@ export function CartCheckoutFlow() {
         const s = g.payment?.status;
         if (s === "COMPLETED") {
           window.clearInterval(pollTimer.current);
-          cart.clear();
+          clearCart();
           setPhase("success");
         } else if (s === "FAILED" || s === "CANCELLED") {
           window.clearInterval(pollTimer.current);
@@ -87,20 +99,20 @@ export function CartCheckoutFlow() {
     setPhase("starting");
     try {
       const body = {
-        items: cart.items.map((i) => ({ advertisementId: i.id, quantity: i.quantity })),
+        items: items.map((i) => ({ advertisementId: i.id, quantity: i.quantity })),
         paymentMethod: method,
         deliveryAddress: address.trim() || undefined,
-        deliveryPhone: deliveryPhone.trim() || undefined,
+        deliveryPhone: (deliveryPhone.trim() || (isGuest ? guest.phone.trim() : "")) || undefined, // the field shows the guest's phone as its default
         guest: isGuest ? { name: guest.name.trim(), phone: guest.phone.trim(), email: guest.email.trim() || undefined } : undefined,
       };
       const { group: created } = await authFetch<{ group: CheckoutGroup }>("checkout", { method: "POST", body });
       setGroup(created);
       if (cod) {
-        cart.clear();
+        clearCart();
         setPhase("cod-success");
         return;
       }
-      await authFetch(`checkout/${created.id}/pay`, { method: "POST", body: { provider, phoneNumber: momoPhone.replace(/\s+/g, ""), token: created.accessToken } });
+      await authFetch(`checkout/${created.id}/pay`, { method: "POST", body: { provider, phoneNumber: (momoPhone || (isGuest ? guest.phone : "")).replace(/\s+/g, ""), token: created.accessToken } });
       setPhase("waiting");
       poll(created.id, created.accessToken);
     } catch (err) {
@@ -118,9 +130,9 @@ export function CartCheckoutFlow() {
     }
   };
 
-  if (!cart.hydrated || status === "loading") return <Container className="py-12"><div className="h-64 animate-pulse rounded-2xl bg-surface-hover" /></Container>;
+  if (!hydrated || status === "loading") return <Container className="py-12"><div className="h-64 animate-pulse rounded-2xl bg-surface-hover" /></Container>;
 
-  if (cart.items.length === 0 && phase === "form") {
+  if (items.length === 0 && phase === "form") {
     return (
       <Container className="py-12">
         <EmptyState icon={ShoppingCart} title={tc("emptyTitle")} description={tc("emptyDescription")} action={{ label: tc("emptyAction"), href: "/products" }} />
@@ -132,8 +144,8 @@ export function CartCheckoutFlow() {
 
   return (
     <Container className="py-8 sm:py-12">
-      <h1 className="text-3xl">{tc("title")}</h1>
-      <p className="mt-1 text-sm text-foreground-secondary">{tc("subtitle")}</p>
+      <h1 className="text-3xl">{single ? t("title") : tc("title")}</h1>
+      <p className="mt-1 text-sm text-foreground-secondary">{single ? tc("singleSubtitle") : tc("subtitle")}</p>
 
       {done && group ? (
         <section className="mt-8 rounded-2xl border border-border bg-surface p-6 sm:p-8">
@@ -295,16 +307,20 @@ export function CartCheckoutFlow() {
             </div>
             <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
               <span className="text-sm font-semibold text-foreground">{t("total")}</span>
-              <span className="font-script text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(cart.subtotal, locale)}</span>
+              <span className="font-script text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(subtotal, locale)}</span>
             </div>
             <button type="submit" disabled={phase === "starting"} className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-orange text-sm font-semibold text-white hover:bg-brand-orange-light disabled:opacity-60">
               {phase === "starting" ? <Loader2 className="size-4 animate-spin" /> : cod ? <Banknote className="size-4" /> : <ShieldCheck className="size-4" />}
-              {phase === "starting" ? t("processing") : cod ? tc("placeOrderAll", { count: cart.count }) : tc("payAll", { amount: formatPrice(cart.subtotal, locale) })}
+              {phase === "starting" ? t("processing") : cod ? tc("placeOrderAll", { count }) : tc("payAll", { amount: formatPrice(subtotal, locale) })}
             </button>
             <p className="mt-3 flex items-start gap-2 text-xs text-foreground-muted">
-              <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-brand-blue" aria-hidden /> {cod ? t("codNote", { amount: formatPrice(cart.subtotal, locale) }) : t("escrowNote")}
+              <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-brand-blue" aria-hidden /> {cod ? t("codNote", { amount: formatPrice(subtotal, locale) }) : t("escrowNote")}
             </p>
-            <Link href="/cart" className="mt-3 block text-center text-xs font-semibold text-brand-blue hover:underline">{tc("editCart")}</Link>
+            {product ? (
+              <Link href={`/products/${product.slug}`} className="mt-3 block text-center text-xs font-semibold text-brand-blue hover:underline">{tc("backToProduct")}</Link>
+            ) : (
+              <Link href="/cart" className="mt-3 block text-center text-xs font-semibold text-brand-blue hover:underline">{tc("editCart")}</Link>
+            )}
           </aside>
         </form>
       )}

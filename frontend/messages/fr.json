@@ -466,7 +466,9 @@
       "viewOrder": "Voir ma commande",
       "tryAgain": "Réessayer",
       "copied": "Lien copié.",
-      "copyFailed": "Copie impossible. Sélectionnez le lien et copiez-le manuellement."
+      "copyFailed": "Copie impossible. Sélectionnez le lien et copiez-le manuellement.",
+      "singleSubtitle": "Connectez-vous ou continuez en tant qu'invité. Payez par Mobile Money (conservé sous séquestre jusqu'à votre confirmation de livraison) ou en espèces à la remise.",
+      "backToProduct": "Retour au produit"
     }
   },
   "orders": {

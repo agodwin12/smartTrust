@@ -466,7 +466,9 @@
       "viewOrder": "View my order",
       "tryAgain": "Try again",
       "copied": "Link copied.",
-      "copyFailed": "Could not copy. Select the link and copy it manually."
+      "copyFailed": "Could not copy. Select the link and copy it manually.",
+      "singleSubtitle": "Sign in or continue as a guest. Pay by Mobile Money (held in escrow until you confirm delivery) or in cash at handover.",
+      "backToProduct": "Back to the product"
     }
   },
   "orders": {

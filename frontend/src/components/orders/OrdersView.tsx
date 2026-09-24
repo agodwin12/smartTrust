@@ -115,7 +115,7 @@ function OrderCard({ order, onChange }: { order: Order; onChange: (next: Order) 
               </Link>
             )}
             {order.status === "PENDING_PAYMENT" && order.advertisement?.slug && (
-              <Link href={`/checkout/${order.advertisement.slug}?qty=${order.quantity}&order=${order.id}`} className="inline-flex h-10 items-center rounded-xl bg-brand-orange px-3.5 text-sm font-semibold text-white hover:bg-brand-orange-light">
+              <Link href={order.group ? `/account/orders/group/${order.group.id}` : `/checkout/${order.advertisement.slug}?qty=${order.quantity}&order=${order.id}`} className="inline-flex h-10 items-center rounded-xl bg-brand-orange px-3.5 text-sm font-semibold text-white hover:bg-brand-orange-light">
                 {t("payNow")}
               </Link>
             )}

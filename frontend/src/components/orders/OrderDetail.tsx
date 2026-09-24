@@ -272,7 +272,7 @@ export function OrderDetail({ orderId, perspective = "buyer" }: { orderId: strin
             <section className="space-y-3 rounded-3xl border border-border bg-surface p-5">
               <div className="flex flex-wrap gap-2">
                 {isBuyer && order.status === "PENDING_PAYMENT" && order.advertisement?.slug && (
-                  <Link href={`/checkout/${order.advertisement.slug}?qty=${order.quantity}&order=${order.id}`} className="inline-flex h-11 items-center rounded-xl bg-brand-orange px-4 text-sm font-semibold text-white hover:bg-brand-orange-light">
+                  <Link href={order.group ? `/account/orders/group/${order.group.id}` : `/checkout/${order.advertisement.slug}?qty=${order.quantity}&order=${order.id}`} className="inline-flex h-11 items-center rounded-xl bg-brand-orange px-4 text-sm font-semibold text-white hover:bg-brand-orange-light">
                     {to("payNow")}
                   </Link>
                 )}
