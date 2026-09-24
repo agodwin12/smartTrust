@@ -1,7 +1,8 @@
 # ---- deps: cached separately so a source-only change doesn't reinstall packages ----
 FROM node:22-alpine AS deps
 WORKDIR /app
-COPY package*.json ./
+# .npmrc carries legacy-peer-deps=true (Vitest 5 vs Next 16 peer ranges) — same rule as local installs.
+COPY package*.json .npmrc ./
 RUN npm ci
 
 # ---- build: produces the self-contained .next/standalone server ----
