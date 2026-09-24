@@ -180,7 +180,11 @@ export type NotificationType =
   | "REFUND_SENT"
   | "REFUND_FAILED"
   | "ORDER_CONFIRMED"
-  | "ORDER_CANCELLED";
+  | "ORDER_CANCELLED"
+  | "FLASH_APPLICATION_APPROVED"
+  | "FLASH_APPLICATION_REJECTED"
+  | "FLASH_CAMPAIGN_LIVE"
+  | "FLASH_CAMPAIGN_ENDED";
 
 export type AppNotification = {
   id: ID;
@@ -188,6 +192,10 @@ export type AppNotification = {
   title: string;
   body: string | null;
   data: {
+    campaignId?: string;
+    campaignName?: string;
+    campaignPrice?: number;
+    reviewNote?: string | null;
     orderId?: string;
     productTitle?: string;
     productSlug?: string;
@@ -386,4 +394,57 @@ export type AuditLog = {
   ipAddress: string | null;
   createdAt: string;
   actor: { id: ID; email: string; firstName: string; lastName: string; role: UserRole } | null;
+};
+
+/* ---------------------------------------------------------------- flash-deal campaigns */
+
+export type FlashCampaignStatus = "DRAFT" | "PUBLISHED" | "CANCELLED";
+/** Stored status, or for a published campaign where its dates put it right now. */
+export type FlashCampaignPhase = FlashCampaignStatus | "SCHEDULED" | "ACTIVE" | "ENDED";
+export type FlashItemStatus = "PENDING" | "APPROVED" | "REJECTED";
+
+export type FlashListing = Pick<Product, "id" | "title" | "slug" | "price" | "compareAtPrice" | "images" | "condition" | "status"> & {
+  store: { id: ID; name: string; slug: string };
+  category: { name: string; slug: string } | null;
+};
+
+export type FlashCampaignItem = {
+  id: ID;
+  campaignId: ID;
+  advertisementId: ID;
+  storeId: ID;
+  status: FlashItemStatus;
+  /** Decimal serialised as a string. */
+  campaignPrice: string;
+  originalPrice: string | null;
+  originalCompareAtPrice: string | null;
+  applied: boolean;
+  appliedAt: string | null;
+  note: string | null;
+  reviewNote: string | null;
+  reviewedAt: string | null;
+  discountPercent: number;
+  createdAt: string;
+  advertisement: FlashListing;
+};
+
+export type FlashCampaign = {
+  id: ID;
+  name: string;
+  slug: string;
+  description: string | null;
+  startsAt: string;
+  endsAt: string;
+  status: FlashCampaignStatus;
+  phase: FlashCampaignPhase;
+  minDiscountPercent: number;
+  applicationsOpen: boolean;
+  activatedAt: string | null;
+  endedAt: string | null;
+  createdAt: string;
+  items?: FlashCampaignItem[];
+  /** Admin list only. */
+  itemCount?: number;
+  pendingCount?: number;
+  _count?: { items: number };
 };

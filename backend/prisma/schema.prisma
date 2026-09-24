@@ -177,6 +177,7 @@ model Store {
   wallet         Wallet?
   reviews        Review[]
   withdrawals    Withdrawal[]
+  flashItems     FlashCampaignItem[]
 
   // Every public store listing filters on this.
   @@index([status])
@@ -304,6 +305,7 @@ model Advertisement {
 
   orders        Order[]
   wishlistItems WishlistItem[]
+  flashItems    FlashCampaignItem[]
 
   @@index([storeId])
   @@index([categoryId])
@@ -582,6 +584,10 @@ enum NotificationType {
   REFUND_FAILED
   ORDER_CONFIRMED
   ORDER_CANCELLED
+  FLASH_APPLICATION_APPROVED
+  FLASH_APPLICATION_REJECTED
+  FLASH_CAMPAIGN_LIVE
+  FLASH_CAMPAIGN_ENDED
 }
 
 model Notification {
@@ -644,4 +650,74 @@ model NewsletterSubscriber {
   createdAt      DateTime  @default(now())
 
   @@map("newsletter_subscribers")
+}
+
+// ---------------------------------------------------------------------------
+// Flash-deal campaigns (back-office driven; see services/flashCampaign.service.js)
+// ---------------------------------------------------------------------------
+
+enum FlashCampaignStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+}
+
+enum FlashItemStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model FlashCampaign {
+  id                 String              @id @default(cuid())
+  name               String
+  slug               String              @unique
+  description        String?
+  startsAt           DateTime
+  endsAt             DateTime
+  status             FlashCampaignStatus @default(DRAFT)
+  minDiscountPercent Int                 @default(10)
+  applicationsOpen   Boolean             @default(true)
+  // Set once by the job when prices go live / are restored, so each step runs exactly once.
+  activatedAt        DateTime?
+  endedAt            DateTime?
+  createdById        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items FlashCampaignItem[]
+
+  @@index([status, startsAt, endsAt])
+  @@map("flash_campaigns")
+}
+
+model FlashCampaignItem {
+  id              String          @id @default(cuid())
+  campaignId      String
+  campaign        FlashCampaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  advertisementId String
+  advertisement   Advertisement   @relation(fields: [advertisementId], references: [id], onDelete: Cascade)
+  storeId         String
+  store           Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  status          FlashItemStatus @default(PENDING)
+  campaignPrice   Decimal         @db.Decimal(12, 2)
+  // Snapshot of the seller's prices while the campaign price is applied, restored afterwards.
+  originalPrice          Decimal? @db.Decimal(12, 2)
+  originalCompareAtPrice Decimal? @db.Decimal(12, 2)
+  applied         Boolean         @default(false)
+  appliedAt       DateTime?
+  note            String?
+  reviewNote      String?
+  reviewedById    String?
+  reviewedAt      DateTime?
+  sortOrder       Int             @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([campaignId, advertisementId])
+  @@index([campaignId, status])
+  @@index([advertisementId, applied])
+  @@map("flash_campaign_items")
 }

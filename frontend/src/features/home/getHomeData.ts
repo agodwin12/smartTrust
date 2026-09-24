@@ -1,7 +1,7 @@
 import { DEMO_CATEGORIES, DEMO_PRODUCTS, DEMO_STORES, CATEGORY_IMAGES } from "@/lib/demo-data";
-import { getAllCategories, getHeroProducts, getRootCategories, listProducts, listStores } from "@/features/catalog/api";
+import { getAllCategories, getCurrentFlashCampaign, getHeroProducts, getRootCategories, getUpcomingFlashCampaign, listProducts, listStores } from "@/features/catalog/api";
 import type { ShowcaseGroups } from "@/components/market/ProductShowcase";
-import type { Category, Product, Store } from "@/types";
+import type { Category, FlashCampaign, Product, Store } from "@/types";
 
 export type HomeData = {
   /** Root departments: sidebar, category strip and header select. */
@@ -16,6 +16,9 @@ export type HomeData = {
   stores: Store[];
   /** Three rows of five for the showcase: most viewed, just listed, under 50,000 FCFA. */
   showcase: ShowcaseGroups;
+  /** Back-office flash campaign running now / scheduled next (null when none). */
+  flashCurrent: FlashCampaign | null;
+  flashUpcoming: FlashCampaign | null;
 };
 
 const MIN = { categories: 12, subcategories: 6, deals: 6, newest: 4, stores: 4, row: 5 } as const;
@@ -66,7 +69,7 @@ function showcaseRows(popular: Product[], latest: Product[], budget: Product[], 
 }
 
 export async function getHomeData(): Promise<HomeData> {
-  const [categories, all, hero, deals, newest, stores, popular, latest, budget] = await Promise.all([
+  const [categories, all, hero, deals, newest, stores, popular, latest, budget, flashCurrent, flashUpcoming] = await Promise.all([
     safe(getRootCategories(), []),
     safe(getAllCategories(), []),
     safe(getHeroProducts(undefined, 6), []),
@@ -76,6 +79,8 @@ export async function getHomeData(): Promise<HomeData> {
     safe(listProducts({ sort: "popular", pageSize: 15 }).then((r) => r.items), []),
     safe(listProducts({ sort: "newest", pageSize: 12 }).then((r) => r.items), []),
     safe(listProducts({ sort: "popular", maxPrice: BUDGET_MAX, pageSize: 12 }).then((r) => r.items), []),
+    getCurrentFlashCampaign(),
+    getUpcomingFlashCampaign(),
   ]);
 
   const subcategories = all.filter((c) => c.parentId).sort(byCount);
@@ -93,5 +98,7 @@ export async function getHomeData(): Promise<HomeData> {
     newest: topUp(newest, DEMO_PRODUCTS, MIN.newest),
     stores: topUp(stores, DEMO_STORES, MIN.stores),
     showcase: showcaseRows(popular, latest, budget, newest.slice(0, MIN.newest)),
+    flashCurrent,
+    flashUpcoming,
   };
 }

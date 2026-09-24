@@ -561,3 +561,25 @@ categories and 3 active stores whose names contain the text, case-insensitively.
 shorter than 2 characters return empty lists; longer than 80 characters are truncated. Results
 are cached in Redis for 30 seconds per normalised query and the response carries
 `Cache-Control: public, max-age=15`. Tested in `test/search-suggest.test.js`.
+
+## Flash-deal campaigns
+
+Back-office driven promotions (`src/services/flashCampaign.service.js`, job `flash-campaigns`):
+
+1. Operations staff create a campaign (`POST /api/flash-campaigns`: name, dates, minimum
+   discount %, applications open) and publish it (`POST /api/flash-campaigns/:id/publish`).
+2. Sellers see open campaigns (`GET /api/flash-campaigns/open`) and apply with a listing and a
+   campaign price (`POST /api/flash-campaigns/:id/applications`); the price must be at least
+   the campaign's minimum discount below the listing's current price. Staff can also add a
+   listing directly (`POST /api/flash-campaigns/:id/items`, approved at once).
+3. Staff approve or reject applications (`PATCH /api/flash-campaigns/:id/items/:itemId`, with an
+   optional corrected price and a note); the seller is notified.
+4. The `flash-campaigns` job (every 30 seconds) applies approved campaign prices when the start
+   time passes: the listing's price becomes the campaign price and its previous price becomes
+   the "was" price, so the ordinary deal badge and `/deals` filter apply. While applied, the
+   seller cannot edit that listing's price (`409 FLASH_PRICE_LOCKED`). When the end time passes
+   (or the campaign is cancelled), every price is restored.
+5. The storefront reads `GET /api/flash-campaigns/current` (active campaign with its live items,
+   cached 20 s) and `GET /api/flash-campaigns/upcoming` (next scheduled one).
+
+Tested in `test/flash-campaigns.test.js`.

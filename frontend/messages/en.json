@@ -865,6 +865,22 @@
       "ORDER_CANCELLED": {
         "title": "Order cancelled: {product}",
         "body": "{comment}"
+      },
+      "FLASH_APPLICATION_APPROVED": {
+        "title": "{product} is in {campaign}",
+        "body": "Campaign price {price}."
+      },
+      "FLASH_APPLICATION_REJECTED": {
+        "title": "{product} was not accepted for {campaign}",
+        "body": "{comment}"
+      },
+      "FLASH_CAMPAIGN_LIVE": {
+        "title": "{campaign} is live",
+        "body": "{count, plural, one {# of your listings is} other {# of your listings are}} on flash sale."
+      },
+      "FLASH_CAMPAIGN_ENDED": {
+        "title": "{campaign} has ended",
+        "body": "Your prices are back to normal."
       }
     }
   },
@@ -942,7 +958,8 @@
       "subscription": "Subscription",
       "wallet": "Wallet",
       "store": "Store settings",
-      "viewStore": "View public page"
+      "viewStore": "View public page",
+      "flashDeals": "Flash deals"
     },
     "gate": {
       "title": "Open your store",
@@ -1136,6 +1153,44 @@
       "failed": "Payment not completed. You can try again.",
       "retry": "Try again",
       "error": "We couldn't start the payment: {message}"
+    },
+    "flashDeals": {
+      "title": "Flash deals",
+      "subtitle": "Put a listing in a Smart Market flash sale: propose a campaign price, our team approves it, and the price applies automatically for the duration of the sale.",
+      "open": "Campaigns open for applications",
+      "noneOpen": "No campaign is open right now",
+      "noneOpenHint": "You will see the next flash sale here as soon as it is announced.",
+      "listing": "Listing",
+      "campaignPrice": "Campaign price (FCFA)",
+      "currentPrice": "Current price {price}",
+      "discount": "{percent}% off",
+      "minDiscount": "Minimum discount: {percent}%",
+      "note": "Note for Smart Market (optional)",
+      "notePlaceholder": "Stock, sizes, anything useful",
+      "submit": "Submit for approval",
+      "submitted": "Application submitted.",
+      "tooSmall": "The price must be at least {percent}% below the current price.",
+      "noListingsLeft": "All your published listings are already in this campaign.",
+      "mine": "My applications",
+      "noApplications": "No application yet.",
+      "withdraw": "Withdraw",
+      "withdrawn": "Application withdrawn.",
+      "livePrice": "campaign price live",
+      "reviewNote": "Note from Smart Market",
+      "dates": "{start} → {end}",
+      "status": {
+        "PENDING": "Pending review",
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected"
+      },
+      "phase": {
+        "DRAFT": "Draft",
+        "PUBLISHED": "Published",
+        "SCHEDULED": "Scheduled",
+        "ACTIVE": "Live",
+        "ENDED": "Ended",
+        "CANCELLED": "Cancelled"
+      }
     }
   },
   "admin": {
@@ -1157,7 +1212,8 @@
       "disputes": "Disputes",
       "withdrawals": "Withdrawals",
       "support": "Support inbox",
-      "audit": "Audit log"
+      "audit": "Audit log",
+      "flashDeals": "Flash deals"
     },
     "common": {
       "search": "Search…",
@@ -1454,6 +1510,75 @@
         "audit-retention": "Audit-log retention",
         "view-counts": "View counters"
       }
+    },
+    "flash": {
+      "title": "Flash-deal campaigns",
+      "subtitle": "Create a sale, let sellers apply (or add listings yourself), approve prices. Campaign prices go live at the start time and revert at the end.",
+      "new": "New campaign",
+      "edit": "Edit campaign",
+      "empty": "No campaign yet.",
+      "hint": "Sellers can apply while a published campaign has applications open; the flash-campaigns job applies and restores prices every minute.",
+      "form": {
+        "name": "Name",
+        "description": "Description (shown on the storefront)",
+        "startsAt": "Starts",
+        "endsAt": "Ends",
+        "minDiscountPercent": "Minimum discount (%)",
+        "applicationsOpen": "Sellers can apply"
+      },
+      "created": "Campaign created.",
+      "updated": "Campaign updated.",
+      "published": "Campaign published.",
+      "cancelled": "Campaign cancelled, prices restored.",
+      "publish": "Publish",
+      "cancel": "Cancel campaign",
+      "confirmCancel": "Cancel this campaign? Any live campaign price is restored immediately.",
+      "pending": "{count} pending",
+      "columns": {
+        "campaign": "Campaign",
+        "dates": "Dates",
+        "items": "Listings",
+        "discount": "Min. discount"
+      },
+      "phase": {
+        "DRAFT": "Draft",
+        "PUBLISHED": "Published",
+        "SCHEDULED": "Scheduled",
+        "ACTIVE": "Live",
+        "ENDED": "Ended",
+        "CANCELLED": "Cancelled"
+      },
+      "status": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected"
+      },
+      "detail": {
+        "back": "All campaigns",
+        "addListing": "Add a listing",
+        "searchListing": "Search the catalogue…",
+        "noResults": "No listing matches.",
+        "campaignPrice": "Campaign price",
+        "add": "Add",
+        "added": "Listing added and approved.",
+        "clearPick": "clear",
+        "currentPrice": "Current price {price}",
+        "tooSmall": "The campaign price must be at least {percent}% below the current price.",
+        "listing": "Listing",
+        "prices": "Prices",
+        "sellerNote": "Seller note",
+        "applied": "Campaign price live",
+        "pricePlaceholder": "Override price",
+        "approve": "Approve",
+        "reject": "Reject",
+        "remove": "Remove",
+        "approved": "Approved.",
+        "rejected": "Rejected.",
+        "removed": "Removed.",
+        "rejectPrompt": "Reason for the seller (optional)",
+        "confirmRemove": "Remove this listing from the campaign?",
+        "noItems": "No listing in this campaign yet."
+      }
     }
   },
   "market": {
@@ -1507,12 +1632,20 @@
       "title": "Flash Deals",
       "subtitle": "Limited time offers on top products",
       "seeAll": "See all deals",
-      "endsIn": "Deals refresh in",
+      "endsIn": "Ends in",
       "hrs": "Hrs",
       "mins": "Mins",
       "secs": "Secs",
       "empty": "No discounted listings right now. Check back soon.",
-      "browse": "Browse all products"
+      "browse": "Browse all products",
+      "campaignSubtitle": "Back-office flash sale, prices checked by Smart Market",
+      "nextSale": "Next flash sale: {name}",
+      "startsIn": "Starts in",
+      "refreshIn": "Deals refresh in",
+      "liveNow": "Live now",
+      "comingSoon": "Coming soon",
+      "startsOn": "Starts {date}.",
+      "days": "Days"
     },
     "trust": {
       "label": "Why buy on Smart Market",

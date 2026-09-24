@@ -1,12 +1,12 @@
 import { apiFetch, isNotFound } from "@/lib/api";
 import { CATEGORY_IMAGES } from "@/lib/demo-data";
-import type { Category, Paginated, Product, Store, SubscriptionPlan } from "@/types";
+import type { Category, FlashCampaign, Paginated, Product, Store, SubscriptionPlan } from "@/types";
 
 /*
  * Server-side catalog fetchers. Public data only — cached with short revalidation
  * windows so the site stays fast under load while listings still feel live.
  */
-const REVALIDATE = { categories: 60, products: 30, product: 30, stores: 60, plans: 300 } as const;
+const REVALIDATE = { categories: 60, products: 30, product: 30, stores: 60, plans: 300, flash: 20 } as const;
 
 export const SORTS = ["newest", "price_asc", "price_desc", "popular"] as const;
 export type ProductSort = (typeof SORTS)[number];
@@ -127,5 +127,25 @@ export async function getPlans(): Promise<SubscriptionPlan[]> {
     return plans;
   } catch {
     return [];
+  }
+}
+
+/** The flash campaign running right now (with its live items), or null. Never throws. */
+export async function getCurrentFlashCampaign(): Promise<FlashCampaign | null> {
+  try {
+    const { campaign } = await apiFetch<{ campaign: FlashCampaign | null }>("flash-campaigns/current", { next: { revalidate: REVALIDATE.flash } });
+    return campaign;
+  } catch {
+    return null;
+  }
+}
+
+/** The next scheduled flash campaign, or null. Never throws. */
+export async function getUpcomingFlashCampaign(): Promise<FlashCampaign | null> {
+  try {
+    const { campaign } = await apiFetch<{ campaign: FlashCampaign | null }>("flash-campaigns/upcoming", { next: { revalidate: REVALIDATE.flash } });
+    return campaign;
+  } catch {
+    return null;
   }
 }

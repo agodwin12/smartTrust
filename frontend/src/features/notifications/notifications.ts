@@ -33,6 +33,11 @@ export function notificationHref(n: AppNotification): string {
       return "/seller/subscription";
     case "ADVERTISEMENT_EXPIRED":
       return "/seller/listings";
+    case "FLASH_APPLICATION_APPROVED":
+    case "FLASH_APPLICATION_REJECTED":
+    case "FLASH_CAMPAIGN_LIVE":
+    case "FLASH_CAMPAIGN_ENDED":
+      return "/seller/flash-deals";
     default:
       return "/account/notifications";
   }
@@ -51,6 +56,8 @@ export function notificationValues(n: AppNotification, formatAmount: (value: num
     days: typeof d.days === "number" ? d.days : 0,
     phone: d.phoneNumber ?? "",
     comment: n.body ?? "",
+    campaign: d.campaignName ?? "",
+    price: typeof d.campaignPrice === "number" ? formatAmount(d.campaignPrice) : "",
   };
 }
 

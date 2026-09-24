@@ -14,6 +14,7 @@ import {
   ShoppingBag,
   Store,
   Users,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -26,7 +27,7 @@ import type { User } from "@/types";
 import { RequireAuth } from "@/components/auth/RequireAuth";
 import { Container } from "@/components/layout/Container";
 
-type NavKey = "dashboard" | "users" | "stores" | "categories" | "listings" | "plans" | "orders" | "payments" | "disputes" | "withdrawals" | "support" | "audit";
+type NavKey = "dashboard" | "users" | "stores" | "categories" | "listings" | "flashDeals" | "plans" | "orders" | "payments" | "disputes" | "withdrawals" | "support" | "audit";
 
 const ITEMS: { key: NavKey; href: string; icon: LucideIcon; exact?: boolean; visible?: (user: User) => boolean }[] = [
   { key: "dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
@@ -37,6 +38,7 @@ const ITEMS: { key: NavKey; href: string; icon: LucideIcon; exact?: boolean; vis
   { key: "users", href: "/admin/users", icon: Users },
   { key: "stores", href: "/admin/stores", icon: Store },
   { key: "listings", href: "/admin/listings", icon: Package },
+  { key: "flashDeals", href: "/admin/flash-deals", icon: Zap },
   { key: "categories", href: "/admin/categories", icon: FolderTree },
   { key: "plans", href: "/admin/plans", icon: CreditCard },
   { key: "support", href: "/admin/support", icon: Inbox },

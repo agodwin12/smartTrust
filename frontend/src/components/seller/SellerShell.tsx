@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, LayoutDashboard, Package, ShoppingBag, Store, Wallet, CreditCard, Settings, type LucideIcon } from "lucide-react";
+import { ExternalLink, LayoutDashboard, Package, ShoppingBag, Store, Wallet, CreditCard, Settings, Zap, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, type ReactNode } from "react";
 import { useAuth } from "@/features/auth/AuthProvider";
@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 import { RequireAuth } from "@/components/auth/RequireAuth";
 import { Container } from "@/components/layout/Container";
 
-const ITEMS: { key: "dashboard" | "listings" | "orders" | "subscription" | "wallet" | "store"; href: string; icon: LucideIcon; exact?: boolean }[] = [
+const ITEMS: { key: "dashboard" | "listings" | "flashDeals" | "orders" | "subscription" | "wallet" | "store"; href: string; icon: LucideIcon; exact?: boolean }[] = [
   { key: "dashboard", href: "/seller", icon: LayoutDashboard, exact: true },
   { key: "listings", href: "/seller/listings", icon: Package },
+  { key: "flashDeals", href: "/seller/flash-deals", icon: Zap },
   { key: "orders", href: "/seller/orders", icon: ShoppingBag },
   { key: "subscription", href: "/seller/subscription", icon: CreditCard },
   { key: "wallet", href: "/seller/wallet", icon: Wallet },

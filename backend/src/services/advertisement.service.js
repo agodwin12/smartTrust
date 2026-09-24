@@ -69,6 +69,12 @@ async function update(id, storeId, data, files) {
   const ad = await findOwned(id, storeId);
   if (data.categoryId) await assertCategoryExists(data.categoryId);
 
+  // While a flash-campaign price is applied, the price fields belong to the campaign.
+  if (data.price !== undefined || data.compareAtPrice !== undefined) {
+    const inFlash = await prisma.flashCampaignItem.count({ where: { advertisementId: id, applied: true } });
+    if (inFlash) throw new ApiError(409, "This listing is in a live flash campaign; its price is locked until the campaign ends.", "FLASH_PRICE_LOCKED");
+  }
+
   let images;
   if (files?.length) {
     images = await uploadImages(files);

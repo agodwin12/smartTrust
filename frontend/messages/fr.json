@@ -865,6 +865,22 @@
       "ORDER_CANCELLED": {
         "title": "Commande annulée : {product}",
         "body": "{comment}"
+      },
+      "FLASH_APPLICATION_APPROVED": {
+        "title": "{product} participe à {campaign}",
+        "body": "Prix de campagne {price}."
+      },
+      "FLASH_APPLICATION_REJECTED": {
+        "title": "{product} n’a pas été retenu pour {campaign}",
+        "body": "{comment}"
+      },
+      "FLASH_CAMPAIGN_LIVE": {
+        "title": "{campaign} a commencé",
+        "body": "{count, plural, one {# de vos annonces est} other {# de vos annonces sont}} en vente flash."
+      },
+      "FLASH_CAMPAIGN_ENDED": {
+        "title": "{campaign} est terminée",
+        "body": "Vos prix sont revenus à la normale."
       }
     }
   },
@@ -942,7 +958,8 @@
       "subscription": "Abonnement",
       "wallet": "Portefeuille",
       "store": "Paramètres boutique",
-      "viewStore": "Voir la page publique"
+      "viewStore": "Voir la page publique",
+      "flashDeals": "Ventes flash"
     },
     "gate": {
       "title": "Ouvrez votre boutique",
@@ -1136,6 +1153,44 @@
       "failed": "Paiement non abouti. Vous pouvez réessayer.",
       "retry": "Réessayer",
       "error": "Impossible de lancer le paiement : {message}"
+    },
+    "flashDeals": {
+      "title": "Ventes flash",
+      "subtitle": "Proposez une annonce pour une vente flash Smart Market : vous indiquez un prix de campagne, notre équipe le valide, et le prix s’applique automatiquement pendant la vente.",
+      "open": "Campagnes ouvertes aux candidatures",
+      "noneOpen": "Aucune campagne ouverte pour le moment",
+      "noneOpenHint": "La prochaine vente flash apparaîtra ici dès son annonce.",
+      "listing": "Annonce",
+      "campaignPrice": "Prix de campagne (FCFA)",
+      "currentPrice": "Prix actuel {price}",
+      "discount": "{percent} % de remise",
+      "minDiscount": "Remise minimale : {percent} %",
+      "note": "Note pour Smart Market (facultatif)",
+      "notePlaceholder": "Stock, tailles, toute info utile",
+      "submit": "Soumettre pour validation",
+      "submitted": "Candidature envoyée.",
+      "tooSmall": "Le prix doit être inférieur d’au moins {percent} % au prix actuel.",
+      "noListingsLeft": "Toutes vos annonces publiées sont déjà dans cette campagne.",
+      "mine": "Mes candidatures",
+      "noApplications": "Aucune candidature pour l’instant.",
+      "withdraw": "Retirer",
+      "withdrawn": "Candidature retirée.",
+      "livePrice": "prix de campagne actif",
+      "reviewNote": "Note de Smart Market",
+      "dates": "{start} → {end}",
+      "status": {
+        "PENDING": "En attente",
+        "APPROVED": "Approuvée",
+        "REJECTED": "Refusée"
+      },
+      "phase": {
+        "DRAFT": "Brouillon",
+        "PUBLISHED": "Publiée",
+        "SCHEDULED": "Programmée",
+        "ACTIVE": "En cours",
+        "ENDED": "Terminée",
+        "CANCELLED": "Annulée"
+      }
     }
   },
   "admin": {
@@ -1157,7 +1212,8 @@
       "disputes": "Litiges",
       "withdrawals": "Retraits",
       "support": "Messagerie support",
-      "audit": "Journal d'audit"
+      "audit": "Journal d'audit",
+      "flashDeals": "Ventes flash"
     },
     "common": {
       "search": "Rechercher…",
@@ -1454,6 +1510,75 @@
         "audit-retention": "Rétention du journal d'audit",
         "view-counts": "Compteurs de vues"
       }
+    },
+    "flash": {
+      "title": "Campagnes de ventes flash",
+      "subtitle": "Créez une vente, laissez les vendeurs candidater (ou ajoutez des annonces vous-même), validez les prix. Les prix de campagne s’appliquent au début et reviennent à la normale à la fin.",
+      "new": "Nouvelle campagne",
+      "edit": "Modifier la campagne",
+      "empty": "Aucune campagne pour le moment.",
+      "hint": "Les vendeurs candidatent tant qu’une campagne publiée accepte les candidatures ; la tâche flash-campaigns applique et restaure les prix chaque minute.",
+      "form": {
+        "name": "Nom",
+        "description": "Description (affichée sur la boutique)",
+        "startsAt": "Début",
+        "endsAt": "Fin",
+        "minDiscountPercent": "Remise minimale (%)",
+        "applicationsOpen": "Les vendeurs peuvent candidater"
+      },
+      "created": "Campagne créée.",
+      "updated": "Campagne mise à jour.",
+      "published": "Campagne publiée.",
+      "cancelled": "Campagne annulée, prix restaurés.",
+      "publish": "Publier",
+      "cancel": "Annuler la campagne",
+      "confirmCancel": "Annuler cette campagne ? Tout prix de campagne actif est restauré immédiatement.",
+      "pending": "{count} en attente",
+      "columns": {
+        "campaign": "Campagne",
+        "dates": "Dates",
+        "items": "Annonces",
+        "discount": "Remise min."
+      },
+      "phase": {
+        "DRAFT": "Brouillon",
+        "PUBLISHED": "Publiée",
+        "SCHEDULED": "Programmée",
+        "ACTIVE": "En cours",
+        "ENDED": "Terminée",
+        "CANCELLED": "Annulée"
+      },
+      "status": {
+        "PENDING": "En attente",
+        "APPROVED": "Approuvée",
+        "REJECTED": "Refusée"
+      },
+      "detail": {
+        "back": "Toutes les campagnes",
+        "addListing": "Ajouter une annonce",
+        "searchListing": "Rechercher dans le catalogue…",
+        "noResults": "Aucune annonce ne correspond.",
+        "campaignPrice": "Prix de campagne",
+        "add": "Ajouter",
+        "added": "Annonce ajoutée et approuvée.",
+        "clearPick": "effacer",
+        "currentPrice": "Prix actuel {price}",
+        "tooSmall": "Le prix de campagne doit être inférieur d’au moins {percent} % au prix actuel.",
+        "listing": "Annonce",
+        "prices": "Prix",
+        "sellerNote": "Note du vendeur",
+        "applied": "Prix de campagne actif",
+        "pricePlaceholder": "Prix corrigé",
+        "approve": "Approuver",
+        "reject": "Refuser",
+        "remove": "Retirer",
+        "approved": "Approuvée.",
+        "rejected": "Refusée.",
+        "removed": "Retirée.",
+        "rejectPrompt": "Motif pour le vendeur (facultatif)",
+        "confirmRemove": "Retirer cette annonce de la campagne ?",
+        "noItems": "Aucune annonce dans cette campagne pour l’instant."
+      }
     }
   },
   "market": {
@@ -1507,12 +1632,20 @@
       "title": "Promos flash",
       "subtitle": "Offres limitées sur les meilleurs produits",
       "seeAll": "Toutes les promos",
-      "endsIn": "Renouvellement dans",
+      "endsIn": "Se termine dans",
       "hrs": "H",
       "mins": "Min",
       "secs": "Sec",
       "empty": "Aucune annonce en promotion pour le moment. Revenez bientôt.",
-      "browse": "Voir tous les produits"
+      "browse": "Voir tous les produits",
+      "campaignSubtitle": "Vente flash organisée par Smart Market, prix vérifiés",
+      "nextSale": "Prochaine vente flash : {name}",
+      "startsIn": "Débute dans",
+      "refreshIn": "Renouvellement dans",
+      "liveNow": "En ce moment",
+      "comingSoon": "Bientôt",
+      "startsOn": "Débute le {date}.",
+      "days": "Jours"
     },
     "trust": {
       "label": "Pourquoi acheter sur Smart Market",

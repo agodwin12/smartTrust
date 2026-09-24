@@ -86,7 +86,7 @@ describe("background jobs", () => {
     const list = await jobs.list();
     assert.deepEqual(
       list.map((j) => j.name).sort(),
-      ["audit-retention", "payout-status", "stale-payments", "subscription-expiry", "view-counts"]
+      ["audit-retention", "flash-campaigns", "payout-status", "stale-payments", "subscription-expiry", "view-counts"]
     );
   });
 });

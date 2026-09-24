@@ -248,7 +248,61 @@ async function reviewReceived(review, { ownerId, productTitle, storeSlug }) {
   });
 }
 
+/* ---- flash-deal campaigns ---- */
+
+const flashData = (campaign, extra = {}) => ({
+  campaignId: campaign.id,
+  campaignName: campaign.name,
+  startsAt: campaign.startsAt,
+  endsAt: campaign.endsAt,
+  ...extra,
+});
+
+/** A seller's application was approved (possibly with a corrected price) or rejected. */
+async function flashApplicationReviewed(item, campaign) {
+  try {
+    const ownerId = item.advertisement?.store?.ownerId;
+    const approved = item.status === "APPROVED";
+    await notify(ownerId, {
+      type: approved ? "FLASH_APPLICATION_APPROVED" : "FLASH_APPLICATION_REJECTED",
+      title: approved ? `${item.advertisement.title} is in ${campaign.name}` : `${item.advertisement.title} was not accepted for ${campaign.name}`,
+      body: item.reviewNote ?? null,
+      data: flashData(campaign, { productTitle: item.advertisement.title, productSlug: item.advertisement.slug, campaignPrice: Number(item.campaignPrice), reviewNote: item.reviewNote ?? null }),
+    });
+  } catch (error) {
+    logger.warn({ err: error.message }, "[notifications] flash review event failed");
+  }
+}
+
+/** One notice per store when a campaign starts (prices applied) or ends (prices restored). */
+async function flashCampaignMoved(campaign, items, live) {
+  try {
+    const perOwner = new Map();
+    for (const item of items) {
+      const ownerId = item.advertisement?.store?.ownerId;
+      if (ownerId) perOwner.set(ownerId, (perOwner.get(ownerId) ?? 0) + 1);
+    }
+    await Promise.all(
+      [...perOwner].map(([ownerId, count]) =>
+        notify(ownerId, {
+          type: live ? "FLASH_CAMPAIGN_LIVE" : "FLASH_CAMPAIGN_ENDED",
+          title: live ? `${campaign.name} is live: ${count} of your listings are on flash sale` : `${campaign.name} has ended: your prices are back to normal`,
+          data: flashData(campaign, { count }),
+        })
+      )
+    );
+  } catch (error) {
+    logger.warn({ err: error.message }, "[notifications] flash campaign event failed");
+  }
+}
+
+const flashCampaignLive = (campaign, items) => flashCampaignMoved(campaign, items, true);
+const flashCampaignEnded = (campaign, items) => flashCampaignMoved(campaign, items, false);
+
 module.exports = {
+  flashApplicationReviewed,
+  flashCampaignLive,
+  flashCampaignEnded,
   codOrderPlaced,
   orderCancelled,
   refundUpdated,

@@ -28,7 +28,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const { categories, subcategories, heroProducts, deals, newest, stores, showcase } = await getHomeData();
+  const { categories, subcategories, heroProducts, deals, newest, stores, showcase, flashCurrent, flashUpcoming } = await getHomeData();
 
   return (
     <PageShell quickLinks={false} className="bg-market-canvas font-market">
@@ -39,7 +39,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="flex min-w-0 flex-1 flex-col gap-2.5 lg:gap-3">
             <HeroBanner products={heroProducts} />
             <CategoryStrip categories={categories} />
-            <FlashDeals products={deals} />
+            <FlashDeals products={deals} campaign={flashCurrent} upcoming={flashUpcoming} />
           </div>
         </div>
         <MarketTrustStrip />

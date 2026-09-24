@@ -19,6 +19,7 @@ const adminRoutes = require("./admin.routes");
 const assistantRoutes = require("./assistant.routes");
 const refundRoutes = require("./refund.routes");
 const searchRoutes = require("./search.routes");
+const flashCampaignRoutes = require("./flashCampaign.routes");
 
 const router = Router();
 
@@ -42,5 +43,6 @@ router.use("/admin", adminRoutes);
 router.use("/assistant", assistantRoutes);
 router.use("/refunds", refundRoutes);
 router.use("/search", searchRoutes);
+router.use("/flash-campaigns", flashCampaignRoutes);
 
 module.exports = router;

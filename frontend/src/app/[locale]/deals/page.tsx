@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { listProducts } from "@/features/catalog/api";
+import { getCurrentFlashCampaign, getUpcomingFlashCampaign, listProducts } from "@/features/catalog/api";
 import { listingParams, toPage, type SearchParams } from "@/lib/search-params";
 import { Container } from "@/components/layout/Container";
 import { PageShell } from "@/components/layout/PageShell";
+import { FlashCampaignBanner } from "@/components/market/FlashCampaignBanner";
 import { ProductFilters } from "@/components/marketplace/ProductFilters";
 import { ProductListing } from "@/components/marketplace/ProductListing";
 import { PageHero } from "@/components/ui/PageHero";
@@ -21,15 +22,20 @@ export default async function DealsPage({ params, searchParams }: Props) {
   const [{ locale }, sp] = await Promise.all([params, searchParams]);
   setRequestLocale(locale);
   const lp = listingParams(sp);
-  const [t, result] = await Promise.all([
+  const [t, result, flashCurrent, flashUpcoming] = await Promise.all([
     getTranslations("catalog"),
     listProducts({ deals: true, page: toPage(sp.page), sort: lp.sort, minPrice: lp.minPrice, maxPrice: lp.maxPrice, condition: lp.condition, location: lp.location }),
+    getCurrentFlashCampaign(),
+    getUpcomingFlashCampaign(),
   ]);
 
   return (
     <PageShell>
       <PageHero eyebrow="%" title={t("dealsTitle")} subtitle={t("dealsSubtitle")} crumbs={[{ label: t("dealsTitle") }]} size="compact" />
       <Container className="py-8 sm:py-12">
+        <div className="mb-8">
+          <FlashCampaignBanner campaign={flashCurrent} upcoming={flashUpcoming} />
+        </div>
         <ProductFilters total={result.total} />
         <div className="mt-6">
           <ProductListing result={result} basePath="/deals" params={lp} />
