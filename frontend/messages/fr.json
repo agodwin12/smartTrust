@@ -1569,6 +1569,18 @@
         "latest": "Tout juste publiées",
         "budget": "Moins de 50 000 FCFA"
       }
+    },
+    "search": {
+      "searchFor": "Rechercher « {query} »",
+      "products": "Produits",
+      "categories": "Catégories",
+      "stores": "Boutiques",
+      "noResults": "Aucun résultat pour « {query} » pour l'instant. Appuyez sur Entrée pour tout chercher.",
+      "recent": "Recherches récentes",
+      "clear": "Effacer",
+      "inParent": "dans {parent}",
+      "loading": "Recherche…",
+      "suggestions": "Suggestions de recherche"
     }
   }
 }

@@ -13,6 +13,12 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 /** Empties every table (except the migration ledger) and the test Redis database. */
 async function resetDb() {
   await waitForRedis(3000);
+  // Belt and braces: a test file that loads the app before this bootstrap would be connected to
+  // the developer's real database. Never truncate anything that is not a *_test database.
+  const [{ current_database: dbName }] = await prisma.$queryRawUnsafe("SELECT current_database()");
+  if (!/_test$/.test(dbName)) {
+    throw new Error(`resetDb() refused: connected to "${dbName}", not a *_test database. Require ./helpers (or ./bootstrap) before ../src/app.`);
+  }
   const rows = await prisma.$queryRawUnsafe(`SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename <> '_prisma_migrations'`);
   if (rows.length) await prisma.$executeRawUnsafe(`TRUNCATE TABLE ${rows.map((r) => `"${r.tablename}"`).join(", ")} RESTART IDENTITY CASCADE`);
   try {

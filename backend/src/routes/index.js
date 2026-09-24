@@ -18,6 +18,7 @@ const wishlistRoutes = require("./wishlist.routes");
 const adminRoutes = require("./admin.routes");
 const assistantRoutes = require("./assistant.routes");
 const refundRoutes = require("./refund.routes");
+const searchRoutes = require("./search.routes");
 
 const router = Router();
 
@@ -40,5 +41,6 @@ router.use("/wishlist", wishlistRoutes);
 router.use("/admin", adminRoutes);
 router.use("/assistant", assistantRoutes);
 router.use("/refunds", refundRoutes);
+router.use("/search", searchRoutes);
 
 module.exports = router;

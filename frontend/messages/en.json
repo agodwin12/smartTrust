@@ -1569,6 +1569,18 @@
         "latest": "Just listed",
         "budget": "Under 50,000 FCFA"
       }
+    },
+    "search": {
+      "searchFor": "Search for “{query}”",
+      "products": "Products",
+      "categories": "Categories",
+      "stores": "Stores",
+      "noResults": "No matches for “{query}” yet. Press Enter to search everything.",
+      "recent": "Recent searches",
+      "clear": "Clear",
+      "inParent": "in {parent}",
+      "loading": "Searching…",
+      "suggestions": "Search suggestions"
     }
   }
 }

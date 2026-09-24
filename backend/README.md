@@ -552,3 +552,12 @@ npm run dev                # start the API on http://localhost:5000 (nodemon)
 ```
 
 Health check: `GET /api/health`. Auth endpoints: see above.
+
+## Search suggestions (typeahead)
+
+`GET /api/search/suggest?q=<text>` powers the instant dropdown under the header search bar. It
+returns at most 5 publicly visible listings (title, slug, price, first image, category), 3
+categories and 3 active stores whose names contain the text, case-insensitively. Queries
+shorter than 2 characters return empty lists; longer than 80 characters are truncated. Results
+are cached in Redis for 30 seconds per normalised query and the response carries
+`Cache-Control: public, max-age=15`. Tested in `test/search-suggest.test.js`.
