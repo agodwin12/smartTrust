@@ -149,4 +149,5 @@ main()
     console.error(error);
     process.exitCode = 1;
   })
-  .finally(() => prisma.$disconnect());
+  // The cache client keeps the event loop alive after the work is done: exit explicitly.
+  .finally(() => prisma.$disconnect().finally(() => process.exit(process.exitCode ?? 0)));

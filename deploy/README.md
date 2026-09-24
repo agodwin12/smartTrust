@@ -146,8 +146,8 @@ there), use `docker-compose.vps.yml` instead of the Caddy stack:
    $C exec backend node scripts/seed-plans.js
    $C exec backend node prisma/seed.js                       # optional demo stores/listings
    $C exec -e EMAIL=… -e PASSWORD=… -e ROLE=SUPER_ADMIN backend node scripts/create-user.js
-   $C run --rm -v $PWD/images/drive-download-20260923T215307Z-1-001:/images -e IMAGES_DIR=/images       -e ADMIN_EMAIL=… -e ADMIN_PASSWORD=… -e API_URL=http://127.0.0.1:5000/api backend node scripts/import-catalog-categories.js
-   $C run --rm -v $PWD/images/drive-download-20260923T215307Z-1-001:/images -e IMAGES_DIR=/images       -e OWNER_PASSWORD=… backend node scripts/import-catalog-products.js
+   $C run --rm -v $PWD/images:/images -e IMAGES_DIR=/images/drive-download-20260923T215307Z-1-001       -e ADMIN_EMAIL=… -e ADMIN_PASSWORD=… -e API_URL=http://127.0.0.1:5000/api backend node scripts/import-catalog-categories.js
+   $C run --rm -v $PWD/images:/images -e IMAGES_DIR=/images/drive-download-20260923T215307Z-1-001       -e OWNER_PASSWORD=… backend node scripts/import-catalog-products.js
    ```
 7. Later, with the real domain: add its `server_name` + certificate in nginx, update the three
    URLs in both env files and `PUBLIC_*`, rebuild the frontend (`up -d --build frontend`), and
