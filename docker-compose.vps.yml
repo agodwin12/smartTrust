@@ -1,0 +1,73 @@
+# Smart Market on a SHARED VPS that already runs nginx on 80/443 and PostgreSQL on the host.
+#
+#   docker compose -f docker-compose.vps.yml --env-file .env up -d --build
+#
+# Differences from docker-compose.prod.yml (which brings its own Caddy):
+# - No Caddy: the host's nginx terminates HTTPS and proxies /api -> 127.0.0.1:5000 and
+#   everything else -> 127.0.0.1:3020 (see deploy/nginx-smartmarket.conf).
+# - backend and frontend use the HOST network and bind to 127.0.0.1 only, so nothing is
+#   reachable from outside except through nginx, and the backend talks to the host's
+#   PostgreSQL on 127.0.0.1:5432 without any pg_hba/listen_addresses change.
+# - Redis is a container published on 127.0.0.1:6379 (free on this host) for the backend.
+#
+# Root .env (read by compose):  PUBLIC_API_URL=https://<host>/api  PUBLIC_SITE_URL=https://<host>
+# backend/.env: the production values (DATABASE_URL to 127.0.0.1:5432, REDIS_URL, CORS_ORIGIN...).
+
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - ./backend/.env
+    environment:
+      NODE_ENV: production
+      PORT: "5000"
+      HOST: 127.0.0.1
+      REDIS_URL: redis://127.0.0.1:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:?set PUBLIC_API_URL in .env}
+        NEXT_PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:?set PUBLIC_SITE_URL in .env}
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      PORT: "3020"
+      HOSTNAME: 127.0.0.1
+      API_INTERNAL_URL: http://127.0.0.1:5000/api
+    depends_on:
+      - backend
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+volumes:
+  redis_data:

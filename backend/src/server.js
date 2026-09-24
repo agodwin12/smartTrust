@@ -14,7 +14,9 @@ const prisma = require("./config/prisma");
 const redis = require("./config/redis");
 const jobs = require("./jobs");
 
-const server = app.listen(port, () => {
+// HOST lets a host-networked container bind to 127.0.0.1 only (reverse proxy in front).
+const host = process.env.HOST || "0.0.0.0";
+const server = app.listen(port, host, () => {
   logger.info({ port }, `Smart Market API listening on http://localhost:${port}`);
   if (jobsConfig.enabled) jobs.start();
   else logger.info("Background jobs disabled (JOBS_ENABLED=false)");

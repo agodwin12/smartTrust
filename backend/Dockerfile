@@ -16,6 +16,8 @@ COPY package*.json ./
 COPY prisma.config.js ./
 COPY prisma ./prisma
 COPY src ./src
+# One-off operations (first admin, plans, catalogue import) run inside the container too.
+COPY scripts ./scripts
 
 # `prisma generate` never connects to a database — it only reads the schema — but
 # prisma.config.js still calls env("DATABASE_URL") and throws if that resolves to
