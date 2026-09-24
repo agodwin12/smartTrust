@@ -1,0 +1,63 @@
+# Smart Market — local / staging orchestration (ports exposed on the host).
+# Production adds HTTPS and hides the ports: see docker-compose.prod.yml + deploy/README.md.
+#
+# PostgreSQL is intentionally NOT a service here — it runs on the host machine
+# (see backend/README.md), not in a container. The backend container reaches it
+# via `host.docker.internal`.
+
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      # Overrides whatever DATABASE_URL is set to in backend/.env for local,
+      # non-containerized dev — inside this container, "localhost" would mean the
+      # container itself, not the host machine running Postgres. The real
+      # credentials come from DOCKER_DATABASE_URL in a root-level .env (gitignored,
+      # see .env.example) — never hardcode them here, this file is committed.
+      DATABASE_URL: ${DOCKER_DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:5432/smart_market?schema=public}
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    extra_hosts:
+      # Belt-and-suspenders for Linux hosts — Docker Desktop (Windows/Mac) maps this
+      # automatically, but plain Linux Docker Engine doesn't unless told to.
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Inlined into the browser bundle at build time — must be the URLs users see.
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:5000/api}
+        NEXT_PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://localhost:3000}
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Server-side rendering talks to the backend over the compose network.
+      API_INTERNAL_URL: http://backend:5000/api
+    depends_on:
+      - backend
+
+volumes:
+  redis_data:

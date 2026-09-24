@@ -1,0 +1,34 @@
+{
+	# Let's Encrypt account contact; certificates renew automatically.
+	email {$ACME_EMAIL}
+}
+
+# Canonical host — www redirects here.
+{$DOMAIN} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# API and K-Pay webhooks share the origin with the site: same-site cookies, no CORS.
+	handle /api/* {
+		reverse_proxy backend:5000
+	}
+
+	handle {
+		reverse_proxy frontend:3000
+	}
+
+	log {
+		output stdout
+		format json
+	}
+}
+
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}

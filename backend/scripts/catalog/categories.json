@@ -1,0 +1,15 @@
+{
+  "$comment": "Categories from the SmartTrustExpress product catalog sheet (2026-09-23). `parent` is an existing root slug, or null for a new root. `image` is relative to the images folder (drive-download-20260923T215307Z-1-001). Sub-folder names 'Club Flames' and 'Wind Frames' were read as 'Club Frames' and 'Wine Frames' after checking the photos.",
+  "categories": [
+    { "name": "Blenders & Juicers", "parent": "home-living", "source": "Blender", "image": "Blender/Silver crest 21000watts 2bowl. 11500 - 14600 XAF.jpg" },
+    { "name": "Modern Sofas", "parent": "home-living", "source": "Modern Sofas", "image": "Modern Sofas/IMG_5526.JPG" },
+    { "name": "Sitting Room Tables", "parent": "home-living", "source": "Modern sitting room table", "image": "Modern sitting room table/20000 - 23900 XAF Coffee Tables. Two round tables with black marble tops..jpg" },
+    { "name": "Mini Cameras", "parent": "electronics", "source": "Mini Cameras", "image": "Mini Cameras/Camera Dampoule 7000 - 9900 XAF.jpg" },
+    { "name": "Frames & Wall Art", "parent": null, "source": "Frames", "image": "Frames/Other frames/01a58618-12c4-44d3-bdaf-2c65e1a81086.jpg" },
+    { "name": "Christ Frames", "parent": "frames-wall-art", "source": "Frames/Christ frame", "image": "Frames/Christ frame/34ac39f8-a300-423a-a152-ef17c70183b9.jpg" },
+    { "name": "Clock Frames", "parent": "frames-wall-art", "source": "Frames/Clock Frames", "image": "Frames/Clock Frames/129bcc35-e848-4b5d-acdd-2b9e74181873.jpg" },
+    { "name": "Club Frames", "parent": "frames-wall-art", "source": "Frames/Club Flames", "image": "Frames/Club Flames/Big. 9000.jpg" },
+    { "name": "Wine Frames", "parent": "frames-wall-art", "source": "Frames/Wind Frames", "image": "Frames/Wind Frames/218ba286-ffea-4ec0-aa3c-28b8c2f5911b.jpg" },
+    { "name": "Other Frames", "parent": "frames-wall-art", "source": "Frames/Other frames", "image": "Frames/Other frames/38bf345e-e970-476d-b2dc-3acb06d6868c.jpg" }
+  ]
+}

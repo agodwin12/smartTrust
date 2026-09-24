@@ -1,0 +1,647 @@
+// Smart Market — Prisma schema
+// Full data model per docs/Cahier_de_Charges_Smart_Market.docx, Section 6.
+//
+// Note on Roles/Permissions: the Cahier de Charges lists "Roles" and "Permissions"
+// as separate entities for a fully dynamic RBAC system. For now this schema uses a
+// fixed UserRole enum (sufficient for Auth + route guards); a dynamic Role/Permission
+// table pair can be added later when the Administration module is built, without
+// touching this initial shape.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Prisma 7: the connection URL lives in prisma.config.js (CLI/migrations) and is
+// passed to the driver adapter at runtime (src/config/prisma.js) — not here.
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Auth / Users
+// ---------------------------------------------------------------------------
+
+enum UserRole {
+  CUSTOMER // can buy; becomes a seller by owning a Store — not a separate role
+  SUPER_ADMIN
+  ACCOUNTANT
+  CUSTOMER_SERVICE
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  phone        String?    @unique
+  // Nullable: a Google account has no local password at all — never falsely
+  // implies a user "has" a password just because they have a row here.
+  passwordHash String?
+  firstName    String
+  lastName     String
+  role         UserRole   @default(CUSTOMER)
+  status       UserStatus @default(ACTIVE)
+
+  // Set once the sign-up OTP is confirmed (see OtpCode) or immediately for a
+  // Google sign-up — Google has already verified the email address for us.
+  emailVerifiedAt DateTime?
+  googleId        String?   @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  store                  Store?
+  orders                 Order[]
+  reviews                Review[]
+  disputes               Dispute[]
+  notifications          Notification[]
+  refreshTokens          RefreshToken[]
+  featuredAdvertisements Advertisement[]
+  otpCodes               OtpCode[]
+  auditLogs              AuditLog[]
+  wishlistItems          WishlistItem[]
+
+  @@map("users")
+}
+
+// Who did what, to which record, from where. Written fire-and-forget on every
+// state-changing action (see services/audit.service.js) — reads are deliberately
+// NOT logged here: at hundreds of concurrent users that would be a write per page
+// view into Postgres, which is what HTTP access logs / log aggregation are for.
+model AuditLog {
+  id        String  @id @default(cuid())
+  actorId   String?
+  actor     User?   @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  actorRole String? // snapshot at the time — "SYSTEM" for webhook-driven changes
+
+  action     String // e.g. ORDER_CREATED, ESCROW_RELEASED, USER_STATUS_CHANGED
+  entityType String? // e.g. "Order"
+  entityId   String?
+  metadata   Json?
+
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entityType, entityId])
+  @@index([action, createdAt])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+enum OtpPurpose {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+// A generic one-time-code mechanism — same "hash it, never store the raw value"
+// principle as RefreshToken, plus a bounded number of guesses (`attempts`) so a
+// 6-digit code can't just be brute-forced within its expiry window.
+model OtpCode {
+  id      String     @id @default(cuid())
+  userId  String
+  user    User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose OtpPurpose
+
+  codeHash   String
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  expiresAt  DateTime
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, purpose])
+  @@map("otp_codes")
+}
+
+// Refresh tokens are stored as a SHA-256 hash — the raw token only ever exists
+// in the httpOnly cookie on the client, never in the database or logs.
+model RefreshToken {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String @unique
+
+  // Rotation chain: set when this token is exchanged for a new one, so a replayed
+  // (already-rotated) token can be detected and the whole chain revoked.
+  replacedByTokenHash String?
+  revokedAt           DateTime?
+
+  userAgent String?
+  ipAddress String?
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// ---------------------------------------------------------------------------
+// Stores & Catalog
+// ---------------------------------------------------------------------------
+
+enum StoreStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
+model Store {
+  id      String @id @default(cuid())
+  ownerId String @unique
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  name         String
+  slug         String      @unique
+  description  String?
+  logoUrl      String?
+  bannerUrl    String?
+  location     String?
+  contactEmail String?
+  contactPhone String?
+  // Sellers decide whether buyers may pay in cash at handover instead of through escrow.
+  acceptsCashOnDelivery Boolean @default(true)
+  status       StoreStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subscriptions  Subscription[]
+  advertisements Advertisement[]
+  wallet         Wallet?
+  reviews        Review[]
+  withdrawals    Withdrawal[]
+
+  // Every public store listing filters on this.
+  @@index([status])
+  @@map("stores")
+}
+
+model Category {
+  id       String     @id @default(cuid())
+  name     String
+  slug     String     @unique
+  imageUrl String?
+  parentId String?
+  parent   Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToCategory")
+
+  createdAt      DateTime        @default(now())
+  advertisements Advertisement[]
+
+  @@index([parentId])
+  @@map("categories")
+}
+
+// ---------------------------------------------------------------------------
+// Subscriptions & Advertisements
+// ---------------------------------------------------------------------------
+
+enum SubscriptionStatus {
+  PENDING_PAYMENT
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+model SubscriptionPlan {
+  id           String  @id @default(cuid())
+  name         String  @unique // Starter / Business / Premium
+  durationDays Int
+  adQuota      Int
+  price        Decimal @db.Decimal(12, 2)
+  features     Json?
+  isActive     Boolean @default(true)
+
+  // Whether a seller on this plan can self-serve feature one of their own ads
+  // in a hero section, and for how long — admin-defined per plan, not per ad.
+  heroEligible      Boolean @default(false)
+  heroDurationHours Int?
+
+  createdAt     DateTime       @default(now())
+  subscriptions Subscription[]
+
+  @@map("subscription_plans")
+}
+
+model Subscription {
+  id      String           @id @default(cuid())
+  storeId String
+  store   Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  planId  String
+  plan    SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  status    SubscriptionStatus @default(PENDING_PAYMENT)
+  adsUsed   Int                @default(0)
+  startsAt  DateTime?
+  expiresAt DateTime?
+  // Set by the expiry job once the "expires in 3 days" notice went out, so it is sent once.
+  expiryNoticeSentAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  payment Payment?
+
+  // Covers both "does this store have an active, unexpired subscription"
+  // (publish/hero/order checks) and the nested EXISTS Prisma generates for
+  // Advertisement's visibilityFilter() — by far the hottest read-path query in
+  // the app, run on nearly every public browse/detail request.
+  @@index([storeId, status, expiresAt])
+  @@map("subscriptions")
+}
+
+enum AdvertisementStatus {
+  DRAFT
+  PUBLISHED
+  ACTIVE
+  EXPIRED
+  RENEWED
+  ARCHIVED
+}
+
+enum ProductCondition {
+  NEW
+  USED
+}
+
+model Advertisement {
+  id         String   @id @default(cuid())
+  storeId    String
+  store      Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  title       String
+  slug        String              @unique
+  description String
+  price       Decimal             @db.Decimal(12, 2)
+  // Optional "was" price — when set (and greater than price) the listing is a deal.
+  compareAtPrice Decimal?         @db.Decimal(12, 2)
+  condition   ProductCondition    @default(NEW)
+  location    String?
+  images      Json? // array of image URLs
+  video       String?
+  status      AdvertisementStatus @default(DRAFT)
+  viewCount   Int                 @default(0)
+
+  // Hero placement — a category's hero section is just "featured ads in that
+  // category"; the homepage hero is the same query with no category filter.
+  // featuredUntil in the future = currently live; no stored "is it active" flag,
+  // to avoid it ever drifting out of sync with the expiry it's supposed to reflect.
+  featuredAt    DateTime?
+  featuredUntil DateTime?
+  featuredById  String?
+  featuredBy    User?     @relation(fields: [featuredById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders        Order[]
+  wishlistItems WishlistItem[]
+
+  @@index([storeId])
+  @@index([categoryId])
+  @@index([featuredUntil])
+  // Every public browse/detail query filters on this — see visibilityFilter().
+  @@index([status])
+  @@map("advertisements")
+}
+
+// ---------------------------------------------------------------------------
+// Orders, Payments & Escrow
+// ---------------------------------------------------------------------------
+
+enum PaymentMethod {
+  MOBILE_MONEY // paid up front into escrow
+  CASH_ON_DELIVERY // paid to the seller at handover, no escrow
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  CONFIRMED // cash on delivery: placed, awaiting handover
+  PAID
+  COMPLETED
+  CANCELLED
+  DISPUTED
+  REFUNDED
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  buyerId         String
+  buyer           User          @relation(fields: [buyerId], references: [id])
+  advertisementId String
+  advertisement   Advertisement @relation(fields: [advertisementId], references: [id])
+
+  quantity    Int         @default(1)
+  totalAmount Decimal     @db.Decimal(12, 2)
+  status      OrderStatus @default(PENDING_PAYMENT)
+
+  paymentMethod   PaymentMethod @default(MOBILE_MONEY)
+  deliveryAddress String? // where to hand the item over (required for cash on delivery)
+  deliveryPhone   String?
+
+  // Escrow only releases once BOTH sides have validated the transaction — neither
+  // timestamp implies the other, and either can be set first.
+  sellerConfirmedAt DateTime?
+  buyerConfirmedAt  DateTime?
+  cancelledAt       DateTime?
+  cancelledBy       String? // "BUYER" | "SELLER" | "STAFF"
+  cancelReason      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  payment  Payment?
+  escrow   EscrowTransaction?
+  review   Review?
+  refund   Refund?
+  disputes Dispute[]
+
+  @@index([buyerId])
+  @@index([advertisementId])
+  @@index([status])
+  @@map("orders")
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+// A Payment always belongs to exactly ONE of Order or Subscription (enforced in
+// services/payment.service.js, not at the DB level) — one shared ledger of every
+// KPay transaction regardless of what it's paying for.
+model Payment {
+  id             String        @id @default(cuid())
+  orderId        String?       @unique
+  order          Order?        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  subscriptionId String?       @unique
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  amount   Decimal @db.Decimal(12, 2)
+  currency String  @default("XAF")
+
+  provider          String? // "KPAY"
+  operator          String? // K-Pay network the payer used (MTN_MOMO_CMR / ORANGE_CMR) — a refund goes back the same way
+  providerPaymentId String? // KPay's `id` (pay_...)
+  providerReference String? // KPay's `reference` (KPAY-...)
+  externalId        String  @unique // our idempotency key, sent to KPay as `externalId`
+  phoneNumber       String?
+
+  status        PaymentStatus @default(PENDING)
+  failureReason String?
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@map("payments")
+}
+
+enum EscrowStatus {
+  HELD
+  RELEASED
+  REFUNDED
+}
+
+model EscrowTransaction {
+  id      String       @id @default(cuid())
+  orderId String       @unique
+  order   Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amount  Decimal      @db.Decimal(12, 2)
+  status  EscrowStatus @default(HELD)
+
+  heldAt     DateTime  @default(now())
+  releasedAt DateTime?
+
+  @@map("escrow_transactions")
+}
+
+model Wallet {
+  id       String  @id @default(cuid())
+  storeId  String  @unique
+  store    Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  balance  Decimal @default(0) @db.Decimal(12, 2)
+  currency String  @default("XAF")
+
+  updatedAt DateTime @updatedAt
+
+  @@map("wallets")
+}
+
+enum WithdrawalStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// A seller cashing out their Wallet balance to Mobile Money. The internal
+// Wallet.balance is decremented up front (reserved) when the withdrawal is
+// requested, not when it completes — see services/withdrawal.service.js.
+model Withdrawal {
+  id      String @id @default(cuid())
+  storeId String
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  amount   Decimal @db.Decimal(12, 2)
+  currency String  @default("XAF")
+
+  provider          String? // "KPAY"
+  providerPayoutId  String? // KPay's `id` (wdr_...)
+  providerReference String? // KPay's `reference` (KPAY-WD-...)
+  externalId        String  @unique
+  phoneNumber       String
+
+  status        WithdrawalStatus @default(PENDING)
+  failureReason String?
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([storeId])
+  @@map("withdrawals")
+}
+
+enum RefundStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+/// Money sent back to a buyer's Mobile Money number after a dispute is settled in their
+/// favour. Paid from the platform's K-Pay wallet (where the escrowed amount was collected),
+/// through the same payout API sellers use for withdrawals.
+model Refund {
+  id      String @id @default(cuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  amount   Decimal @db.Decimal(12, 2)
+  currency String  @default("XAF")
+
+  provider          String? // "KPAY"
+  operator          String? // MTN_MOMO_CMR / ORANGE_CMR
+  phoneNumber       String
+  providerPayoutId  String?
+  providerReference String?
+  externalId        String  @unique // regenerated on every retry (K-Pay needs a fresh one per attempt)
+
+  status        RefundStatus @default(PENDING)
+  failureReason String?
+  attempts      Int          @default(0)
+  initiatedById String? // staff member who resolved the dispute / retried
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+
+  @@index([status])
+  @@map("refunds")
+}
+
+// ---------------------------------------------------------------------------
+// Trust & Support
+// ---------------------------------------------------------------------------
+
+model Review {
+  id      String @id @default(cuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  buyerId String
+  buyer   User   @relation(fields: [buyerId], references: [id])
+  storeId String
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  rating  Int
+  comment String?
+
+  createdAt DateTime @default(now())
+
+  @@index([storeId])
+  @@map("reviews")
+}
+
+enum DisputeStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  REJECTED
+}
+
+model Dispute {
+  id         String @id @default(cuid())
+  orderId    String
+  order      Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  raisedById String
+  raisedBy   User   @relation(fields: [raisedById], references: [id])
+
+  reason     String
+  status     DisputeStatus @default(OPEN)
+  resolution String?
+
+  createdAt  DateTime  @default(now())
+  resolvedAt DateTime?
+
+  @@index([orderId])
+  @@index([status])
+  @@map("disputes")
+}
+
+enum NotificationType {
+  SUBSCRIPTION_EXPIRING
+  ADVERTISEMENT_EXPIRED
+  NEW_ORDER
+  PAYMENT_CONFIRMED
+  DISPUTE_CREATED
+  DELIVERY_CONFIRMED
+  RECEIPT_CONFIRMED
+  ESCROW_RELEASED
+  ORDER_COMPLETED
+  DISPUTE_RESOLVED
+  ORDER_REFUNDED
+  WITHDRAWAL_COMPLETED
+  WITHDRAWAL_FAILED
+  SUBSCRIPTION_ACTIVATED
+  REVIEW_RECEIVED
+  SUBSCRIPTION_EXPIRED
+  REFUND_SENT
+  REFUND_FAILED
+  ORDER_CONFIRMED
+  ORDER_CANCELLED
+}
+
+model Notification {
+  id     String           @id @default(cuid())
+  userId String
+  user   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type   NotificationType
+  title  String
+  body   String?
+  // Structured payload the frontend renders in the user's language (orderId, storeSlug, amount…).
+  data   Json?
+  isRead Boolean          @default(false)
+  readAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+  @@index([userId, createdAt])
+  @@map("notifications")
+}
+
+// Server-side wishlist: one row per (user, listing). Merged from the device's local list at sign-in.
+model WishlistItem {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  advertisementId String
+  advertisement   Advertisement @relation(fields: [advertisementId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
+
+  @@unique([userId, advertisementId])
+  @@index([userId, createdAt])
+  @@map("wishlist_items")
+}
+
+// ---------------------------------------------------------------------------
+// Marketing / support inbox (public forms on the website)
+// ---------------------------------------------------------------------------
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  locale    String   @default("en")
+  ipAddress String?
+  handledAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("contact_messages")
+}
+
+model NewsletterSubscriber {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  locale         String    @default("en")
+  unsubscribedAt DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@map("newsletter_subscribers")
+}

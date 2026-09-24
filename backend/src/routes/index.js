@@ -1,0 +1,44 @@
+const { Router } = require("express");
+const healthRoutes = require("./health.routes");
+const authRoutes = require("./auth.routes");
+const userRoutes = require("./user.routes");
+const storeRoutes = require("./store.routes");
+const categoryRoutes = require("./category.routes");
+const subscriptionPlanRoutes = require("./subscriptionPlan.routes");
+const subscriptionRoutes = require("./subscription.routes");
+const paymentRoutes = require("./payment.routes");
+const advertisementRoutes = require("./advertisement.routes");
+const orderRoutes = require("./order.routes");
+const withdrawalRoutes = require("./withdrawal.routes");
+const disputeRoutes = require("./dispute.routes");
+const auditRoutes = require("./audit.routes");
+const supportRoutes = require("./support.routes");
+const notificationRoutes = require("./notification.routes");
+const wishlistRoutes = require("./wishlist.routes");
+const adminRoutes = require("./admin.routes");
+const assistantRoutes = require("./assistant.routes");
+const refundRoutes = require("./refund.routes");
+
+const router = Router();
+
+router.use("/health", healthRoutes);
+router.use("/auth", authRoutes);
+router.use("/users", userRoutes);
+router.use("/stores", storeRoutes);
+router.use("/categories", categoryRoutes);
+router.use("/subscription-plans", subscriptionPlanRoutes);
+router.use("/subscriptions", subscriptionRoutes);
+router.use("/payments", paymentRoutes);
+router.use("/advertisements", advertisementRoutes);
+router.use("/orders", orderRoutes);
+router.use("/withdrawals", withdrawalRoutes);
+router.use("/disputes", disputeRoutes);
+router.use("/audit-logs", auditRoutes);
+router.use("/support", supportRoutes);
+router.use("/notifications", notificationRoutes);
+router.use("/wishlist", wishlistRoutes);
+router.use("/admin", adminRoutes);
+router.use("/assistant", assistantRoutes);
+router.use("/refunds", refundRoutes);
+
+module.exports = router;

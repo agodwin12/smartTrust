@@ -1,0 +1,86 @@
+# Smart Market — production stack on one VPS.
+#
+#   docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+#
+# Caddy terminates HTTPS (automatic Let's Encrypt certificates for $DOMAIN) and routes
+# /api/* to the backend and everything else to the frontend, so browser and API share one
+# origin: no cross-site cookies, CORS_ORIGIN is simply https://$DOMAIN.
+# PostgreSQL stays on the host (host.docker.internal); Redis is private to the stack.
+# Values come from the root `.env` (copy deploy/compose.env.example) and
+# backend/.env (copy deploy/backend.env.example).
+
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DOCKER_DATABASE_URL:?set DOCKER_DATABASE_URL in .env}
+      REDIS_URL: redis://redis:6379
+      CORS_ORIGIN: https://${DOMAIN:?set DOMAIN in .env}
+      FRONTEND_URL: https://${DOMAIN}
+    depends_on:
+      redis:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: https://${DOMAIN}/api
+        NEXT_PUBLIC_SITE_URL: https://${DOMAIN}
+    restart: unless-stopped
+    environment:
+      API_INTERNAL_URL: http://backend:5000/api
+    depends_on:
+      - backend
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3
+    environment:
+      DOMAIN: ${DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL in .env}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  redis_data:
+  caddy_data:
+  caddy_config:

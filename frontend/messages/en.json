@@ -1,0 +1,1574 @@
+{
+  "common": {
+    "brand": "Smart Market",
+    "viewAll": "View all",
+    "learnMore": "Learn more",
+    "loading": "Loading…",
+    "demoNotice": "Sample content",
+    "back": "Back",
+    "home": "Home",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "close": "Close",
+    "apply": "Apply",
+    "clear": "Clear",
+    "or": "or",
+    "all": "All",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page} of {total}"
+  },
+  "nav": {
+    "categories": "Categories",
+    "deals": "Deals",
+    "stores": "Top Stores",
+    "subscriptions": "Subscriptions",
+    "howItWorks": "How It Works",
+    "signIn": "Sign in",
+    "becomeSeller": "Become a Seller",
+    "wishlist": "Wishlist",
+    "cart": "Cart",
+    "menu": "Open menu",
+    "menuTitle": "Menu",
+    "searchPlaceholder": "Search for products, brands, or stores…",
+    "searchLabel": "Search",
+    "language": "Language",
+    "theme": "Theme",
+    "skipToContent": "Skip to content",
+    "account": "My account",
+    "myOrders": "My orders",
+    "myStore": "My store",
+    "sell": "Sell on Smart Market",
+    "signOut": "Sign out",
+    "signedInAs": "Signed in as",
+    "notifications": "Notifications",
+    "overview": "Account overview",
+    "admin": "Administration",
+    "switchTo": "Switch to {language}",
+    "languageNames": {
+      "en": "English",
+      "fr": "French"
+    }
+  },
+  "hero": {
+    "badgeTitle": "Escrow protected",
+    "badgeSubtitle": "Funds released after delivery",
+    "floatingLabel": "Trending now",
+    "trust": {
+      "escrow": "Secure Escrow",
+      "verified": "Verified Sellers",
+      "payments": "Secure Payments",
+      "protection": "Buyer Protection"
+    },
+    "carousel": {
+      "label": "Highlights",
+      "previous": "Previous slide",
+      "next": "Next slide",
+      "goTo": "Go to slide {index}",
+      "status": "Slide {index} of {total}",
+      "pause": "Pause autoplay",
+      "play": "Resume autoplay"
+    },
+    "slides": {
+      "marketplace": {
+        "eyebrow": "Escrow-protected marketplace",
+        "titleLine1": "Premium products.",
+        "titleLine2": "Real people.",
+        "titleLine3": "Trusted marketplace.",
+        "description": "Discover products from verified sellers and pay securely. Your payment stays protected until your order is confirmed.",
+        "primary": "Shop Now",
+        "secondary": "Explore Stores"
+      },
+      "deals": {
+        "eyebrow": "Deals of the week",
+        "titleLine1": "Big brands.",
+        "titleLine2": "Smaller prices.",
+        "titleLine3": "Limited time.",
+        "description": "Hand-picked discounts from sellers across Cameroon, refreshed every week. Same escrow protection, lower price tag.",
+        "primary": "See the deals",
+        "secondary": "New arrivals",
+        "caption": "Save up to {percent}%"
+      },
+      "sell": {
+        "eyebrow": "For sellers",
+        "titleLine1": "Open your store.",
+        "titleLine2": "Reach every city.",
+        "titleLine3": "Get paid on delivery.",
+        "description": "Create your store in five minutes, publish your listings and receive Mobile Money payouts the moment the buyer confirms.",
+        "primary": "Start selling",
+        "secondary": "See the plans",
+        "caption": "Free store setup",
+        "steps": {
+          "create": "Create your store",
+          "publish": "Publish listings",
+          "paid": "Get paid on delivery"
+        }
+      },
+      "escrow": {
+        "eyebrow": "How escrow works",
+        "titleLine1": "Pay with confidence.",
+        "titleLine2": "Money held safely.",
+        "titleLine3": "Released on delivery.",
+        "description": "Every order goes through Smart Market escrow. The seller is paid only after you confirm you received what you ordered.",
+        "primary": "How it works",
+        "secondary": "Buyer protection",
+        "steps": {
+          "pay": "You pay",
+          "hold": "We hold",
+          "deliver": "Seller delivers",
+          "release": "Funds released"
+        }
+      }
+    }
+  },
+  "trust": {
+    "escrow": {
+      "title": "Secure Escrow",
+      "description": "Your money is protected"
+    },
+    "verified": {
+      "title": "Verified Sellers",
+      "description": "Real businesses"
+    },
+    "premium": {
+      "title": "Premium Selection",
+      "description": "Top quality products"
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "We're here for you"
+    },
+    "payments": {
+      "title": "Secure Payments",
+      "description": "Mobile Money & Orange Money"
+    },
+    "delivery": {
+      "title": "Fast & Reliable",
+      "description": "Delivery nationwide"
+    }
+  },
+  "categories": {
+    "title": "Shop by Category",
+    "subtitle": "Browse the marketplace by what you need.",
+    "productCount": "{count, plural, =0 {No products} one {# product} other {# products}}"
+  },
+  "products": {
+    "trendingTitle": "Trending Products",
+    "trendingSubtitle": "What buyers are looking at this week.",
+    "addToCart": "Add to cart",
+    "addedToCart": "Added to your cart",
+    "addToWishlist": "Add to wishlist",
+    "addedToWishlist": "Saved to your wishlist",
+    "removedFromWishlist": "Removed from your wishlist",
+    "featured": "Featured",
+    "save": "-{percent}%",
+    "reviews": "({count})",
+    "soldBy": "by {store}",
+    "condition": {
+      "NEW": "New",
+      "USED": "Used",
+      "REFURBISHED": "Refurbished"
+    }
+  },
+  "catalog": {
+    "categoriesTitle": "All Categories",
+    "categoriesSubtitle": "Every department of the marketplace, with what's inside.",
+    "subcategories": "Browse by sub-category",
+    "allProductsTitle": "All Products",
+    "allProductsSubtitle": "Everything currently listed by our verified sellers.",
+    "dealsTitle": "Deals",
+    "dealsSubtitle": "Listings where the seller has cut the price — savings shown on every card.",
+    "newArrivalsTitle": "New Arrivals",
+    "newArrivalsSubtitle": "The latest listings, freshest first.",
+    "featuredIn": "Featured in {name}",
+    "results": "{count, plural, =0 {No listings} one {# listing} other {# listings}}",
+    "sort": {
+      "label": "Sort by",
+      "newest": "Newest",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low",
+      "popular": "Most viewed"
+    },
+    "filters": {
+      "title": "Filters",
+      "condition": "Condition",
+      "any": "Any",
+      "new": "New",
+      "used": "Used",
+      "price": "Price (FCFA)",
+      "min": "Min",
+      "max": "Max",
+      "location": "Location",
+      "locationPlaceholder": "e.g. Douala",
+      "apply": "Apply filters",
+      "clear": "Clear all",
+      "activeCount": "{count, plural, =0 {No filters} one {# filter} other {# filters}} active"
+    },
+    "empty": {
+      "title": "Nothing here yet",
+      "description": "No listing matches these filters. Try widening your search.",
+      "action": "Browse all products"
+    }
+  },
+  "product": {
+    "buyNow": "Buy now",
+    "inCart": "In your cart",
+    "quantity": "Quantity",
+    "condition": "Condition",
+    "location": "Location",
+    "views": "{count, plural, one {# view} other {# views}}",
+    "listedOn": "Listed {date}",
+    "description": "Description",
+    "soldBy": "Sold by",
+    "viewStore": "View store",
+    "contactSeller": "Contact seller",
+    "was": "was",
+    "escrow": {
+      "title": "Buy with confidence",
+      "point1": "Your payment is held in escrow by Smart Market.",
+      "point2": "The seller only gets paid once you confirm receipt.",
+      "point3": "Something wrong? Open a dispute and our team steps in."
+    },
+    "moreFromStore": "More from {name}",
+    "moreInCategory": "More in {name}",
+    "notFound": "This listing is no longer available.",
+    "cod": "Cash on delivery available"
+  },
+  "stores": {
+    "title": "Featured Stores",
+    "subtitle": "Sellers our buyers trust.",
+    "viewStore": "View Store",
+    "verified": "Verified seller",
+    "products": "{count} products",
+    "defaultCategory": "Marketplace",
+    "directoryTitle": "Stores",
+    "directorySubtitle": "Every verified seller on Smart Market.",
+    "searchPlaceholder": "Search stores…",
+    "memberSince": "Member since {date}",
+    "listings": "{count, plural, =0 {No listings} one {# listing} other {# listings}}",
+    "call": "Call",
+    "email": "Email",
+    "about": "About {name}",
+    "noListings": "This store has no active listings right now.",
+    "noStores": "No store matches your search."
+  },
+  "search": {
+    "title": "Results for “{query}”",
+    "prompt": "Search products, brands and stores",
+    "promptDescription": "Type what you're looking for in the search bar above.",
+    "productsTab": "Products ({count})",
+    "storesTab": "Stores ({count})",
+    "empty": "No results for “{query}”. Check the spelling or try a broader term."
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to track orders, save items and sell.",
+      "email": "Email address",
+      "password": "Password",
+      "forgot": "Forgot password?",
+      "submit": "Sign in",
+      "noAccount": "New to Smart Market?",
+      "register": "Create an account",
+      "google": "Continue with Google"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Buy safely with escrow, or open a store in minutes.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "phone": "Phone (optional)",
+      "password": "Password",
+      "passwordHint": "At least 8 characters, with a number.",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "login": "Sign in",
+      "terms": "By creating an account you agree to our {terms} and {privacy}.",
+      "termsLink": "Terms",
+      "privacyLink": "Privacy Policy"
+    },
+    "verify": {
+      "title": "Verify your email",
+      "subtitle": "We sent a 6-digit code to {email}. Enter it below.",
+      "code": "Verification code",
+      "submit": "Verify",
+      "resend": "Send a new code",
+      "resent": "A new code is on its way.",
+      "later": "I'll do this later",
+      "success": "Email verified — you're all set.",
+      "already": "Your email is already verified."
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we'll send you a reset code.",
+      "email": "Email address",
+      "submit": "Send reset code",
+      "sent": "If that email is registered, a code has been sent. Check your inbox.",
+      "continue": "I have a code"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "subtitle": "Enter the code we emailed you and your new password.",
+      "email": "Email address",
+      "code": "Reset code",
+      "newPassword": "New password",
+      "submit": "Update password",
+      "success": "Password updated. You can sign in now."
+    },
+    "callback": {
+      "loading": "Finishing sign-in…",
+      "error": "We couldn't complete Google sign-in.",
+      "retry": "Back to sign in"
+    },
+    "requireLogin": {
+      "title": "Sign in to continue",
+      "description": "This page is personal to your account.",
+      "login": "Sign in",
+      "register": "Create an account"
+    },
+    "signedOut": "You're signed out.",
+    "welcome": "Welcome, {name}!",
+    "errors": {
+      "INVALID_CREDENTIALS": "Incorrect email or password.",
+      "EMAIL_TAKEN": "An account already exists with this email.",
+      "EMAIL_ALREADY_EXISTS": "An account already exists with this email.",
+      "VALIDATION_ERROR": "Please check the highlighted fields.",
+      "OTP_INVALID": "That code is not valid.",
+      "OTP_EXPIRED": "That code has expired — request a new one.",
+      "OTP_MAX_ATTEMPTS": "Too many attempts — request a new code.",
+      "RATE_LIMITED": "Too many attempts. Please wait a few minutes.",
+      "ACCOUNT_SUSPENDED": "This account is suspended. Contact support.",
+      "EMAIL_NOT_CONFIGURED": "Email sending isn't configured on this environment yet.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "cart": {
+    "title": "Your cart",
+    "subtitle": "Each item is paid through its own escrow order, so you check out one item at a time.",
+    "empty": {
+      "title": "Your cart is empty",
+      "description": "Add products you like and come back to check out.",
+      "action": "Start shopping"
+    },
+    "quantity": "Qty",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "items": "{count, plural, one {# item} other {# items}}",
+    "checkoutItem": "Buy now",
+    "continueShopping": "Continue shopping",
+    "clear": "Empty cart"
+  },
+  "wishlist": {
+    "title": "Your wishlist",
+    "subtitle": "Saved on this device. Sign in later to keep it across devices.",
+    "empty": {
+      "title": "Nothing saved yet",
+      "description": "Tap the heart on any product to keep it here.",
+      "action": "Discover products"
+    },
+    "remove": "Remove",
+    "addToCart": "Add to cart"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "summary": "Order summary",
+    "quantity": "Quantity",
+    "total": "Total to pay",
+    "payment": "Pay with Mobile Money",
+    "provider": "Operator",
+    "MTN_MOMO_CMR": "MTN Mobile Money",
+    "ORANGE_CMR": "Orange Money",
+    "phone": "Mobile Money number",
+    "phonePlaceholder": "6XX XXX XXX",
+    "phoneHint": "You'll receive a payment prompt on this number.",
+    "pay": "Pay {amount}",
+    "processing": "Starting payment…",
+    "waiting": {
+      "title": "Confirm on your phone",
+      "description": "A payment request was sent to {phone}. Enter your PIN to approve it — this page updates automatically."
+    },
+    "success": {
+      "title": "Payment received",
+      "description": "Your money is now held in escrow. The seller has been notified and will deliver your order.",
+      "action": "Track my order"
+    },
+    "failed": {
+      "title": "Payment not completed",
+      "description": "The payment was cancelled or timed out. You can try again.",
+      "retry": "Try again"
+    },
+    "escrowNote": "Your payment is held by Smart Market until you confirm delivery.",
+    "verifyEmail": {
+      "title": "Verify your email first",
+      "description": "For your security, purchases require a verified email address.",
+      "action": "Verify now"
+    },
+    "startError": "We couldn't start the payment: {message}",
+    "steps": {
+      "order": "Order",
+      "pay": "Payment",
+      "done": "Done",
+      "confirm": "Confirm"
+    },
+    "method": {
+      "title": "How would you like to pay?",
+      "MOBILE_MONEY": {
+        "title": "Mobile Money (escrow)",
+        "description": "Pay now. Smart Market holds the money until you confirm delivery."
+      },
+      "CASH_ON_DELIVERY": {
+        "title": "Cash on delivery",
+        "description": "Pay the seller in cash when the item is handed to you."
+      },
+      "unavailable": "This seller does not offer cash on delivery."
+    },
+    "delivery": {
+      "title": "Delivery details",
+      "address": "Delivery address",
+      "addressPlaceholder": "Street, neighbourhood, city, landmark",
+      "phone": "Phone number for the delivery",
+      "phoneHint": "The seller uses it to arrange the handover."
+    },
+    "placeOrder": "Place order — {amount} on delivery",
+    "codNote": "Nothing to pay now. You hand over {amount} in cash when you receive the item. Cash orders are not covered by escrow, but you can cancel until the seller confirms delivery.",
+    "codSuccess": {
+      "title": "Order confirmed",
+      "description": "The seller has been notified and will contact you to arrange the delivery. Have {amount} ready in cash.",
+      "action": "View my order"
+    }
+  },
+  "orders": {
+    "title": "My orders",
+    "subtitle": "Track every purchase and confirm delivery to release the payment.",
+    "searchLabel": "Find an order",
+    "searchPlaceholder": "Order number",
+    "searchButton": "Find",
+    "empty": {
+      "title": "No orders yet",
+      "description": "When you buy something, it shows up here with its escrow status.",
+      "action": "Browse products"
+    },
+    "notFound": "No order with that number on your account.",
+    "orderNumber": "Order #{id}",
+    "placedOn": "Placed {date}",
+    "total": "Total",
+    "quantity": "Qty {count}",
+    "status": {
+      "PENDING_PAYMENT": "Awaiting payment",
+      "PAID": "Paid — in escrow",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled",
+      "DISPUTED": "Dispute open",
+      "REFUNDED": "Refunded",
+      "CONFIRMED": "Confirmed — cash on delivery"
+    },
+    "statusHelp": {
+      "PENDING_PAYMENT": "Complete the Mobile Money payment to secure this order.",
+      "PAID": "Your money is safely held. Confirm receipt once the item is in your hands.",
+      "COMPLETED": "Both sides confirmed — the seller has been paid.",
+      "CANCELLED": "This order was cancelled.",
+      "DISPUTED": "Our team is reviewing this order.",
+      "REFUNDED": "The refund has been processed.",
+      "CONFIRMED": "Pay in cash when the seller hands over the item, then confirm receipt here."
+    },
+    "sellerConfirmed": "Seller confirmed delivery",
+    "buyerConfirmed": "You confirmed receipt",
+    "awaitingSeller": "Waiting for the seller to confirm delivery",
+    "confirmReceipt": "Confirm receipt",
+    "confirmReceiptHelp": "Only confirm once you have checked the item — this releases the payment to the seller.",
+    "confirmed": "Receipt confirmed. Thank you!",
+    "openDispute": "Open a dispute",
+    "disputeReason": "What went wrong?",
+    "disputePlaceholder": "Describe the problem (at least 10 characters)…",
+    "disputeSubmit": "Submit dispute",
+    "disputeOpened": "Dispute opened — our team will contact you.",
+    "payNow": "Pay now",
+    "viewProduct": "View listing",
+    "viewDetails": "View details",
+    "paymentMethod": {
+      "MOBILE_MONEY": "Mobile Money · escrow",
+      "CASH_ON_DELIVERY": "Cash on delivery"
+    },
+    "cod": {
+      "collect": "Collect {amount} in cash at handover",
+      "noEscrow": "Not covered by escrow"
+    },
+    "cancel": "Cancel order",
+    "cancelConfirm": "Cancel this order?",
+    "cancelled": "Order cancelled.",
+    "cancelledBy": {
+      "BUYER": "Cancelled by the buyer",
+      "SELLER": "Cancelled by the seller",
+      "STAFF": "Cancelled by Smart Market"
+    },
+    "confirmReceiptHelpCod": "Only confirm once you have the item in hand and paid the seller in cash."
+  },
+  "plans": {
+    "title": "Subscription plans",
+    "subtitle": "Pick a plan to publish listings. Upgrade or renew any time from your seller dashboard.",
+    "duration": "{days} days",
+    "ads": "{count, plural, one {# listing} other {# listings}}",
+    "hero": "Hero placement for {hours}h",
+    "noHero": "Standard placement",
+    "choose": "Start with {name}",
+    "recommended": "Most popular",
+    "escrowIncluded": "Escrow payments included",
+    "walletIncluded": "Mobile Money payouts",
+    "supportIncluded": "Priority support",
+    "cta": "Ready to sell?",
+    "ctaDescription": "Create your account, open your store and choose a plan — it takes about five minutes.",
+    "faqTitle": "Plan questions"
+  },
+  "sell": {
+    "eyebrow": "Sell on Smart Market",
+    "title": "Turn your products into a business.",
+    "description": "Open a store, choose a plan, publish your listings and reach buyers who pay through escrow — so you get paid, every time.",
+    "cta": "Open my store",
+    "ctaLoggedOut": "Create a seller account",
+    "secondary": "View plans",
+    "benefit1Title": "Guaranteed payment",
+    "benefit1Description": "Buyers pay before you deliver. Funds are released to your wallet once they confirm.",
+    "benefit2Title": "Mobile Money payouts",
+    "benefit2Description": "Withdraw your balance to MTN Mobile Money or Orange Money in a few taps.",
+    "benefit3Title": "Hero visibility",
+    "benefit3Description": "Business and Premium plans can feature listings on the homepage and category heroes.",
+    "benefit4Title": "Verified badge",
+    "benefit4Description": "Every store gets a verified profile page with your logo, banner and contact buttons.",
+    "stepsTitle": "How it works",
+    "step1Title": "Create your account",
+    "step1Description": "Sign up with your email or Google and verify your address.",
+    "step2Title": "Open your store",
+    "step2Description": "Add your name, logo, location and contact details.",
+    "step3Title": "Choose a plan",
+    "step3Description": "Pay with Mobile Money and start publishing listings.",
+    "step4Title": "Sell and get paid",
+    "step4Description": "Deliver, get confirmed, withdraw to your phone.",
+    "plansTitle": "Plans for every seller",
+    "guide": "Read the seller guide"
+  },
+  "pages": {
+    "howItWorks": {
+      "title": "How Smart Market works",
+      "subtitle": "Buying and selling with escrow, step by step."
+    },
+    "sellerGuide": {
+      "title": "Seller guide",
+      "subtitle": "Everything you need to open a store and get paid."
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "subtitle": "Quick answers about buying, selling, payments and escrow."
+    },
+    "returns": {
+      "title": "Returns & refunds",
+      "subtitle": "What happens when an order doesn't go as planned."
+    },
+    "contact": {
+      "title": "Contact support",
+      "subtitle": "We answer within one business day."
+    },
+    "about": {
+      "title": "About Smart Market",
+      "subtitle": "A marketplace built on trust, made in Cameroon."
+    },
+    "terms": {
+      "title": "Terms of service",
+      "subtitle": "The rules of the marketplace."
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "subtitle": "How we handle your data."
+    }
+  },
+  "contact": {
+    "name": "Your name",
+    "email": "Email address",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send message",
+    "success": {
+      "title": "Message sent",
+      "description": "Thanks — our support team will reply by email within one business day."
+    },
+    "error": "We couldn't send your message. Please try again.",
+    "other": "Other ways to reach us",
+    "emailUs": "Email",
+    "callUs": "Phone / WhatsApp",
+    "hours": "Monday to Saturday, 8:00–18:00"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist or has moved.",
+      "action": "Back to home"
+    },
+    "generic": "Something went wrong. Please try again."
+  },
+  "escrow": {
+    "eyebrow": "How escrow works",
+    "title": "Your payment stays protected until you receive your order.",
+    "subtitle": "Every purchase on Smart Market goes through escrow. Nobody gets paid until both sides confirm.",
+    "steps": {
+      "pay": {
+        "title": "You Pay",
+        "description": "Checkout with Mobile Money or Orange Money."
+      },
+      "hold": {
+        "title": "Smart Market Holds Funds",
+        "description": "Your money is kept safe in escrow."
+      },
+      "deliver": {
+        "title": "Seller Delivers",
+        "description": "The seller ships or hands over your order."
+      },
+      "confirm": {
+        "title": "You Confirm",
+        "description": "You check the item and confirm receipt."
+      },
+      "paid": {
+        "title": "Seller Gets Paid",
+        "description": "Funds are released to the seller's wallet."
+      }
+    },
+    "dispute": "Something wrong? Open a dispute and our team steps in."
+  },
+  "seller": {
+    "eyebrow": "For sellers",
+    "title": "Sell to a global audience",
+    "subtitle": "Turn your products into a business.",
+    "description": "Create your store, choose a subscription plan, publish your products and reach customers through Smart Market.",
+    "cta": "Become a Seller",
+    "secondary": "View Subscription Plans"
+  },
+  "footer": {
+    "tagline": "Shop · Sell · Grow Together",
+    "marketplace": {
+      "title": "Marketplace",
+      "allCategories": "All Categories",
+      "deals": "Deals",
+      "newArrivals": "New Arrivals",
+      "topStores": "Top Stores"
+    },
+    "sell": {
+      "title": "Sell",
+      "becomeSeller": "Become a Seller",
+      "plans": "Subscription Plans",
+      "guide": "Seller Guide"
+    },
+    "help": {
+      "title": "Help",
+      "trackOrder": "Track Order",
+      "returns": "Returns & Refunds",
+      "faq": "FAQ",
+      "contact": "Contact Support"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About",
+      "terms": "Terms",
+      "privacy": "Privacy"
+    },
+    "newsletter": {
+      "title": "Join our newsletter",
+      "description": "Get the latest deals and marketplace updates.",
+      "placeholder": "Your email",
+      "button": "Subscribe",
+      "success": "Thanks — you're on the list.",
+      "error": "Subscription failed. Please try again."
+    },
+    "copyright": "© {year} Smart Market. All rights reserved.",
+    "followUs": "Follow us"
+  },
+  "chat": {
+    "open": "Open the Smart Market assistant",
+    "close": "Close assistant",
+    "title": "Smart Market Assistant",
+    "status": "Online",
+    "greeting": "Hi! I can help you find products, track an order or explain how escrow protects you. What would you like to do?",
+    "placeholder": "Ask me anything…",
+    "send": "Send",
+    "chips": {
+      "find": "Find a product",
+      "track": "Track my order",
+      "escrow": "Explain escrow",
+      "seller": "Become a seller",
+      "plans": "View subscription plans"
+    },
+    "typing": "Assistant is typing…",
+    "offline": "The assistant is offline right now. Use one of the shortcuts below or contact support.",
+    "error": "Something went wrong. Please try again.",
+    "viewProduct": "View",
+    "viewOrder": "Open order",
+    "products": "Suggested listings",
+    "orders": "Your orders",
+    "reset": "New conversation",
+    "disclaimer": "Answers are generated by AI and may contain mistakes. Prices and availability come from live listings.",
+    "offlineStatus": "Offline"
+  },
+  "pwa": {
+    "title": "Install Smart Market",
+    "description": "Add the app to your phone or computer for faster access and a full-screen experience.",
+    "install": "Install app",
+    "later": "Not now",
+    "iosHint": "On iPhone or iPad: tap Share, then “Add to Home Screen”.",
+    "close": "Dismiss"
+  },
+  "account": {
+    "title": "My account",
+    "nav": {
+      "overview": "Overview",
+      "orders": "Orders",
+      "wishlist": "Wishlist",
+      "notifications": "Notifications",
+      "profile": "Profile",
+      "seller": "Seller area",
+      "sellerHint": "Open a store or manage yours"
+    },
+    "overview": {
+      "greeting": "Hello, {name}",
+      "subtitle": "Everything about your purchases, saved items and account in one place.",
+      "stats": {
+        "orders": "Orders",
+        "escrow": "In escrow",
+        "completed": "Completed",
+        "unread": "Unread notifications",
+        "wishlist": "Saved items"
+      },
+      "recentOrders": "Recent orders",
+      "viewAll": "All orders",
+      "noOrders": "No orders yet — your purchases will appear here.",
+      "verify": {
+        "title": "Verify your email",
+        "description": "Purchases need a verified email address.",
+        "action": "Verify now"
+      },
+      "seller": {
+        "title": "Sell on Smart Market",
+        "description": "Open a store, choose a plan and start listing with escrow-protected payments.",
+        "action": "Open a store",
+        "manage": "Manage my store"
+      }
+    },
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Your name and phone number are shown to sellers on your orders.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "email": "Email address",
+      "verified": "Verified",
+      "unverified": "Not verified",
+      "verifyLink": "Verify email",
+      "google": "Google account linked",
+      "save": "Save changes",
+      "saved": "Profile updated.",
+      "password": {
+        "title": "Password",
+        "subtitle": "Changing your password signs you out of every other device.",
+        "current": "Current password",
+        "new": "New password",
+        "submit": "Update password",
+        "updated": "Password updated.",
+        "googleOnly": "This account signs in with Google and has no password. Use “Forgot password?” on the sign-in page to set one."
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Order updates, escrow releases and disputes — everything that needs your attention.",
+    "empty": {
+      "title": "You're all caught up",
+      "description": "Order and payment updates will show up here."
+    },
+    "markAllRead": "Mark all as read",
+    "allRead": "All notifications marked as read.",
+    "unread": "{count, plural, =0 {No unread} one {# unread} other {# unread}}",
+    "open": "Open",
+    "types": {
+      "PAYMENT_CONFIRMED": {
+        "title": "Payment received for {product}",
+        "body": "Your money is held in escrow until you confirm delivery."
+      },
+      "NEW_ORDER": {
+        "title": "New paid order: {product}",
+        "body": "Deliver it and confirm delivery to get paid."
+      },
+      "DELIVERY_CONFIRMED": {
+        "title": "{store} confirmed delivery of {product}",
+        "body": "Check the item, then confirm receipt to release the payment."
+      },
+      "RECEIPT_CONFIRMED": {
+        "title": "Buyer confirmed receipt of {product}",
+        "body": "The payment is on its way to your wallet."
+      },
+      "ESCROW_RELEASED": {
+        "title": "{amount} released to your wallet",
+        "body": "Order: {product}. You can withdraw it to Mobile Money."
+      },
+      "ORDER_COMPLETED": {
+        "title": "Order completed: {product}",
+        "body": "Thanks for buying on Smart Market — you can now review the seller."
+      },
+      "DISPUTE_CREATED": {
+        "title": "A dispute was opened on {product}",
+        "body": "The order is frozen while our team reviews it."
+      },
+      "DISPUTE_RESOLVED": {
+        "title": "Dispute resolved on {product}",
+        "body": "See the order for the outcome."
+      },
+      "ORDER_REFUNDED": {
+        "title": "Refund approved for {product}",
+        "body": "The refund goes back to the Mobile Money number you paid with."
+      },
+      "WITHDRAWAL_COMPLETED": {
+        "title": "Withdrawal of {amount} completed",
+        "body": "The money is on your Mobile Money account."
+      },
+      "WITHDRAWAL_FAILED": {
+        "title": "Withdrawal of {amount} failed",
+        "body": "The amount has been credited back to your wallet."
+      },
+      "SUBSCRIPTION_ACTIVATED": {
+        "title": "{plan} plan is active",
+        "body": "You can publish listings now."
+      },
+      "REVIEW_RECEIVED": {
+        "title": "New {rating}-star review on {product}",
+        "body": "{comment}"
+      },
+      "SUBSCRIPTION_EXPIRING": {
+        "title": "Your plan expires soon",
+        "body": "Renew to keep your listings visible."
+      },
+      "ADVERTISEMENT_EXPIRED": {
+        "title": "A listing expired",
+        "body": "Renew your plan to publish it again."
+      },
+      "SUBSCRIPTION_EXPIRED": {
+        "title": "Your {plan} plan has expired",
+        "body": "{count, plural, =0 {Renew to publish again.} one {# listing is hidden until you renew.} other {# listings are hidden until you renew.}}"
+      },
+      "REFUND_SENT": {
+        "title": "Refund of {amount} sent",
+        "body": "The money was sent to the Mobile Money number you paid with."
+      },
+      "REFUND_FAILED": {
+        "title": "Refund of {amount} could not be sent",
+        "body": "Our team has been alerted and will contact you."
+      },
+      "ORDER_CONFIRMED": {
+        "title": "Order confirmed: {product}",
+        "body": "Pay {amount} in cash when you receive it."
+      },
+      "ORDER_CANCELLED": {
+        "title": "Order cancelled: {product}",
+        "body": "{comment}"
+      }
+    }
+  },
+  "orderDetail": {
+    "title": "Order #{id}",
+    "back": "All orders",
+    "timeline": {
+      "title": "Progress",
+      "created": "Order placed",
+      "paid": "Paid — held in escrow",
+      "sellerConfirmed": "Seller confirmed delivery",
+      "buyerConfirmed": "You confirmed receipt",
+      "completed": "Completed — seller paid",
+      "disputed": "Dispute opened",
+      "refunded": "Refunded",
+      "cancelled": "Cancelled",
+      "confirmed": "Order confirmed — pay on delivery",
+      "cashPaid": "Completed — paid in cash"
+    },
+    "payment": {
+      "title": "Payment",
+      "provider": "Operator",
+      "status": "Status",
+      "reference": "Reference",
+      "none": "No payment started yet.",
+      "cod": "Cash on delivery",
+      "codHelp": "{amount} to be paid in cash at handover. No Mobile Money payment is needed."
+    },
+    "seller": "Sold by",
+    "items": "Item",
+    "review": {
+      "title": "Rate the seller",
+      "subtitle": "Your review is public on the store page and helps other buyers.",
+      "rating": "Rating",
+      "comment": "Comment (optional)",
+      "commentPlaceholder": "How was the product and the delivery?",
+      "submit": "Publish review",
+      "thanks": "Thanks for your review!",
+      "yours": "Your review",
+      "stars": "{count} stars"
+    },
+    "refund": {
+      "title": "Refund",
+      "statuses": {
+        "PENDING": "Being sent",
+        "PROCESSING": "Being sent",
+        "COMPLETED": "Sent",
+        "FAILED": "Delayed",
+        "CANCELLED": "Delayed"
+      },
+      "sentTo": "Sent to {phone}",
+      "pending": "Your refund is on its way to {phone}. Mobile Money payouts usually land within minutes.",
+      "delayed": "Your refund is delayed on our side. Support has been alerted and will contact you if anything is needed.",
+      "completedAt": "Received on {date}"
+    },
+    "delivery": {
+      "title": "Delivery",
+      "address": "Address",
+      "phone": "Phone"
+    }
+  },
+  "reviews": {
+    "title": "Reviews",
+    "count": "{count, plural, =0 {No reviews yet} one {# review} other {# reviews}}",
+    "none": "No reviews yet — be the first buyer to leave one.",
+    "verified": "Verified purchase",
+    "for": "for {product}"
+  },
+  "sellerArea": {
+    "title": "Seller area",
+    "nav": {
+      "dashboard": "Dashboard",
+      "listings": "Listings",
+      "orders": "Orders",
+      "subscription": "Subscription",
+      "wallet": "Wallet",
+      "store": "Store settings",
+      "viewStore": "View public page"
+    },
+    "gate": {
+      "title": "Open your store",
+      "description": "You need a store before you can sell. It takes two minutes: name, logo, city and a phone number buyers can call.",
+      "action": "Create my store"
+    },
+    "onboarding": {
+      "title": "Open your store",
+      "subtitle": "This is what buyers see on your public page. You can change everything later.",
+      "success": "Your store is open! Choose a plan to start publishing.",
+      "next": "Choose a plan"
+    },
+    "storeForm": {
+      "name": "Store name",
+      "description": "Description",
+      "descriptionPlaceholder": "What you sell, where you are, why buyers can trust you…",
+      "location": "City",
+      "contactEmail": "Contact email",
+      "contactPhone": "Contact phone (tap-to-call)",
+      "logo": "Logo (square, PNG/JPG/WebP, max 5 MB)",
+      "banner": "Banner (wide)",
+      "current": "Current",
+      "choose": "Choose a file",
+      "save": "Save store",
+      "create": "Open my store",
+      "saved": "Store updated.",
+      "cod": {
+        "label": "Accept cash on delivery",
+        "hint": "Buyers can choose to pay you in cash at handover. These orders skip escrow; you collect the money yourself."
+      }
+    },
+    "dashboard": {
+      "greeting": "Welcome back, {name}",
+      "subtitle": "Here is how {store} is doing.",
+      "balance": "Wallet balance",
+      "withdraw": "Withdraw",
+      "toDeliver": "Orders to deliver",
+      "published": "Published listings",
+      "completed": "Completed sales",
+      "totalSales": "Total sales",
+      "plan": {
+        "title": "Subscription",
+        "none": "No active plan — your listings are hidden until you subscribe.",
+        "choose": "Choose a plan",
+        "renew": "Renew / upgrade",
+        "expires": "Expires {date}",
+        "quota": "{used} of {quota} listings used",
+        "hero": "Hero placement: {hours}h",
+        "noHero": "No hero placement on this plan"
+      },
+      "recentOrders": "Latest orders",
+      "allOrders": "All orders",
+      "noOrders": "No orders yet. Publish listings to start selling.",
+      "quick": {
+        "newListing": "New listing",
+        "listings": "Manage listings",
+        "wallet": "Wallet",
+        "store": "Edit store"
+      },
+      "rating": "Store rating"
+    },
+    "listings": {
+      "title": "Listings",
+      "subtitle": "Drafts are private; published listings are live while your plan is active.",
+      "new": "New listing",
+      "tabs": {
+        "all": "All",
+        "DRAFT": "Drafts",
+        "PUBLISHED": "Published",
+        "ARCHIVED": "Archived"
+      },
+      "status": {
+        "DRAFT": "Draft",
+        "PUBLISHED": "Published",
+        "ARCHIVED": "Archived"
+      },
+      "empty": {
+        "title": "No listings here",
+        "description": "Create your first listing — photos, price and description — then publish it.",
+        "action": "Create a listing"
+      },
+      "views": "{count, plural, one {# view} other {# views}}",
+      "featuredUntil": "Featured until {date}",
+      "actions": {
+        "edit": "Edit",
+        "publish": "Publish",
+        "archive": "Archive",
+        "feature": "Feature in hero",
+        "unfeature": "Remove from hero",
+        "view": "View"
+      },
+      "published": "Listing published.",
+      "archived": "Listing archived.",
+      "featured": "Listing featured in the hero.",
+      "unfeatured": "Listing removed from the hero.",
+      "quota": "{used}/{quota} listings used on your plan"
+    },
+    "listingForm": {
+      "createTitle": "New listing",
+      "editTitle": "Edit listing",
+      "subtitle": "Great photos and an honest description sell faster and avoid disputes.",
+      "title": "Title",
+      "titlePlaceholder": "Brand + model + key detail",
+      "category": "Category",
+      "selectCategory": "Select a category",
+      "price": "Price (FCFA)",
+      "compareAtPrice": "Compare-at price (optional)",
+      "compareAtHint": "Shows a strike-through price and puts the listing in Deals.",
+      "condition": "Condition",
+      "location": "Location",
+      "description": "Description",
+      "descriptionPlaceholder": "Specs, what's included, condition details, delivery options…",
+      "video": "Video URL (optional)",
+      "images": "Photos (up to 8)",
+      "imagesHint": "First photo is the cover. JPEG, PNG or WebP, max 5 MB each.",
+      "keepImages": "Current photos are kept unless you upload new ones.",
+      "save": "Save draft",
+      "saveAndPublish": "Save & publish",
+      "update": "Save changes",
+      "created": "Listing saved as draft.",
+      "updated": "Listing updated.",
+      "tooMany": "Maximum 8 photos."
+    },
+    "orders": {
+      "title": "Orders",
+      "subtitle": "Paid orders are held in escrow. Confirm delivery once the buyer has the item.",
+      "empty": {
+        "title": "No orders yet",
+        "description": "Orders appear here as soon as a buyer pays."
+      },
+      "buyer": "Buyer",
+      "confirmDelivery": "Confirm delivery",
+      "confirmDeliveryHelp": "Only confirm once the buyer has the item in hand. The payment is released when the buyer confirms too.",
+      "delivered": "Delivery confirmed.",
+      "awaitingBuyer": "Waiting for the buyer to confirm receipt",
+      "contact": "Contact buyer",
+      "call": "Call",
+      "email": "Email",
+      "confirmDeliveryCod": "Delivered & cash received",
+      "codHelp": "Only confirm once you have handed over the item and received the cash.",
+      "deliverTo": "Deliver to"
+    },
+    "subscription": {
+      "title": "Subscription",
+      "subtitle": "Your plan decides how many listings you can publish and for how long.",
+      "current": "Current plan",
+      "none": "No active plan",
+      "pending": "A payment is pending — approve it on your phone or refresh.",
+      "refresh": "Refresh status",
+      "plans": "Choose a plan",
+      "checkoutTitle": "Pay for {plan}",
+      "activated": "Your plan is active!",
+      "startsAt": "Started {date}",
+      "expiresAt": "Expires {date}",
+      "status": {
+        "PENDING_PAYMENT": "Awaiting payment",
+        "ACTIVE": "Active",
+        "EXPIRED": "Expired",
+        "CANCELLED": "Cancelled"
+      },
+      "select": "Select"
+    },
+    "wallet": {
+      "title": "Wallet",
+      "subtitle": "Escrow releases land here. Withdraw to your Mobile Money number any time.",
+      "balance": "Available balance",
+      "withdrawTitle": "Withdraw to Mobile Money",
+      "amount": "Amount (FCFA)",
+      "amountHint": "Minimum 100 FCFA, up to your balance.",
+      "max": "Max",
+      "submit": "Request withdrawal",
+      "requested": "Withdrawal requested — it usually arrives within minutes.",
+      "history": "Withdrawal history",
+      "empty": "No withdrawals yet.",
+      "status": {
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "COMPLETED": "Completed",
+        "FAILED": "Failed",
+        "CANCELLED": "Cancelled"
+      },
+      "refresh": "Refresh",
+      "insufficient": "Amount exceeds your available balance."
+    },
+    "payment": {
+      "provider": "Operator",
+      "phone": "Mobile Money number",
+      "pay": "Pay {amount}",
+      "processing": "Starting payment…",
+      "waiting": "Confirm on your phone — enter your PIN to approve {amount}.",
+      "failed": "Payment not completed. You can try again.",
+      "retry": "Try again",
+      "error": "We couldn't start the payment: {message}"
+    }
+  },
+  "admin": {
+    "title": "Administration",
+    "noAccess": {
+      "title": "Staff only",
+      "description": "This area is reserved for Smart Market staff.",
+      "action": "Back to home"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "stores": "Stores",
+      "categories": "Categories",
+      "listings": "Listings",
+      "plans": "Plans",
+      "orders": "Orders",
+      "payments": "Payments",
+      "disputes": "Disputes",
+      "withdrawals": "Withdrawals",
+      "support": "Support inbox",
+      "audit": "Audit log"
+    },
+    "common": {
+      "search": "Search…",
+      "all": "All",
+      "status": "Status",
+      "role": "Role",
+      "actions": "Actions",
+      "save": "Save",
+      "cancel": "Cancel",
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Delete this item? This cannot be undone.",
+      "none": "Nothing to show.",
+      "refresh": "Refresh",
+      "id": "ID",
+      "date": "Date",
+      "amount": "Amount",
+      "buyer": "Buyer",
+      "seller": "Seller",
+      "store": "Store",
+      "user": "User",
+      "email": "Email",
+      "name": "Name",
+      "yes": "Yes",
+      "no": "No",
+      "results": "{count, plural, =0 {No results} one {# result} other {# results}}",
+      "view": "View",
+      "forbidden": "Your role can't do that."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "What's happening on the marketplace right now.",
+      "users": "Users",
+      "staff": "Staff accounts",
+      "stores": "Active stores",
+      "listings": "Published listings",
+      "orders": "Orders",
+      "escrow": "Held in escrow",
+      "sales": "Completed sales",
+      "disputes": "Open disputes",
+      "withdrawals": "Pending payouts",
+      "contacts": "Unanswered messages",
+      "subscriptions": "Active subscriptions",
+      "ordersByStatus": "Orders by status",
+      "recentActivity": "Recent activity",
+      "allActivity": "Full audit log"
+    },
+    "users": {
+      "title": "Users",
+      "subtitle": "Every account on the platform. Staff roles are managed by super admins only.",
+      "createStaff": "Create staff account",
+      "roles": {
+        "CUSTOMER": "Customer",
+        "SUPER_ADMIN": "Super admin",
+        "ACCOUNTANT": "Accountant",
+        "CUSTOMER_SERVICE": "Customer service"
+      },
+      "statuses": {
+        "ACTIVE": "Active",
+        "SUSPENDED": "Suspended",
+        "BANNED": "Banned"
+      },
+      "suspend": "Suspend",
+      "reactivate": "Reactivate",
+      "ban": "Ban",
+      "changeRole": "Change role",
+      "roleUpdated": "Role updated.",
+      "statusUpdated": "Status updated.",
+      "staffCreated": "Staff account created.",
+      "form": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "phone": "Phone (optional)",
+        "password": "Temporary password",
+        "role": "Role",
+        "submit": "Create account"
+      },
+      "verified": "Verified",
+      "unverified": "Unverified",
+      "hasStore": "Store: {name}",
+      "joined": "Joined {date}",
+      "staffFilter": "Staff",
+      "you": "you"
+    },
+    "stores": {
+      "title": "Stores",
+      "subtitle": "Every seller store, including pending and suspended ones.",
+      "owner": "Owner",
+      "listings": "Listings",
+      "balance": "Wallet",
+      "suspend": "Suspend",
+      "activate": "Activate",
+      "statuses": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "SUSPENDED": "Suspended"
+      },
+      "updated": "Store status updated.",
+      "confirmSuspend": "Suspend this store? Its listings disappear from the marketplace immediately."
+    },
+    "categories": {
+      "title": "Categories",
+      "subtitle": "The departments sellers post into. Sub-categories roll up into their parent.",
+      "new": "New category",
+      "edit": "Edit category",
+      "name": "Name",
+      "parent": "Parent category",
+      "noParent": "None (top level)",
+      "image": "Image",
+      "keepImage": "Current image is kept unless you upload a new one.",
+      "removeImage": "Remove current image",
+      "created": "Category created.",
+      "updated": "Category updated.",
+      "deleted": "Category deleted.",
+      "children": "{count, plural, =0 {No sub-categories} one {# sub-category} other {# sub-categories}}",
+      "products": "{count, plural, =0 {No listings} one {# listing} other {# listings}}"
+    },
+    "listings": {
+      "title": "Listings",
+      "subtitle": "Every listing on the platform, any status. Feature outstanding ones in the hero.",
+      "statuses": {
+        "DRAFT": "Draft",
+        "PUBLISHED": "Published",
+        "ARCHIVED": "Archived"
+      },
+      "feature": "Feature",
+      "featureHours": "Hours in the hero",
+      "unfeature": "Unfeature",
+      "archive": "Archive",
+      "featured": "Listing featured.",
+      "unfeatured": "Listing removed from the hero.",
+      "archived": "Listing archived.",
+      "featuredUntil": "Featured until {date}",
+      "views": "{count, plural, one {# view} other {# views}}",
+      "confirmArchive": "Archive this listing? It disappears from the marketplace."
+    },
+    "plans": {
+      "title": "Subscription plans",
+      "subtitle": "What sellers buy to publish. Changing a plan doesn't affect subscriptions already paid.",
+      "new": "New plan",
+      "edit": "Edit plan",
+      "form": {
+        "name": "Name",
+        "durationDays": "Duration (days)",
+        "adQuota": "Listing quota",
+        "price": "Price (FCFA)",
+        "isActive": "Visible to sellers",
+        "heroEligible": "Hero placement included",
+        "heroDurationHours": "Hero duration (hours, min 48)",
+        "features": "Extra features (one per line)"
+      },
+      "created": "Plan created.",
+      "updated": "Plan updated.",
+      "deleted": "Plan deleted.",
+      "inactive": "Hidden",
+      "subscriptions": "subscriptions"
+    },
+    "orders": {
+      "title": "Orders",
+      "subtitle": "Every order and where its money is.",
+      "escrow": "Escrow",
+      "escrowStatus": {
+        "HELD": "Held",
+        "RELEASED": "Released",
+        "REFUNDED": "Refunded"
+      },
+      "method": "Payment",
+      "methods": {
+        "MOBILE_MONEY": "Mobile Money",
+        "CASH_ON_DELIVERY": "Cash"
+      }
+    },
+    "payments": {
+      "title": "Payments",
+      "subtitle": "Mobile Money collections for orders and subscriptions.",
+      "statuses": {
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "COMPLETED": "Completed",
+        "FAILED": "Failed",
+        "CANCELLED": "Cancelled",
+        "REFUNDED": "Refunded"
+      },
+      "kind": {
+        "order": "Order",
+        "subscription": "Subscription"
+      },
+      "reference": "Reference",
+      "tabs": {
+        "payments": "Payments",
+        "refunds": "Refunds"
+      }
+    },
+    "disputes": {
+      "title": "Disputes",
+      "subtitle": "Frozen orders waiting for a decision. Only the accountant or a super admin can move escrowed money.",
+      "statuses": {
+        "OPEN": "Open",
+        "IN_REVIEW": "In review",
+        "RESOLVED": "Resolved",
+        "REJECTED": "Rejected"
+      },
+      "raisedBy": "Raised by",
+      "reason": "Reason",
+      "resolution": "Resolution note",
+      "resolutionPlaceholder": "What was decided and why (visible to both parties)…",
+      "markInReview": "Mark in review",
+      "reject": "Reject dispute",
+      "releaseToSeller": "Release funds to seller",
+      "refundBuyer": "Refund buyer",
+      "confirmRelease": "Release the escrowed amount to the seller's wallet?",
+      "confirmRefund": "Mark this order refunded to the buyer?",
+      "updated": "Dispute updated.",
+      "released": "Funds released to the seller.",
+      "refunded": "Order marked refunded.",
+      "escrowOnly": "Only the accountant or a super admin can release or refund escrowed funds.",
+      "viewOrder": "Open order",
+      "detail": "Dispute detail",
+      "parties": "Parties",
+      "refund": {
+        "title": "Buyer refund",
+        "none": "No refund has been issued for this order.",
+        "initiated": "Refund created. The payout status is shown below."
+      }
+    },
+    "withdrawals": {
+      "title": "Withdrawals",
+      "subtitle": "Seller payouts to Mobile Money.",
+      "phone": "Number",
+      "provider": "Operator"
+    },
+    "support": {
+      "title": "Support inbox",
+      "subtitle": "Messages from the contact form and newsletter sign-ups.",
+      "unhandledOnly": "Unanswered only",
+      "markHandled": "Mark handled",
+      "handled": "Handled",
+      "reply": "Reply by email",
+      "subscribers": "Newsletter subscribers",
+      "subscribedOn": "Subscribed {date}",
+      "messages": "Messages",
+      "unhandled": "Unanswered"
+    },
+    "audit": {
+      "title": "Audit log",
+      "subtitle": "Who did what, when, from where — every state change on the platform.",
+      "actor": "Actor",
+      "action": "Action",
+      "entity": "Entity",
+      "system": "System",
+      "from": "From",
+      "to": "To",
+      "details": "Details"
+    },
+    "refunds": {
+      "title": "Refunds",
+      "subtitle": "Money sent back to buyers after a dispute. Failed payouts can be corrected and retried here.",
+      "statuses": {
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "COMPLETED": "Completed",
+        "FAILED": "Failed",
+        "CANCELLED": "Cancelled"
+      },
+      "retry": "Retry payout",
+      "refresh": "Check status",
+      "attempts": "{count, plural, one {# attempt} other {# attempts}}",
+      "destination": "Destination",
+      "operator": "Operator",
+      "phone": "Mobile Money number",
+      "retryTitle": "Retry the refund",
+      "retryHint": "Correct the operator or number if the provider rejected them, then send the payout again.",
+      "retried": "Payout re-issued.",
+      "refreshed": "Status updated.",
+      "reason": "Reason"
+    },
+    "jobs": {
+      "title": "Background jobs",
+      "subtitle": "Housekeeping that runs on its own. Super admins can force a run.",
+      "run": "Run now",
+      "never": "Never run",
+      "last": "Last run",
+      "every": "Every {minutes} min",
+      "ok": "OK",
+      "failed": "Failed",
+      "skipped": "Skipped",
+      "ran": "Job finished.",
+      "names": {
+        "subscription-expiry": "Subscription expiry",
+        "stale-payments": "Stale payments",
+        "payout-status": "Payout status",
+        "audit-retention": "Audit-log retention",
+        "view-counts": "View counters"
+      }
+    }
+  },
+  "market": {
+    "header": {
+      "allCategories": "All categories"
+    },
+    "sidebar": {
+      "title": "All Categories",
+      "other": "Other categories"
+    },
+    "hero": {
+      "label": "Highlights",
+      "previous": "Previous slide",
+      "next": "Next slide",
+      "goTo": "Go to slide {index}",
+      "status": "Slide {index} of {total}",
+      "slides": {
+        "marketplace": {
+          "title": "New & Used Products from Trusted Sellers Across Cameroon",
+          "subtitle": "Great prices. Real people. Secure payments.",
+          "cta": "Shop Now"
+        },
+        "deals": {
+          "title": "Flash Deals Every Day on Top Products",
+          "subtitle": "Seller discounts refreshed daily, with the same escrow protection.",
+          "cta": "See the deals"
+        },
+        "sell": {
+          "title": "Open Your Store. Reach Every City in Cameroon.",
+          "subtitle": "Free store setup, Mobile Money payouts once the buyer confirms.",
+          "cta": "Start selling"
+        },
+        "escrow": {
+          "title": "Pay With Confidence. Money Held Until Delivery.",
+          "subtitle": "The seller is paid only after you confirm receipt.",
+          "cta": "How it works"
+        }
+      },
+      "escrow": {
+        "title": "Pay into escrow",
+        "subtitle": "Seller paid after you confirm receipt.",
+        "secure": "Secure Payments",
+        "verified": "Verified Sellers",
+        "protection": "Buyer Protection"
+      }
+    },
+    "categories": {
+      "label": "Shop by category"
+    },
+    "flash": {
+      "title": "Flash Deals",
+      "subtitle": "Limited time offers on top products",
+      "seeAll": "See all deals",
+      "endsIn": "Deals refresh in",
+      "hrs": "Hrs",
+      "mins": "Mins",
+      "secs": "Secs",
+      "empty": "No discounted listings right now. Check back soon.",
+      "browse": "Browse all products"
+    },
+    "trust": {
+      "label": "Why buy on Smart Market",
+      "escrow": {
+        "title": "Secure Escrow Payments",
+        "text": "Pay with MTN Mobile Money or Orange Money. Seller paid after you confirm receipt."
+      },
+      "verified": {
+        "title": "Verified Sellers",
+        "text": "Independent stores, real people, verified by Smart Market."
+      },
+      "protection": {
+        "title": "Buyer Protection",
+        "text": "Get what you ordered or your money back."
+      }
+    },
+    "panels": {
+      "seeAll": "See all",
+      "empty": "Nothing here yet.",
+      "products": "{count} products",
+      "verified": "Verified",
+      "topCategories": {
+        "title": "Top Categories",
+        "subtitle": "The most stocked departments"
+      },
+      "newest": {
+        "title": "Newest Listings",
+        "subtitle": "Fresh from our sellers"
+      },
+      "stores": {
+        "title": "Featured Stores",
+        "subtitle": "Sellers our buyers trust"
+      }
+    },
+    "bottomNav": {
+      "label": "Main navigation",
+      "home": "Home",
+      "categories": "Categories",
+      "deals": "Deals",
+      "wishlist": "Wishlist",
+      "account": "Account"
+    },
+    "payments": {
+      "mtn": "MTN Mobile Money",
+      "mtnShort": "Mobile Money",
+      "orange": "Orange Money"
+    },
+    "showcase": {
+      "title": "More to explore",
+      "subtitle": "Fifteen listings picked from the catalogue",
+      "seeAll": "See all",
+      "groups": {
+        "popular": "Most viewed",
+        "latest": "Just listed",
+        "budget": "Under 50,000 FCFA"
+      }
+    }
+  }
+}

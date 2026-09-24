@@ -1,0 +1,394 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ----------------------------------------------------------------------------
+   Smart Market design tokens
+   Light mode: the "pallet" Coolors palette — #FDFDFD · #4B6186 · #FEFEFE · #D4ECFA · #EFA732
+   Dark mode:  the Dark Premium palette from docs/Smart_Market_Dark_Premium_Design_System_for_Claude_Code.md
+   Components only ever use the semantic names (bg-surface, text-brand-orange, ...) — never a raw hex.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --radius: 0.75rem;
+
+  /* palette */
+  --background: #fdfdfd;
+  --surface: #fefefe;
+  --surface-elevated: #ffffff;
+  --surface-hover: #eef6fc;
+  --border: #dbe6f0;
+
+  --text-primary: #1f2d4d;
+  --text-secondary: #4b6186;
+  --text-muted: #7b8ba8;
+
+  --brand-blue: #4b6186;
+  --brand-blue-light: #6b80a6;
+  --brand-orange: #efa732;
+  --brand-orange-light: #f5bd5e;
+  --brand-sky: #d4ecfa;
+
+  --success: #19c37d;
+  --warning: #efa732;
+  --danger: #ef5350;
+
+  /* shadcn semantic layer, mapped onto the palette */
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-elevated);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--brand-sky);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--surface-hover);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--brand-sky);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--danger);
+  --input: var(--border);
+  --ring: var(--brand-blue);
+  --chart-1: var(--brand-blue);
+  --chart-2: var(--brand-orange);
+  --chart-3: var(--brand-sky);
+  --chart-4: var(--brand-blue-light);
+  --chart-5: var(--text-muted);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--brand-blue);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--surface-hover);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--brand-blue);
+}
+
+.dark {
+  --background: #070b12;
+  --surface: #0d131d;
+  --surface-elevated: #121a26;
+  --surface-hover: #172131;
+  --border: rgba(255, 255, 255, 0.09);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #aab4c3;
+  --text-muted: #6f7b8c;
+
+  --brand-blue: #087cf0;
+  --brand-blue-light: #27a4ff;
+  --brand-orange: #ff7a00;
+  --brand-orange-light: #ff9b32;
+  --brand-sky: #163a5c;
+
+  --success: #19c37d;
+  --warning: #f5b942;
+  --danger: #ef5350;
+
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-elevated);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--surface-elevated);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--surface-hover);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--surface-hover);
+  --accent-foreground: var(--text-primary);
+  --destructive: var(--danger);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: var(--brand-blue-light);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--text-primary);
+  --sidebar-primary: var(--brand-blue);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--surface-hover);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--brand-blue-light);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+
+  --color-foreground-secondary: var(--text-secondary);
+  --color-foreground-muted: var(--text-muted);
+
+  --color-brand: var(--brand-blue);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-light: var(--brand-blue-light);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-orange-light: var(--brand-orange-light);
+  --color-brand-sky: var(--brand-sky);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Typography — see src/app/layout.tsx for the next/font loaders.
+     sans     Montserrat    paragraphs / UI
+     display  Changa One    H1
+     heading  Share Tech    H2
+     accent   Lobster Two   H3
+     script   Satisfy       prices & product descriptions */
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-changa-one), var(--font-montserrat), sans-serif;
+  --font-heading: var(--font-share-tech), var(--font-montserrat), sans-serif;
+  --font-accent: var(--font-lobster-two), Georgia, serif;
+  --font-script: var(--font-satisfy), cursive;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1 {
+    @apply font-display tracking-tight;
+  }
+  h2 {
+    @apply font-heading tracking-wide;
+  }
+  h3 {
+    @apply font-accent;
+  }
+}
+
+/* Short, global color transition for theme switching (spec 28) — colors only,
+   never transform/opacity, so it never fights Motion. */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hero ambient lighting (spec 40) — kept as a utility so it stays subtle and in one place. */
+@utility hero-ambient {
+  background-image:
+    radial-gradient(circle at 78% 28%, color-mix(in oklab, var(--brand-blue) 22%, transparent), transparent 38%),
+    radial-gradient(circle at 92% 66%, color-mix(in oklab, var(--brand-orange) 16%, transparent), transparent 32%);
+}
+
+/* Thin, theme-aware scrollbar for horizontal product rails. */
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* Hero carousel: autoplay progress on the active dot. */
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Marketplace tokens — images/SMART_MARKET_DESIGN_GUIDE.md (§4, §5, §23, §24).
+   Used by the Jumia-style header, home page and bottom navigation. Dark mode keeps the
+   navy header and orange/red accents, and swaps the canvas/surface/text values.
+   --------------------------------------------------------------------------- */
+:root {
+  --market-navy: #082d61;
+  --market-navy-dark: #05234c;
+  --market-blue: #1374d1;
+  --market-blue-light: #eaf6ff;
+  --market-sky: #d9f1ff;
+  --market-orange: #f7931a;
+  --market-orange-dark: #e67800;
+  --market-orange-soft: #fff3e3;
+  --market-red: #f53232;
+  --market-red-dark: #d92020;
+  --market-ink: #102a4e;
+  --market-text: #314867;
+  --market-text-secondary: #425772;
+  --market-muted: #718096;
+  --market-canvas: #f4f8fc;
+  --market-surface: #ffffff;
+  --market-border: #dce7f1;
+  --market-border-soft: #eaf0f6;
+  --market-flash-from: #fff0dd;
+  --market-flash-to: #fff8ee;
+  --market-flash-border: #ffe5c5;
+  --market-hero-from: #c7eaff;
+  --market-hero-to: #e8f7ff;
+  --market-mtn: #ffcc00;
+  --market-om: #ff7900;
+}
+
+.dark {
+  --market-navy: #061f45;
+  --market-navy-dark: #04172f;
+  --market-blue: #3b9cf5;
+  --market-blue-light: #0f2440;
+  --market-sky: #14365c;
+  --market-orange: #f7931a;
+  --market-orange-dark: #e67800;
+  --market-orange-soft: rgba(247, 147, 26, 0.12);
+  --market-red: #ff5a5a;
+  --market-red-dark: #e04141;
+  --market-ink: #f4f7fb;
+  --market-text: #c5cfdc;
+  --market-text-secondary: #a7b3c4;
+  --market-muted: #7c889a;
+  --market-canvas: #070b12;
+  --market-surface: #0d131d;
+  --market-border: rgba(255, 255, 255, 0.1);
+  --market-border-soft: rgba(255, 255, 255, 0.07);
+  --market-flash-from: #1b1510;
+  --market-flash-to: #14110d;
+  --market-flash-border: rgba(247, 147, 26, 0.28);
+  --market-hero-from: #0f2a4d;
+  --market-hero-to: #0b1a30;
+}
+
+@theme inline {
+  --color-market-navy: var(--market-navy);
+  --color-market-navy-dark: var(--market-navy-dark);
+  --color-market-blue: var(--market-blue);
+  --color-market-blue-light: var(--market-blue-light);
+  --color-market-sky: var(--market-sky);
+  --color-market-orange: var(--market-orange);
+  --color-market-orange-dark: var(--market-orange-dark);
+  --color-market-orange-soft: var(--market-orange-soft);
+  --color-market-red: var(--market-red);
+  --color-market-red-dark: var(--market-red-dark);
+  --color-market-ink: var(--market-ink);
+  --color-market-text: var(--market-text);
+  --color-market-text-secondary: var(--market-text-secondary);
+  --color-market-muted: var(--market-muted);
+  --color-market-canvas: var(--market-canvas);
+  --color-market-surface: var(--market-surface);
+  --color-market-border: var(--market-border);
+  --color-market-border-soft: var(--market-border-soft);
+  --color-market-flash-border: var(--market-flash-border);
+  --color-market-mtn: var(--market-mtn);
+  --color-market-om: var(--market-om);
+
+  --radius-market: 10px;
+  --radius-market-lg: 14px;
+
+  --shadow-market: 0 2px 8px rgba(15, 42, 76, 0.08);
+  --shadow-market-hover: 0 9px 24px rgba(15, 42, 76, 0.13);
+
+  /* Inter for the marketplace surfaces (guide §6); falls back to the site's Montserrat. */
+  --font-market: var(--font-inter), var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer components {
+  .market-panel {
+    overflow: hidden;
+    background: var(--market-surface);
+    border: 1px solid var(--market-border-soft);
+    border-radius: 10px;
+    box-shadow: var(--shadow-market);
+  }
+
+  .market-card {
+    background: var(--market-surface);
+    border: 1px solid var(--market-border-soft);
+    border-radius: 8px;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+
+  .market-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-market-hover);
+  }
+
+  .market-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--market-blue);
+  }
+
+  .market-link:hover {
+    color: var(--market-orange);
+  }
+}
+
+/* Horizontal rails on phones: scroll, but never show the bar. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

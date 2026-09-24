@@ -1,0 +1,1574 @@
+{
+  "common": {
+    "brand": "Smart Market",
+    "viewAll": "Voir tout",
+    "learnMore": "En savoir plus",
+    "loading": "Chargement…",
+    "demoNotice": "Contenu d'exemple",
+    "back": "Retour",
+    "home": "Accueil",
+    "retry": "Réessayer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "apply": "Appliquer",
+    "clear": "Effacer",
+    "or": "ou",
+    "all": "Tout",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "page": "Page {page} sur {total}"
+  },
+  "nav": {
+    "categories": "Catégories",
+    "deals": "Promos",
+    "stores": "Boutiques",
+    "subscriptions": "Abonnements",
+    "howItWorks": "Comment ça marche",
+    "signIn": "Se connecter",
+    "becomeSeller": "Devenir vendeur",
+    "wishlist": "Favoris",
+    "cart": "Panier",
+    "menu": "Ouvrir le menu",
+    "menuTitle": "Menu",
+    "searchPlaceholder": "Rechercher des produits, marques ou boutiques…",
+    "searchLabel": "Rechercher",
+    "language": "Langue",
+    "theme": "Thème",
+    "skipToContent": "Aller au contenu",
+    "account": "Mon compte",
+    "myOrders": "Mes commandes",
+    "myStore": "Ma boutique",
+    "sell": "Vendre sur Smart Market",
+    "signOut": "Se déconnecter",
+    "signedInAs": "Connecté en tant que",
+    "notifications": "Notifications",
+    "overview": "Aperçu du compte",
+    "admin": "Administration",
+    "switchTo": "Passer en {language}",
+    "languageNames": {
+      "en": "anglais",
+      "fr": "français"
+    }
+  },
+  "hero": {
+    "badgeTitle": "Paiement sous séquestre",
+    "badgeSubtitle": "Fonds libérés après livraison",
+    "floatingLabel": "Tendance",
+    "trust": {
+      "escrow": "Séquestre sécurisé",
+      "verified": "Vendeurs vérifiés",
+      "payments": "Paiements sécurisés",
+      "protection": "Protection acheteur"
+    },
+    "carousel": {
+      "label": "À la une",
+      "previous": "Diapositive précédente",
+      "next": "Diapositive suivante",
+      "goTo": "Aller à la diapositive {index}",
+      "status": "Diapositive {index} sur {total}",
+      "pause": "Mettre le défilement en pause",
+      "play": "Reprendre le défilement"
+    },
+    "slides": {
+      "marketplace": {
+        "eyebrow": "Marketplace sous séquestre",
+        "titleLine1": "Produits premium.",
+        "titleLine2": "Vrais vendeurs.",
+        "titleLine3": "Marketplace de confiance.",
+        "description": "Découvrez des produits de vendeurs vérifiés et payez en toute sécurité. Votre paiement reste protégé jusqu'à confirmation de votre commande.",
+        "primary": "Acheter",
+        "secondary": "Voir les boutiques"
+      },
+      "deals": {
+        "eyebrow": "Promos de la semaine",
+        "titleLine1": "Grandes marques.",
+        "titleLine2": "Petits prix.",
+        "titleLine3": "Durée limitée.",
+        "description": "Des remises sélectionnées chez des vendeurs de tout le Cameroun, renouvelées chaque semaine. Même protection séquestre, prix plus bas.",
+        "primary": "Voir les promos",
+        "secondary": "Nouveautés",
+        "caption": "Jusqu'à {percent}% d'économie"
+      },
+      "sell": {
+        "eyebrow": "Pour les vendeurs",
+        "titleLine1": "Ouvrez votre boutique.",
+        "titleLine2": "Touchez toutes les villes.",
+        "titleLine3": "Soyez payé à la livraison.",
+        "description": "Créez votre boutique en cinq minutes, publiez vos annonces et recevez vos paiements Mobile Money dès que l'acheteur confirme.",
+        "primary": "Commencer à vendre",
+        "secondary": "Voir les plans",
+        "caption": "Création de boutique gratuite",
+        "steps": {
+          "create": "Créez votre boutique",
+          "publish": "Publiez vos annonces",
+          "paid": "Soyez payé à la livraison"
+        }
+      },
+      "escrow": {
+        "eyebrow": "Le séquestre, comment ça marche",
+        "titleLine1": "Payez en confiance.",
+        "titleLine2": "Argent conservé.",
+        "titleLine3": "Libéré à la livraison.",
+        "description": "Chaque commande passe par le séquestre Smart Market. Le vendeur n'est payé qu'après votre confirmation de réception.",
+        "primary": "Comment ça marche",
+        "secondary": "Protection acheteur",
+        "steps": {
+          "pay": "Vous payez",
+          "hold": "Nous conservons",
+          "deliver": "Le vendeur livre",
+          "release": "Fonds libérés"
+        }
+      }
+    }
+  },
+  "trust": {
+    "escrow": {
+      "title": "Séquestre sécurisé",
+      "description": "Votre argent est protégé"
+    },
+    "verified": {
+      "title": "Vendeurs vérifiés",
+      "description": "De vraies entreprises"
+    },
+    "premium": {
+      "title": "Sélection premium",
+      "description": "Produits de qualité"
+    },
+    "support": {
+      "title": "Support 24h/24",
+      "description": "Nous sommes là pour vous"
+    },
+    "payments": {
+      "title": "Paiements sécurisés",
+      "description": "Mobile Money & Orange Money"
+    },
+    "delivery": {
+      "title": "Rapide et fiable",
+      "description": "Livraison dans tout le pays"
+    }
+  },
+  "categories": {
+    "title": "Acheter par catégorie",
+    "subtitle": "Parcourez la marketplace selon vos besoins.",
+    "productCount": "{count, plural, =0 {Aucun produit} one {# produit} other {# produits}}"
+  },
+  "products": {
+    "trendingTitle": "Produits tendance",
+    "trendingSubtitle": "Ce que les acheteurs regardent cette semaine.",
+    "addToCart": "Ajouter au panier",
+    "addedToCart": "Ajouté à votre panier",
+    "addToWishlist": "Ajouter aux favoris",
+    "addedToWishlist": "Enregistré dans vos favoris",
+    "removedFromWishlist": "Retiré de vos favoris",
+    "featured": "À la une",
+    "save": "-{percent} %",
+    "reviews": "({count})",
+    "soldBy": "par {store}",
+    "condition": {
+      "NEW": "Neuf",
+      "USED": "Occasion",
+      "REFURBISHED": "Reconditionné"
+    }
+  },
+  "catalog": {
+    "categoriesTitle": "Toutes les catégories",
+    "categoriesSubtitle": "Tous les rayons de la marketplace, avec leur contenu.",
+    "subcategories": "Parcourir par sous-catégorie",
+    "allProductsTitle": "Tous les produits",
+    "allProductsSubtitle": "Tout ce que nos vendeurs vérifiés proposent en ce moment.",
+    "dealsTitle": "Promos",
+    "dealsSubtitle": "Les annonces dont le vendeur a baissé le prix — l'économie est affichée sur chaque carte.",
+    "newArrivalsTitle": "Nouveautés",
+    "newArrivalsSubtitle": "Les dernières annonces, les plus récentes en premier.",
+    "featuredIn": "À la une dans {name}",
+    "results": "{count, plural, =0 {Aucune annonce} one {# annonce} other {# annonces}}",
+    "sort": {
+      "label": "Trier par",
+      "newest": "Plus récentes",
+      "price_asc": "Prix croissant",
+      "price_desc": "Prix décroissant",
+      "popular": "Plus vues"
+    },
+    "filters": {
+      "title": "Filtres",
+      "condition": "État",
+      "any": "Tous",
+      "new": "Neuf",
+      "used": "Occasion",
+      "price": "Prix (FCFA)",
+      "min": "Min",
+      "max": "Max",
+      "location": "Lieu",
+      "locationPlaceholder": "ex. Douala",
+      "apply": "Appliquer les filtres",
+      "clear": "Tout effacer",
+      "activeCount": "{count, plural, =0 {Aucun filtre} one {# filtre} other {# filtres}} actif"
+    },
+    "empty": {
+      "title": "Rien pour l'instant",
+      "description": "Aucune annonce ne correspond à ces filtres. Essayez d'élargir votre recherche.",
+      "action": "Voir tous les produits"
+    }
+  },
+  "product": {
+    "buyNow": "Acheter maintenant",
+    "inCart": "Dans votre panier",
+    "quantity": "Quantité",
+    "condition": "État",
+    "location": "Lieu",
+    "views": "{count, plural, one {# vue} other {# vues}}",
+    "listedOn": "Publié le {date}",
+    "description": "Description",
+    "soldBy": "Vendu par",
+    "viewStore": "Voir la boutique",
+    "contactSeller": "Contacter le vendeur",
+    "was": "au lieu de",
+    "escrow": {
+      "title": "Achetez en toute confiance",
+      "point1": "Votre paiement est conservé sous séquestre par Smart Market.",
+      "point2": "Le vendeur n'est payé qu'une fois que vous confirmez la réception.",
+      "point3": "Un problème ? Ouvrez un litige et notre équipe intervient."
+    },
+    "moreFromStore": "Plus de {name}",
+    "moreInCategory": "Plus dans {name}",
+    "notFound": "Cette annonce n'est plus disponible.",
+    "cod": "Paiement à la livraison possible"
+  },
+  "stores": {
+    "title": "Boutiques à la une",
+    "subtitle": "Les vendeurs auxquels nos acheteurs font confiance.",
+    "viewStore": "Voir la boutique",
+    "verified": "Vendeur vérifié",
+    "products": "{count} produits",
+    "defaultCategory": "Marketplace",
+    "directoryTitle": "Boutiques",
+    "directorySubtitle": "Tous les vendeurs vérifiés de Smart Market.",
+    "searchPlaceholder": "Rechercher une boutique…",
+    "memberSince": "Membre depuis {date}",
+    "listings": "{count, plural, =0 {Aucune annonce} one {# annonce} other {# annonces}}",
+    "call": "Appeler",
+    "email": "E-mail",
+    "about": "À propos de {name}",
+    "noListings": "Cette boutique n'a aucune annonce active pour le moment.",
+    "noStores": "Aucune boutique ne correspond à votre recherche."
+  },
+  "search": {
+    "title": "Résultats pour « {query} »",
+    "prompt": "Rechercher des produits, marques et boutiques",
+    "promptDescription": "Tapez ce que vous cherchez dans la barre de recherche ci-dessus.",
+    "productsTab": "Produits ({count})",
+    "storesTab": "Boutiques ({count})",
+    "empty": "Aucun résultat pour « {query} ». Vérifiez l'orthographe ou essayez un terme plus large."
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous pour suivre vos commandes, enregistrer des articles et vendre.",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "forgot": "Mot de passe oublié ?",
+      "submit": "Se connecter",
+      "noAccount": "Nouveau sur Smart Market ?",
+      "register": "Créer un compte",
+      "google": "Continuer avec Google"
+    },
+    "register": {
+      "title": "Créez votre compte",
+      "subtitle": "Achetez en sécurité grâce au séquestre, ou ouvrez une boutique en quelques minutes.",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone (facultatif)",
+      "password": "Mot de passe",
+      "passwordHint": "Au moins 8 caractères, avec un chiffre.",
+      "submit": "Créer mon compte",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "login": "Se connecter",
+      "terms": "En créant un compte, vous acceptez nos {terms} et notre {privacy}.",
+      "termsLink": "Conditions",
+      "privacyLink": "Politique de confidentialité"
+    },
+    "verify": {
+      "title": "Vérifiez votre e-mail",
+      "subtitle": "Nous avons envoyé un code à 6 chiffres à {email}. Saisissez-le ci-dessous.",
+      "code": "Code de vérification",
+      "submit": "Vérifier",
+      "resend": "Envoyer un nouveau code",
+      "resent": "Un nouveau code est en route.",
+      "later": "Je le ferai plus tard",
+      "success": "E-mail vérifié — tout est prêt.",
+      "already": "Votre e-mail est déjà vérifié."
+    },
+    "forgot": {
+      "title": "Réinitialiser votre mot de passe",
+      "subtitle": "Saisissez votre e-mail et nous vous enverrons un code.",
+      "email": "Adresse e-mail",
+      "submit": "Envoyer le code",
+      "sent": "Si cet e-mail est enregistré, un code a été envoyé. Vérifiez votre boîte de réception.",
+      "continue": "J'ai un code"
+    },
+    "reset": {
+      "title": "Choisissez un nouveau mot de passe",
+      "subtitle": "Saisissez le code reçu par e-mail et votre nouveau mot de passe.",
+      "email": "Adresse e-mail",
+      "code": "Code de réinitialisation",
+      "newPassword": "Nouveau mot de passe",
+      "submit": "Mettre à jour",
+      "success": "Mot de passe mis à jour. Vous pouvez vous connecter."
+    },
+    "callback": {
+      "loading": "Finalisation de la connexion…",
+      "error": "La connexion Google n'a pas pu aboutir.",
+      "retry": "Retour à la connexion"
+    },
+    "requireLogin": {
+      "title": "Connectez-vous pour continuer",
+      "description": "Cette page est propre à votre compte.",
+      "login": "Se connecter",
+      "register": "Créer un compte"
+    },
+    "signedOut": "Vous êtes déconnecté.",
+    "welcome": "Bienvenue, {name} !",
+    "errors": {
+      "INVALID_CREDENTIALS": "E-mail ou mot de passe incorrect.",
+      "EMAIL_TAKEN": "Un compte existe déjà avec cet e-mail.",
+      "EMAIL_ALREADY_EXISTS": "Un compte existe déjà avec cet e-mail.",
+      "VALIDATION_ERROR": "Veuillez vérifier les champs indiqués.",
+      "OTP_INVALID": "Ce code n'est pas valide.",
+      "OTP_EXPIRED": "Ce code a expiré — demandez-en un nouveau.",
+      "OTP_MAX_ATTEMPTS": "Trop de tentatives — demandez un nouveau code.",
+      "RATE_LIMITED": "Trop de tentatives. Patientez quelques minutes.",
+      "ACCOUNT_SUSPENDED": "Ce compte est suspendu. Contactez le support.",
+      "EMAIL_NOT_CONFIGURED": "L'envoi d'e-mails n'est pas encore configuré sur cet environnement.",
+      "generic": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  "cart": {
+    "title": "Votre panier",
+    "subtitle": "Chaque article est payé via sa propre commande sous séquestre : vous réglez un article à la fois.",
+    "empty": {
+      "title": "Votre panier est vide",
+      "description": "Ajoutez des produits qui vous plaisent et revenez pour commander.",
+      "action": "Commencer mes achats"
+    },
+    "quantity": "Qté",
+    "remove": "Retirer",
+    "subtotal": "Sous-total",
+    "items": "{count, plural, one {# article} other {# articles}}",
+    "checkoutItem": "Acheter",
+    "continueShopping": "Continuer mes achats",
+    "clear": "Vider le panier"
+  },
+  "wishlist": {
+    "title": "Vos favoris",
+    "subtitle": "Enregistrés sur cet appareil. Connectez-vous plus tard pour les retrouver partout.",
+    "empty": {
+      "title": "Rien d'enregistré",
+      "description": "Touchez le cœur sur un produit pour le garder ici.",
+      "action": "Découvrir des produits"
+    },
+    "remove": "Retirer",
+    "addToCart": "Ajouter au panier"
+  },
+  "checkout": {
+    "title": "Paiement",
+    "summary": "Récapitulatif",
+    "quantity": "Quantité",
+    "total": "Total à payer",
+    "payment": "Payer par Mobile Money",
+    "provider": "Opérateur",
+    "MTN_MOMO_CMR": "MTN Mobile Money",
+    "ORANGE_CMR": "Orange Money",
+    "phone": "Numéro Mobile Money",
+    "phonePlaceholder": "6XX XXX XXX",
+    "phoneHint": "Vous recevrez une demande de paiement sur ce numéro.",
+    "pay": "Payer {amount}",
+    "processing": "Lancement du paiement…",
+    "waiting": {
+      "title": "Confirmez sur votre téléphone",
+      "description": "Une demande de paiement a été envoyée au {phone}. Saisissez votre code PIN pour l'approuver — cette page se met à jour automatiquement."
+    },
+    "success": {
+      "title": "Paiement reçu",
+      "description": "Votre argent est maintenant sous séquestre. Le vendeur a été prévenu et va livrer votre commande.",
+      "action": "Suivre ma commande"
+    },
+    "failed": {
+      "title": "Paiement non abouti",
+      "description": "Le paiement a été annulé ou a expiré. Vous pouvez réessayer.",
+      "retry": "Réessayer"
+    },
+    "escrowNote": "Votre paiement est conservé par Smart Market jusqu'à ce que vous confirmiez la livraison.",
+    "verifyEmail": {
+      "title": "Vérifiez d'abord votre e-mail",
+      "description": "Pour votre sécurité, les achats nécessitent une adresse e-mail vérifiée.",
+      "action": "Vérifier maintenant"
+    },
+    "startError": "Impossible de lancer le paiement : {message}",
+    "steps": {
+      "order": "Commande",
+      "pay": "Paiement",
+      "done": "Terminé",
+      "confirm": "Confirmation"
+    },
+    "method": {
+      "title": "Comment souhaitez-vous payer ?",
+      "MOBILE_MONEY": {
+        "title": "Mobile Money (séquestre)",
+        "description": "Payez maintenant. Smart Market conserve l'argent jusqu'à votre confirmation de livraison."
+      },
+      "CASH_ON_DELIVERY": {
+        "title": "Paiement à la livraison",
+        "description": "Payez le vendeur en espèces à la remise de l'article."
+      },
+      "unavailable": "Ce vendeur ne propose pas le paiement à la livraison."
+    },
+    "delivery": {
+      "title": "Détails de livraison",
+      "address": "Adresse de livraison",
+      "addressPlaceholder": "Rue, quartier, ville, repère",
+      "phone": "Téléphone pour la livraison",
+      "phoneHint": "Le vendeur l'utilise pour organiser la remise."
+    },
+    "placeOrder": "Commander — {amount} à la livraison",
+    "codNote": "Rien à payer maintenant. Vous remettez {amount} en espèces à la réception. Les commandes en espèces ne sont pas couvertes par le séquestre, mais vous pouvez annuler jusqu'à ce que le vendeur confirme la livraison.",
+    "codSuccess": {
+      "title": "Commande confirmée",
+      "description": "Le vendeur a été prévenu et vous contactera pour organiser la livraison. Préparez {amount} en espèces.",
+      "action": "Voir ma commande"
+    }
+  },
+  "orders": {
+    "title": "Mes commandes",
+    "subtitle": "Suivez chaque achat et confirmez la livraison pour libérer le paiement.",
+    "searchLabel": "Retrouver une commande",
+    "searchPlaceholder": "Numéro de commande",
+    "searchButton": "Rechercher",
+    "empty": {
+      "title": "Aucune commande",
+      "description": "Vos achats apparaîtront ici avec leur statut de séquestre.",
+      "action": "Voir les produits"
+    },
+    "notFound": "Aucune commande avec ce numéro sur votre compte.",
+    "orderNumber": "Commande n° {id}",
+    "placedOn": "Passée le {date}",
+    "total": "Total",
+    "quantity": "Qté {count}",
+    "status": {
+      "PENDING_PAYMENT": "En attente de paiement",
+      "PAID": "Payée — sous séquestre",
+      "COMPLETED": "Terminée",
+      "CANCELLED": "Annulée",
+      "DISPUTED": "Litige ouvert",
+      "REFUNDED": "Remboursée",
+      "CONFIRMED": "Confirmée — paiement à la livraison"
+    },
+    "statusHelp": {
+      "PENDING_PAYMENT": "Finalisez le paiement Mobile Money pour sécuriser cette commande.",
+      "PAID": "Votre argent est en sécurité. Confirmez la réception une fois l'article entre vos mains.",
+      "COMPLETED": "Les deux parties ont confirmé — le vendeur a été payé.",
+      "CANCELLED": "Cette commande a été annulée.",
+      "DISPUTED": "Notre équipe examine cette commande.",
+      "REFUNDED": "Le remboursement a été effectué.",
+      "CONFIRMED": "Payez en espèces quand le vendeur vous remet l'article, puis confirmez la réception ici."
+    },
+    "sellerConfirmed": "Le vendeur a confirmé la livraison",
+    "buyerConfirmed": "Vous avez confirmé la réception",
+    "awaitingSeller": "En attente de la confirmation de livraison du vendeur",
+    "confirmReceipt": "Confirmer la réception",
+    "confirmReceiptHelp": "Ne confirmez qu'après avoir vérifié l'article — cela libère le paiement au vendeur.",
+    "confirmed": "Réception confirmée. Merci !",
+    "openDispute": "Ouvrir un litige",
+    "disputeReason": "Quel est le problème ?",
+    "disputePlaceholder": "Décrivez le problème (10 caractères minimum)…",
+    "disputeSubmit": "Envoyer le litige",
+    "disputeOpened": "Litige ouvert — notre équipe vous contactera.",
+    "payNow": "Payer maintenant",
+    "viewProduct": "Voir l'annonce",
+    "viewDetails": "Voir le détail",
+    "paymentMethod": {
+      "MOBILE_MONEY": "Mobile Money · séquestre",
+      "CASH_ON_DELIVERY": "Paiement à la livraison"
+    },
+    "cod": {
+      "collect": "Encaissez {amount} en espèces à la remise",
+      "noEscrow": "Non couvert par le séquestre"
+    },
+    "cancel": "Annuler la commande",
+    "cancelConfirm": "Annuler cette commande ?",
+    "cancelled": "Commande annulée.",
+    "cancelledBy": {
+      "BUYER": "Annulée par l'acheteur",
+      "SELLER": "Annulée par le vendeur",
+      "STAFF": "Annulée par Smart Market"
+    },
+    "confirmReceiptHelpCod": "Ne confirmez qu'une fois l'article en main et le vendeur payé en espèces."
+  },
+  "plans": {
+    "title": "Abonnements",
+    "subtitle": "Choisissez un plan pour publier vos annonces. Changez ou renouvelez à tout moment depuis votre espace vendeur.",
+    "duration": "{days} jours",
+    "ads": "{count, plural, one {# annonce} other {# annonces}}",
+    "hero": "Mise en avant pendant {hours} h",
+    "noHero": "Placement standard",
+    "choose": "Commencer avec {name}",
+    "recommended": "Le plus populaire",
+    "escrowIncluded": "Paiements sous séquestre inclus",
+    "walletIncluded": "Retraits Mobile Money",
+    "supportIncluded": "Support prioritaire",
+    "cta": "Prêt à vendre ?",
+    "ctaDescription": "Créez votre compte, ouvrez votre boutique et choisissez un plan — cinq minutes suffisent.",
+    "faqTitle": "Questions sur les plans"
+  },
+  "sell": {
+    "eyebrow": "Vendre sur Smart Market",
+    "title": "Transformez vos produits en entreprise.",
+    "description": "Ouvrez une boutique, choisissez un plan, publiez vos annonces et touchez des acheteurs qui paient via séquestre — vous êtes payé, à chaque fois.",
+    "cta": "Ouvrir ma boutique",
+    "ctaLoggedOut": "Créer un compte vendeur",
+    "secondary": "Voir les plans",
+    "benefit1Title": "Paiement garanti",
+    "benefit1Description": "Les acheteurs paient avant la livraison. Les fonds sont libérés vers votre portefeuille dès leur confirmation.",
+    "benefit2Title": "Retraits Mobile Money",
+    "benefit2Description": "Retirez votre solde vers MTN Mobile Money ou Orange Money en quelques gestes.",
+    "benefit3Title": "Visibilité à la une",
+    "benefit3Description": "Les plans Business et Premium peuvent mettre des annonces en avant sur l'accueil et les catégories.",
+    "benefit4Title": "Badge vérifié",
+    "benefit4Description": "Chaque boutique dispose d'une page vérifiée avec logo, bannière et boutons de contact.",
+    "stepsTitle": "Comment ça marche",
+    "step1Title": "Créez votre compte",
+    "step1Description": "Inscrivez-vous par e-mail ou Google et vérifiez votre adresse.",
+    "step2Title": "Ouvrez votre boutique",
+    "step2Description": "Ajoutez votre nom, logo, lieu et coordonnées.",
+    "step3Title": "Choisissez un plan",
+    "step3Description": "Payez par Mobile Money et commencez à publier.",
+    "step4Title": "Vendez et soyez payé",
+    "step4Description": "Livrez, faites-vous confirmer, retirez sur votre téléphone.",
+    "plansTitle": "Des plans pour chaque vendeur",
+    "guide": "Lire le guide du vendeur"
+  },
+  "pages": {
+    "howItWorks": {
+      "title": "Comment fonctionne Smart Market",
+      "subtitle": "Acheter et vendre avec le séquestre, étape par étape."
+    },
+    "sellerGuide": {
+      "title": "Guide du vendeur",
+      "subtitle": "Tout pour ouvrir une boutique et être payé."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "subtitle": "Réponses rapides sur les achats, la vente, les paiements et le séquestre."
+    },
+    "returns": {
+      "title": "Retours et remboursements",
+      "subtitle": "Ce qui se passe quand une commande ne se déroule pas comme prévu."
+    },
+    "contact": {
+      "title": "Contacter le support",
+      "subtitle": "Nous répondons sous un jour ouvré."
+    },
+    "about": {
+      "title": "À propos de Smart Market",
+      "subtitle": "Une marketplace fondée sur la confiance, faite au Cameroun."
+    },
+    "terms": {
+      "title": "Conditions d'utilisation",
+      "subtitle": "Les règles de la marketplace."
+    },
+    "privacy": {
+      "title": "Politique de confidentialité",
+      "subtitle": "Comment nous traitons vos données."
+    }
+  },
+  "contact": {
+    "name": "Votre nom",
+    "email": "Adresse e-mail",
+    "subject": "Objet",
+    "message": "Message",
+    "submit": "Envoyer le message",
+    "success": {
+      "title": "Message envoyé",
+      "description": "Merci — notre équipe support vous répondra par e-mail sous un jour ouvré."
+    },
+    "error": "Impossible d'envoyer votre message. Veuillez réessayer.",
+    "other": "Autres moyens de nous joindre",
+    "emailUs": "E-mail",
+    "callUs": "Téléphone / WhatsApp",
+    "hours": "Du lundi au samedi, 8 h – 18 h"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page introuvable",
+      "description": "La page que vous cherchez n'existe pas ou a été déplacée.",
+      "action": "Retour à l'accueil"
+    },
+    "generic": "Une erreur est survenue. Veuillez réessayer."
+  },
+  "escrow": {
+    "eyebrow": "Le séquestre, comment ça marche",
+    "title": "Votre paiement reste protégé jusqu'à la réception de votre commande.",
+    "subtitle": "Chaque achat sur Smart Market passe par un séquestre. Personne n'est payé tant que les deux parties n'ont pas confirmé.",
+    "steps": {
+      "pay": {
+        "title": "Vous payez",
+        "description": "Réglez via Mobile Money ou Orange Money."
+      },
+      "hold": {
+        "title": "Smart Market conserve les fonds",
+        "description": "Votre argent est gardé en sécurité sous séquestre."
+      },
+      "deliver": {
+        "title": "Le vendeur livre",
+        "description": "Le vendeur expédie ou remet votre commande."
+      },
+      "confirm": {
+        "title": "Vous confirmez",
+        "description": "Vous vérifiez l'article et confirmez la réception."
+      },
+      "paid": {
+        "title": "Le vendeur est payé",
+        "description": "Les fonds sont libérés vers le portefeuille du vendeur."
+      }
+    },
+    "dispute": "Un problème ? Ouvrez un litige et notre équipe intervient."
+  },
+  "seller": {
+    "eyebrow": "Pour les vendeurs",
+    "title": "Vendez à un public mondial",
+    "subtitle": "Transformez vos produits en entreprise.",
+    "description": "Créez votre boutique, choisissez un abonnement, publiez vos produits et touchez des clients grâce à Smart Market.",
+    "cta": "Devenir vendeur",
+    "secondary": "Voir les abonnements"
+  },
+  "footer": {
+    "tagline": "Acheter · Vendre · Grandir ensemble",
+    "marketplace": {
+      "title": "Marketplace",
+      "allCategories": "Toutes les catégories",
+      "deals": "Promos",
+      "newArrivals": "Nouveautés",
+      "topStores": "Meilleures boutiques"
+    },
+    "sell": {
+      "title": "Vendre",
+      "becomeSeller": "Devenir vendeur",
+      "plans": "Abonnements",
+      "guide": "Guide du vendeur"
+    },
+    "help": {
+      "title": "Aide",
+      "trackOrder": "Suivre ma commande",
+      "returns": "Retours et remboursements",
+      "faq": "FAQ",
+      "contact": "Contacter le support"
+    },
+    "company": {
+      "title": "Entreprise",
+      "about": "À propos",
+      "terms": "Conditions",
+      "privacy": "Confidentialité"
+    },
+    "newsletter": {
+      "title": "Rejoignez notre newsletter",
+      "description": "Recevez les dernières promos et nouveautés de la marketplace.",
+      "placeholder": "Votre e-mail",
+      "button": "S'abonner",
+      "success": "Merci — vous êtes inscrit.",
+      "error": "Inscription impossible. Veuillez réessayer."
+    },
+    "copyright": "© {year} Smart Market. Tous droits réservés.",
+    "followUs": "Suivez-nous"
+  },
+  "chat": {
+    "open": "Ouvrir l'assistant Smart Market",
+    "close": "Fermer l'assistant",
+    "title": "Assistant Smart Market",
+    "status": "En ligne",
+    "greeting": "Bonjour ! Je peux vous aider à trouver un produit, suivre une commande ou expliquer comment le séquestre vous protège. Que souhaitez-vous faire ?",
+    "placeholder": "Posez votre question…",
+    "send": "Envoyer",
+    "chips": {
+      "find": "Trouver un produit",
+      "track": "Suivre ma commande",
+      "escrow": "Expliquer le séquestre",
+      "seller": "Devenir vendeur",
+      "plans": "Voir les abonnements"
+    },
+    "typing": "L'assistant écrit…",
+    "offline": "L'assistant est hors ligne pour le moment. Utilisez un raccourci ci-dessous ou contactez le support.",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "viewProduct": "Voir",
+    "viewOrder": "Ouvrir la commande",
+    "products": "Annonces suggérées",
+    "orders": "Vos commandes",
+    "reset": "Nouvelle conversation",
+    "disclaimer": "Les réponses sont générées par une IA et peuvent contenir des erreurs. Prix et disponibilités proviennent des annonces en direct.",
+    "offlineStatus": "Hors ligne"
+  },
+  "pwa": {
+    "title": "Installer Smart Market",
+    "description": "Ajoutez l'application à votre téléphone ou ordinateur pour un accès plus rapide et une expérience plein écran.",
+    "install": "Installer l'app",
+    "later": "Plus tard",
+    "iosHint": "Sur iPhone ou iPad : touchez Partager, puis « Sur l'écran d'accueil ».",
+    "close": "Fermer"
+  },
+  "account": {
+    "title": "Mon compte",
+    "nav": {
+      "overview": "Aperçu",
+      "orders": "Commandes",
+      "wishlist": "Favoris",
+      "notifications": "Notifications",
+      "profile": "Profil",
+      "seller": "Espace vendeur",
+      "sellerHint": "Ouvrez une boutique ou gérez la vôtre"
+    },
+    "overview": {
+      "greeting": "Bonjour, {name}",
+      "subtitle": "Vos achats, vos favoris et votre compte au même endroit.",
+      "stats": {
+        "orders": "Commandes",
+        "escrow": "Sous séquestre",
+        "completed": "Terminées",
+        "unread": "Notifications non lues",
+        "wishlist": "Articles enregistrés"
+      },
+      "recentOrders": "Commandes récentes",
+      "viewAll": "Toutes les commandes",
+      "noOrders": "Aucune commande — vos achats apparaîtront ici.",
+      "verify": {
+        "title": "Vérifiez votre e-mail",
+        "description": "Les achats nécessitent une adresse e-mail vérifiée.",
+        "action": "Vérifier maintenant"
+      },
+      "seller": {
+        "title": "Vendre sur Smart Market",
+        "description": "Ouvrez une boutique, choisissez un plan et publiez avec des paiements sous séquestre.",
+        "action": "Ouvrir une boutique",
+        "manage": "Gérer ma boutique"
+      }
+    },
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Votre nom et votre téléphone sont visibles par les vendeurs sur vos commandes.",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "phone": "Téléphone",
+      "email": "Adresse e-mail",
+      "verified": "Vérifié",
+      "unverified": "Non vérifié",
+      "verifyLink": "Vérifier l'e-mail",
+      "google": "Compte Google associé",
+      "save": "Enregistrer",
+      "saved": "Profil mis à jour.",
+      "password": {
+        "title": "Mot de passe",
+        "subtitle": "Changer votre mot de passe vous déconnecte de tous les autres appareils.",
+        "current": "Mot de passe actuel",
+        "new": "Nouveau mot de passe",
+        "submit": "Mettre à jour",
+        "updated": "Mot de passe mis à jour.",
+        "googleOnly": "Ce compte se connecte avec Google et n'a pas de mot de passe. Utilisez « Mot de passe oublié ? » sur la page de connexion pour en définir un."
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Suivi des commandes, libérations de séquestre et litiges — tout ce qui demande votre attention.",
+    "empty": {
+      "title": "Vous êtes à jour",
+      "description": "Les mises à jour de commandes et de paiements apparaîtront ici."
+    },
+    "markAllRead": "Tout marquer comme lu",
+    "allRead": "Toutes les notifications sont marquées comme lues.",
+    "unread": "{count, plural, =0 {Aucune non lue} one {# non lue} other {# non lues}}",
+    "open": "Ouvrir",
+    "types": {
+      "PAYMENT_CONFIRMED": {
+        "title": "Paiement reçu pour {product}",
+        "body": "Votre argent est sous séquestre jusqu'à votre confirmation de livraison."
+      },
+      "NEW_ORDER": {
+        "title": "Nouvelle commande payée : {product}",
+        "body": "Livrez-la et confirmez la livraison pour être payé."
+      },
+      "DELIVERY_CONFIRMED": {
+        "title": "{store} a confirmé la livraison de {product}",
+        "body": "Vérifiez l'article, puis confirmez la réception pour libérer le paiement."
+      },
+      "RECEIPT_CONFIRMED": {
+        "title": "L'acheteur a confirmé la réception de {product}",
+        "body": "Le paiement arrive dans votre portefeuille."
+      },
+      "ESCROW_RELEASED": {
+        "title": "{amount} libérés vers votre portefeuille",
+        "body": "Commande : {product}. Vous pouvez les retirer vers Mobile Money."
+      },
+      "ORDER_COMPLETED": {
+        "title": "Commande terminée : {product}",
+        "body": "Merci d'avoir acheté sur Smart Market — vous pouvez maintenant évaluer le vendeur."
+      },
+      "DISPUTE_CREATED": {
+        "title": "Un litige a été ouvert sur {product}",
+        "body": "La commande est gelée pendant l'examen par notre équipe."
+      },
+      "DISPUTE_RESOLVED": {
+        "title": "Litige résolu sur {product}",
+        "body": "Consultez la commande pour connaître l'issue."
+      },
+      "ORDER_REFUNDED": {
+        "title": "Remboursement approuvé pour {product}",
+        "body": "Le remboursement revient sur le numéro Mobile Money utilisé pour payer."
+      },
+      "WITHDRAWAL_COMPLETED": {
+        "title": "Retrait de {amount} effectué",
+        "body": "L'argent est sur votre compte Mobile Money."
+      },
+      "WITHDRAWAL_FAILED": {
+        "title": "Retrait de {amount} échoué",
+        "body": "Le montant a été recrédité sur votre portefeuille."
+      },
+      "SUBSCRIPTION_ACTIVATED": {
+        "title": "Le plan {plan} est actif",
+        "body": "Vous pouvez publier des annonces."
+      },
+      "REVIEW_RECEIVED": {
+        "title": "Nouvel avis {rating} étoiles sur {product}",
+        "body": "{comment}"
+      },
+      "SUBSCRIPTION_EXPIRING": {
+        "title": "Votre plan expire bientôt",
+        "body": "Renouvelez pour garder vos annonces visibles."
+      },
+      "ADVERTISEMENT_EXPIRED": {
+        "title": "Une annonce a expiré",
+        "body": "Renouvelez votre plan pour la republier."
+      },
+      "SUBSCRIPTION_EXPIRED": {
+        "title": "Votre plan {plan} a expiré",
+        "body": "{count, plural, =0 {Renouvelez pour publier à nouveau.} one {# annonce est masquée jusqu'au renouvellement.} other {# annonces sont masquées jusqu'au renouvellement.}}"
+      },
+      "REFUND_SENT": {
+        "title": "Remboursement de {amount} envoyé",
+        "body": "L'argent a été envoyé sur le numéro Mobile Money utilisé pour payer."
+      },
+      "REFUND_FAILED": {
+        "title": "Le remboursement de {amount} n'a pas pu être envoyé",
+        "body": "Notre équipe a été alertée et vous contactera."
+      },
+      "ORDER_CONFIRMED": {
+        "title": "Commande confirmée : {product}",
+        "body": "Payez {amount} en espèces à la réception."
+      },
+      "ORDER_CANCELLED": {
+        "title": "Commande annulée : {product}",
+        "body": "{comment}"
+      }
+    }
+  },
+  "orderDetail": {
+    "title": "Commande n° {id}",
+    "back": "Toutes les commandes",
+    "timeline": {
+      "title": "Progression",
+      "created": "Commande passée",
+      "paid": "Payée — sous séquestre",
+      "sellerConfirmed": "Le vendeur a confirmé la livraison",
+      "buyerConfirmed": "Vous avez confirmé la réception",
+      "completed": "Terminée — vendeur payé",
+      "disputed": "Litige ouvert",
+      "refunded": "Remboursée",
+      "cancelled": "Annulée",
+      "confirmed": "Commande confirmée — paiement à la livraison",
+      "cashPaid": "Terminée — payée en espèces"
+    },
+    "payment": {
+      "title": "Paiement",
+      "provider": "Opérateur",
+      "status": "Statut",
+      "reference": "Référence",
+      "none": "Aucun paiement lancé pour le moment.",
+      "cod": "Paiement à la livraison",
+      "codHelp": "{amount} à payer en espèces à la remise. Aucun paiement Mobile Money n'est nécessaire."
+    },
+    "seller": "Vendu par",
+    "items": "Article",
+    "review": {
+      "title": "Évaluez le vendeur",
+      "subtitle": "Votre avis est public sur la page de la boutique et aide les autres acheteurs.",
+      "rating": "Note",
+      "comment": "Commentaire (facultatif)",
+      "commentPlaceholder": "Comment étaient le produit et la livraison ?",
+      "submit": "Publier l'avis",
+      "thanks": "Merci pour votre avis !",
+      "yours": "Votre avis",
+      "stars": "{count} étoiles"
+    },
+    "refund": {
+      "title": "Remboursement",
+      "statuses": {
+        "PENDING": "En cours d'envoi",
+        "PROCESSING": "En cours d'envoi",
+        "COMPLETED": "Envoyé",
+        "FAILED": "Retardé",
+        "CANCELLED": "Retardé"
+      },
+      "sentTo": "Envoyé au {phone}",
+      "pending": "Votre remboursement est en route vers le {phone}. Les versements Mobile Money arrivent généralement en quelques minutes.",
+      "delayed": "Votre remboursement est retardé de notre côté. Le support a été alerté et vous contactera si besoin.",
+      "completedAt": "Reçu le {date}"
+    },
+    "delivery": {
+      "title": "Livraison",
+      "address": "Adresse",
+      "phone": "Téléphone"
+    }
+  },
+  "reviews": {
+    "title": "Avis",
+    "count": "{count, plural, =0 {Aucun avis} one {# avis} other {# avis}}",
+    "none": "Aucun avis pour l'instant — soyez le premier acheteur à en laisser un.",
+    "verified": "Achat vérifié",
+    "for": "pour {product}"
+  },
+  "sellerArea": {
+    "title": "Espace vendeur",
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "listings": "Annonces",
+      "orders": "Commandes",
+      "subscription": "Abonnement",
+      "wallet": "Portefeuille",
+      "store": "Paramètres boutique",
+      "viewStore": "Voir la page publique"
+    },
+    "gate": {
+      "title": "Ouvrez votre boutique",
+      "description": "Il vous faut une boutique pour vendre. Deux minutes suffisent : nom, logo, ville et un numéro que les acheteurs peuvent appeler.",
+      "action": "Créer ma boutique"
+    },
+    "onboarding": {
+      "title": "Ouvrez votre boutique",
+      "subtitle": "C'est ce que les acheteurs verront sur votre page publique. Tout est modifiable plus tard.",
+      "success": "Votre boutique est ouverte ! Choisissez un plan pour commencer à publier.",
+      "next": "Choisir un plan"
+    },
+    "storeForm": {
+      "name": "Nom de la boutique",
+      "description": "Description",
+      "descriptionPlaceholder": "Ce que vous vendez, où vous êtes, pourquoi on peut vous faire confiance…",
+      "location": "Ville",
+      "contactEmail": "E-mail de contact",
+      "contactPhone": "Téléphone de contact (appel direct)",
+      "logo": "Logo (carré, PNG/JPG/WebP, 5 Mo max)",
+      "banner": "Bannière (large)",
+      "current": "Actuel",
+      "choose": "Choisir un fichier",
+      "save": "Enregistrer la boutique",
+      "create": "Ouvrir ma boutique",
+      "saved": "Boutique mise à jour.",
+      "cod": {
+        "label": "Accepter le paiement à la livraison",
+        "hint": "Les acheteurs peuvent choisir de vous payer en espèces à la remise. Ces commandes passent hors séquestre ; vous encaissez vous-même."
+      }
+    },
+    "dashboard": {
+      "greeting": "Bon retour, {name}",
+      "subtitle": "Voici où en est {store}.",
+      "balance": "Solde du portefeuille",
+      "withdraw": "Retirer",
+      "toDeliver": "Commandes à livrer",
+      "published": "Annonces publiées",
+      "completed": "Ventes terminées",
+      "totalSales": "Total des ventes",
+      "plan": {
+        "title": "Abonnement",
+        "none": "Aucun plan actif — vos annonces sont masquées jusqu'à votre abonnement.",
+        "choose": "Choisir un plan",
+        "renew": "Renouveler / changer",
+        "expires": "Expire le {date}",
+        "quota": "{used} annonces sur {quota} utilisées",
+        "hero": "Mise en avant : {hours} h",
+        "noHero": "Pas de mise en avant sur ce plan"
+      },
+      "recentOrders": "Dernières commandes",
+      "allOrders": "Toutes les commandes",
+      "noOrders": "Aucune commande pour l'instant. Publiez des annonces pour commencer à vendre.",
+      "quick": {
+        "newListing": "Nouvelle annonce",
+        "listings": "Gérer les annonces",
+        "wallet": "Portefeuille",
+        "store": "Modifier la boutique"
+      },
+      "rating": "Note de la boutique"
+    },
+    "listings": {
+      "title": "Annonces",
+      "subtitle": "Les brouillons sont privés ; les annonces publiées sont visibles tant que votre plan est actif.",
+      "new": "Nouvelle annonce",
+      "tabs": {
+        "all": "Toutes",
+        "DRAFT": "Brouillons",
+        "PUBLISHED": "Publiées",
+        "ARCHIVED": "Archivées"
+      },
+      "status": {
+        "DRAFT": "Brouillon",
+        "PUBLISHED": "Publiée",
+        "ARCHIVED": "Archivée"
+      },
+      "empty": {
+        "title": "Aucune annonce ici",
+        "description": "Créez votre première annonce — photos, prix et description — puis publiez-la.",
+        "action": "Créer une annonce"
+      },
+      "views": "{count, plural, one {# vue} other {# vues}}",
+      "featuredUntil": "À la une jusqu'au {date}",
+      "actions": {
+        "edit": "Modifier",
+        "publish": "Publier",
+        "archive": "Archiver",
+        "feature": "Mettre à la une",
+        "unfeature": "Retirer de la une",
+        "view": "Voir"
+      },
+      "published": "Annonce publiée.",
+      "archived": "Annonce archivée.",
+      "featured": "Annonce mise à la une.",
+      "unfeatured": "Annonce retirée de la une.",
+      "quota": "{used}/{quota} annonces utilisées sur votre plan"
+    },
+    "listingForm": {
+      "createTitle": "Nouvelle annonce",
+      "editTitle": "Modifier l'annonce",
+      "subtitle": "De bonnes photos et une description honnête vendent plus vite et évitent les litiges.",
+      "title": "Titre",
+      "titlePlaceholder": "Marque + modèle + détail clé",
+      "category": "Catégorie",
+      "selectCategory": "Choisir une catégorie",
+      "price": "Prix (FCFA)",
+      "compareAtPrice": "Prix barré (facultatif)",
+      "compareAtHint": "Affiche un prix barré et place l'annonce dans les Promos.",
+      "condition": "État",
+      "location": "Lieu",
+      "description": "Description",
+      "descriptionPlaceholder": "Caractéristiques, contenu, état, options de livraison…",
+      "video": "URL vidéo (facultatif)",
+      "images": "Photos (jusqu'à 8)",
+      "imagesHint": "La première photo est la couverture. JPEG, PNG ou WebP, 5 Mo max chacune.",
+      "keepImages": "Les photos actuelles sont conservées sauf si vous en téléversez de nouvelles.",
+      "save": "Enregistrer le brouillon",
+      "saveAndPublish": "Enregistrer et publier",
+      "update": "Enregistrer",
+      "created": "Annonce enregistrée en brouillon.",
+      "updated": "Annonce mise à jour.",
+      "tooMany": "8 photos maximum."
+    },
+    "orders": {
+      "title": "Commandes",
+      "subtitle": "Les commandes payées sont sous séquestre. Confirmez la livraison une fois l'article remis à l'acheteur.",
+      "empty": {
+        "title": "Aucune commande",
+        "description": "Les commandes apparaissent ici dès qu'un acheteur paie."
+      },
+      "buyer": "Acheteur",
+      "confirmDelivery": "Confirmer la livraison",
+      "confirmDeliveryHelp": "Ne confirmez qu'une fois l'article entre les mains de l'acheteur. Le paiement est libéré quand l'acheteur confirme aussi.",
+      "delivered": "Livraison confirmée.",
+      "awaitingBuyer": "En attente de la confirmation de réception par l'acheteur",
+      "contact": "Contacter l'acheteur",
+      "call": "Appeler",
+      "email": "E-mail",
+      "confirmDeliveryCod": "Livré et espèces reçues",
+      "codHelp": "Ne confirmez qu'après avoir remis l'article et reçu l'argent.",
+      "deliverTo": "Livrer à"
+    },
+    "subscription": {
+      "title": "Abonnement",
+      "subtitle": "Votre plan détermine combien d'annonces vous pouvez publier et pour combien de temps.",
+      "current": "Plan actuel",
+      "none": "Aucun plan actif",
+      "pending": "Un paiement est en attente — approuvez-le sur votre téléphone ou actualisez.",
+      "refresh": "Actualiser le statut",
+      "plans": "Choisir un plan",
+      "checkoutTitle": "Payer {plan}",
+      "activated": "Votre plan est actif !",
+      "startsAt": "Démarré le {date}",
+      "expiresAt": "Expire le {date}",
+      "status": {
+        "PENDING_PAYMENT": "En attente de paiement",
+        "ACTIVE": "Actif",
+        "EXPIRED": "Expiré",
+        "CANCELLED": "Annulé"
+      },
+      "select": "Choisir"
+    },
+    "wallet": {
+      "title": "Portefeuille",
+      "subtitle": "Les libérations de séquestre arrivent ici. Retirez vers votre numéro Mobile Money à tout moment.",
+      "balance": "Solde disponible",
+      "withdrawTitle": "Retirer vers Mobile Money",
+      "amount": "Montant (FCFA)",
+      "amountHint": "Minimum 100 FCFA, jusqu'à votre solde.",
+      "max": "Max",
+      "submit": "Demander le retrait",
+      "requested": "Retrait demandé — il arrive généralement en quelques minutes.",
+      "history": "Historique des retraits",
+      "empty": "Aucun retrait pour l'instant.",
+      "status": {
+        "PENDING": "En attente",
+        "PROCESSING": "En cours",
+        "COMPLETED": "Effectué",
+        "FAILED": "Échoué",
+        "CANCELLED": "Annulé"
+      },
+      "refresh": "Actualiser",
+      "insufficient": "Le montant dépasse votre solde disponible."
+    },
+    "payment": {
+      "provider": "Opérateur",
+      "phone": "Numéro Mobile Money",
+      "pay": "Payer {amount}",
+      "processing": "Lancement du paiement…",
+      "waiting": "Confirmez sur votre téléphone — saisissez votre code PIN pour approuver {amount}.",
+      "failed": "Paiement non abouti. Vous pouvez réessayer.",
+      "retry": "Réessayer",
+      "error": "Impossible de lancer le paiement : {message}"
+    }
+  },
+  "admin": {
+    "title": "Administration",
+    "noAccess": {
+      "title": "Réservé au personnel",
+      "description": "Cet espace est réservé à l'équipe Smart Market.",
+      "action": "Retour à l'accueil"
+    },
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "users": "Utilisateurs",
+      "stores": "Boutiques",
+      "categories": "Catégories",
+      "listings": "Annonces",
+      "plans": "Plans",
+      "orders": "Commandes",
+      "payments": "Paiements",
+      "disputes": "Litiges",
+      "withdrawals": "Retraits",
+      "support": "Messagerie support",
+      "audit": "Journal d'audit"
+    },
+    "common": {
+      "search": "Rechercher…",
+      "all": "Tous",
+      "status": "Statut",
+      "role": "Rôle",
+      "actions": "Actions",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "create": "Créer",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "confirmDelete": "Supprimer cet élément ? Cette action est irréversible.",
+      "none": "Rien à afficher.",
+      "refresh": "Actualiser",
+      "id": "ID",
+      "date": "Date",
+      "amount": "Montant",
+      "buyer": "Acheteur",
+      "seller": "Vendeur",
+      "store": "Boutique",
+      "user": "Utilisateur",
+      "email": "E-mail",
+      "name": "Nom",
+      "yes": "Oui",
+      "no": "Non",
+      "results": "{count, plural, =0 {Aucun résultat} one {# résultat} other {# résultats}}",
+      "view": "Voir",
+      "forbidden": "Votre rôle ne permet pas cette action."
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "subtitle": "Ce qui se passe sur la marketplace en ce moment.",
+      "users": "Utilisateurs",
+      "staff": "Comptes personnel",
+      "stores": "Boutiques actives",
+      "listings": "Annonces publiées",
+      "orders": "Commandes",
+      "escrow": "Sous séquestre",
+      "sales": "Ventes terminées",
+      "disputes": "Litiges ouverts",
+      "withdrawals": "Retraits en attente",
+      "contacts": "Messages sans réponse",
+      "subscriptions": "Abonnements actifs",
+      "ordersByStatus": "Commandes par statut",
+      "recentActivity": "Activité récente",
+      "allActivity": "Journal complet"
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "subtitle": "Tous les comptes de la plateforme. Les rôles du personnel sont gérés par les super administrateurs uniquement.",
+      "createStaff": "Créer un compte personnel",
+      "roles": {
+        "CUSTOMER": "Client",
+        "SUPER_ADMIN": "Super admin",
+        "ACCOUNTANT": "Comptable",
+        "CUSTOMER_SERVICE": "Service client"
+      },
+      "statuses": {
+        "ACTIVE": "Actif",
+        "SUSPENDED": "Suspendu",
+        "BANNED": "Banni"
+      },
+      "suspend": "Suspendre",
+      "reactivate": "Réactiver",
+      "ban": "Bannir",
+      "changeRole": "Changer le rôle",
+      "roleUpdated": "Rôle mis à jour.",
+      "statusUpdated": "Statut mis à jour.",
+      "staffCreated": "Compte personnel créé.",
+      "form": {
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "E-mail",
+        "phone": "Téléphone (facultatif)",
+        "password": "Mot de passe temporaire",
+        "role": "Rôle",
+        "submit": "Créer le compte"
+      },
+      "verified": "Vérifié",
+      "unverified": "Non vérifié",
+      "hasStore": "Boutique : {name}",
+      "joined": "Inscrit le {date}",
+      "staffFilter": "Personnel",
+      "you": "vous"
+    },
+    "stores": {
+      "title": "Boutiques",
+      "subtitle": "Toutes les boutiques, y compris en attente et suspendues.",
+      "owner": "Propriétaire",
+      "listings": "Annonces",
+      "balance": "Portefeuille",
+      "suspend": "Suspendre",
+      "activate": "Activer",
+      "statuses": {
+        "PENDING": "En attente",
+        "ACTIVE": "Active",
+        "SUSPENDED": "Suspendue"
+      },
+      "updated": "Statut de la boutique mis à jour.",
+      "confirmSuspend": "Suspendre cette boutique ? Ses annonces disparaissent immédiatement de la marketplace."
+    },
+    "categories": {
+      "title": "Catégories",
+      "subtitle": "Les rayons dans lesquels les vendeurs publient. Les sous-catégories remontent dans leur parent.",
+      "new": "Nouvelle catégorie",
+      "edit": "Modifier la catégorie",
+      "name": "Nom",
+      "parent": "Catégorie parente",
+      "noParent": "Aucune (niveau principal)",
+      "image": "Image",
+      "keepImage": "L'image actuelle est conservée sauf si vous en téléversez une nouvelle.",
+      "removeImage": "Supprimer l'image actuelle",
+      "created": "Catégorie créée.",
+      "updated": "Catégorie mise à jour.",
+      "deleted": "Catégorie supprimée.",
+      "children": "{count, plural, =0 {Aucune sous-catégorie} one {# sous-catégorie} other {# sous-catégories}}",
+      "products": "{count, plural, =0 {Aucune annonce} one {# annonce} other {# annonces}}"
+    },
+    "listings": {
+      "title": "Annonces",
+      "subtitle": "Toutes les annonces de la plateforme, tous statuts. Mettez les meilleures à la une.",
+      "statuses": {
+        "DRAFT": "Brouillon",
+        "PUBLISHED": "Publiée",
+        "ARCHIVED": "Archivée"
+      },
+      "feature": "Mettre à la une",
+      "featureHours": "Heures à la une",
+      "unfeature": "Retirer de la une",
+      "archive": "Archiver",
+      "featured": "Annonce mise à la une.",
+      "unfeatured": "Annonce retirée de la une.",
+      "archived": "Annonce archivée.",
+      "featuredUntil": "À la une jusqu'au {date}",
+      "views": "{count, plural, one {# vue} other {# vues}}",
+      "confirmArchive": "Archiver cette annonce ? Elle disparaît de la marketplace."
+    },
+    "plans": {
+      "title": "Plans d'abonnement",
+      "subtitle": "Ce que les vendeurs achètent pour publier. Modifier un plan n'affecte pas les abonnements déjà payés.",
+      "new": "Nouveau plan",
+      "edit": "Modifier le plan",
+      "form": {
+        "name": "Nom",
+        "durationDays": "Durée (jours)",
+        "adQuota": "Quota d'annonces",
+        "price": "Prix (FCFA)",
+        "isActive": "Visible par les vendeurs",
+        "heroEligible": "Mise en avant incluse",
+        "heroDurationHours": "Durée de mise en avant (heures, min 48)",
+        "features": "Options supplémentaires (une par ligne)"
+      },
+      "created": "Plan créé.",
+      "updated": "Plan mis à jour.",
+      "deleted": "Plan supprimé.",
+      "inactive": "Masqué",
+      "subscriptions": "abonnements"
+    },
+    "orders": {
+      "title": "Commandes",
+      "subtitle": "Toutes les commandes et où se trouve leur argent.",
+      "escrow": "Séquestre",
+      "escrowStatus": {
+        "HELD": "Conservé",
+        "RELEASED": "Libéré",
+        "REFUNDED": "Remboursé"
+      },
+      "method": "Paiement",
+      "methods": {
+        "MOBILE_MONEY": "Mobile Money",
+        "CASH_ON_DELIVERY": "Espèces"
+      }
+    },
+    "payments": {
+      "title": "Paiements",
+      "subtitle": "Encaissements Mobile Money des commandes et abonnements.",
+      "statuses": {
+        "PENDING": "En attente",
+        "PROCESSING": "En cours",
+        "COMPLETED": "Effectué",
+        "FAILED": "Échoué",
+        "CANCELLED": "Annulé",
+        "REFUNDED": "Remboursé"
+      },
+      "kind": {
+        "order": "Commande",
+        "subscription": "Abonnement"
+      },
+      "reference": "Référence",
+      "tabs": {
+        "payments": "Paiements",
+        "refunds": "Remboursements"
+      }
+    },
+    "disputes": {
+      "title": "Litiges",
+      "subtitle": "Commandes gelées en attente de décision. Seuls le comptable ou un super admin peuvent déplacer l'argent sous séquestre.",
+      "statuses": {
+        "OPEN": "Ouvert",
+        "IN_REVIEW": "En examen",
+        "RESOLVED": "Résolu",
+        "REJECTED": "Rejeté"
+      },
+      "raisedBy": "Ouvert par",
+      "reason": "Motif",
+      "resolution": "Note de résolution",
+      "resolutionPlaceholder": "Ce qui a été décidé et pourquoi (visible par les deux parties)…",
+      "markInReview": "Passer en examen",
+      "reject": "Rejeter le litige",
+      "releaseToSeller": "Libérer les fonds au vendeur",
+      "refundBuyer": "Rembourser l'acheteur",
+      "confirmRelease": "Libérer le montant sous séquestre vers le portefeuille du vendeur ?",
+      "confirmRefund": "Marquer cette commande comme remboursée à l'acheteur ?",
+      "updated": "Litige mis à jour.",
+      "released": "Fonds libérés au vendeur.",
+      "refunded": "Commande marquée remboursée.",
+      "escrowOnly": "Seuls le comptable ou un super admin peuvent libérer ou rembourser les fonds sous séquestre.",
+      "viewOrder": "Ouvrir la commande",
+      "detail": "Détail du litige",
+      "parties": "Parties",
+      "refund": {
+        "title": "Remboursement acheteur",
+        "none": "Aucun remboursement n'a été émis pour cette commande.",
+        "initiated": "Remboursement créé. Le statut du versement est affiché ci-dessous."
+      }
+    },
+    "withdrawals": {
+      "title": "Retraits",
+      "subtitle": "Paiements des vendeurs vers Mobile Money.",
+      "phone": "Numéro",
+      "provider": "Opérateur"
+    },
+    "support": {
+      "title": "Messagerie support",
+      "subtitle": "Messages du formulaire de contact et inscriptions à la newsletter.",
+      "unhandledOnly": "Sans réponse uniquement",
+      "markHandled": "Marquer traité",
+      "handled": "Traité",
+      "reply": "Répondre par e-mail",
+      "subscribers": "Abonnés newsletter",
+      "subscribedOn": "Inscrit le {date}",
+      "messages": "Messages",
+      "unhandled": "Sans réponse"
+    },
+    "audit": {
+      "title": "Journal d'audit",
+      "subtitle": "Qui a fait quoi, quand, d'où : chaque changement d'état sur la plateforme.",
+      "actor": "Acteur",
+      "action": "Action",
+      "entity": "Entité",
+      "system": "Système",
+      "from": "Du",
+      "to": "Au",
+      "details": "Détails"
+    },
+    "refunds": {
+      "title": "Remboursements",
+      "subtitle": "Argent renvoyé aux acheteurs après un litige. Les versements échoués peuvent être corrigés et relancés ici.",
+      "statuses": {
+        "PENDING": "En attente",
+        "PROCESSING": "En cours",
+        "COMPLETED": "Effectué",
+        "FAILED": "Échoué",
+        "CANCELLED": "Annulé"
+      },
+      "retry": "Relancer le versement",
+      "refresh": "Vérifier le statut",
+      "attempts": "{count, plural, one {# tentative} other {# tentatives}}",
+      "destination": "Destination",
+      "operator": "Opérateur",
+      "phone": "Numéro Mobile Money",
+      "retryTitle": "Relancer le remboursement",
+      "retryHint": "Corrigez l'opérateur ou le numéro si le prestataire les a refusés, puis renvoyez le versement.",
+      "retried": "Versement relancé.",
+      "refreshed": "Statut mis à jour.",
+      "reason": "Motif"
+    },
+    "jobs": {
+      "title": "Tâches de fond",
+      "subtitle": "Maintenance automatique. Les super admins peuvent forcer une exécution.",
+      "run": "Lancer",
+      "never": "Jamais exécutée",
+      "last": "Dernière exécution",
+      "every": "Toutes les {minutes} min",
+      "ok": "OK",
+      "failed": "Échec",
+      "skipped": "Ignorée",
+      "ran": "Tâche terminée.",
+      "names": {
+        "subscription-expiry": "Expiration des abonnements",
+        "stale-payments": "Paiements abandonnés",
+        "payout-status": "Statut des versements",
+        "audit-retention": "Rétention du journal d'audit",
+        "view-counts": "Compteurs de vues"
+      }
+    }
+  },
+  "market": {
+    "header": {
+      "allCategories": "Toutes les catégories"
+    },
+    "sidebar": {
+      "title": "Toutes les catégories",
+      "other": "Autres catégories"
+    },
+    "hero": {
+      "label": "À la une",
+      "previous": "Diapositive précédente",
+      "next": "Diapositive suivante",
+      "goTo": "Aller à la diapositive {index}",
+      "status": "Diapositive {index} sur {total}",
+      "slides": {
+        "marketplace": {
+          "title": "Produits neufs et d'occasion de vendeurs de confiance partout au Cameroun",
+          "subtitle": "Bons prix. Vraies personnes. Paiements sécurisés.",
+          "cta": "Acheter"
+        },
+        "deals": {
+          "title": "Des promos flash chaque jour sur les meilleurs produits",
+          "subtitle": "Remises des vendeurs renouvelées chaque jour, même protection par séquestre.",
+          "cta": "Voir les promos"
+        },
+        "sell": {
+          "title": "Ouvrez votre boutique. Touchez toutes les villes du Cameroun.",
+          "subtitle": "Création gratuite, versement Mobile Money dès que l'acheteur confirme.",
+          "cta": "Commencer à vendre"
+        },
+        "escrow": {
+          "title": "Payez en confiance. L'argent est bloqué jusqu'à la livraison.",
+          "subtitle": "Le vendeur n'est payé qu'après votre confirmation de réception.",
+          "cta": "Comment ça marche"
+        }
+      },
+      "escrow": {
+        "title": "Payez sous séquestre",
+        "subtitle": "Vendeur payé après votre confirmation de réception.",
+        "secure": "Paiements sécurisés",
+        "verified": "Vendeurs vérifiés",
+        "protection": "Protection acheteur"
+      }
+    },
+    "categories": {
+      "label": "Acheter par catégorie"
+    },
+    "flash": {
+      "title": "Promos flash",
+      "subtitle": "Offres limitées sur les meilleurs produits",
+      "seeAll": "Toutes les promos",
+      "endsIn": "Renouvellement dans",
+      "hrs": "H",
+      "mins": "Min",
+      "secs": "Sec",
+      "empty": "Aucune annonce en promotion pour le moment. Revenez bientôt.",
+      "browse": "Voir tous les produits"
+    },
+    "trust": {
+      "label": "Pourquoi acheter sur Smart Market",
+      "escrow": {
+        "title": "Paiements sous séquestre",
+        "text": "Payez avec MTN Mobile Money ou Orange Money. Le vendeur est payé après votre confirmation."
+      },
+      "verified": {
+        "title": "Vendeurs vérifiés",
+        "text": "Des boutiques indépendantes, de vraies personnes, vérifiées par Smart Market."
+      },
+      "protection": {
+        "title": "Protection acheteur",
+        "text": "Recevez ce que vous avez commandé ou soyez remboursé."
+      }
+    },
+    "panels": {
+      "seeAll": "Tout voir",
+      "empty": "Rien ici pour le moment.",
+      "products": "{count} produits",
+      "verified": "Vérifiée",
+      "topCategories": {
+        "title": "Meilleures catégories",
+        "subtitle": "Les rayons les mieux fournis"
+      },
+      "newest": {
+        "title": "Nouveautés",
+        "subtitle": "Tout juste publiées par nos vendeurs"
+      },
+      "stores": {
+        "title": "Boutiques en vedette",
+        "subtitle": "Les vendeurs préférés de nos acheteurs"
+      }
+    },
+    "bottomNav": {
+      "label": "Navigation principale",
+      "home": "Accueil",
+      "categories": "Catégories",
+      "deals": "Promos",
+      "wishlist": "Favoris",
+      "account": "Compte"
+    },
+    "payments": {
+      "mtn": "MTN Mobile Money",
+      "mtnShort": "Mobile Money",
+      "orange": "Orange Money"
+    },
+    "showcase": {
+      "title": "À découvrir",
+      "subtitle": "Quinze annonces choisies dans le catalogue",
+      "seeAll": "Tout voir",
+      "groups": {
+        "popular": "Les plus vues",
+        "latest": "Tout juste publiées",
+        "budget": "Moins de 50 000 FCFA"
+      }
+    }
+  }
+}
