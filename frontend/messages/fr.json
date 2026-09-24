@@ -345,7 +345,7 @@
   },
   "cart": {
     "title": "Votre panier",
-    "subtitle": "Chaque article est payé via sa propre commande sous séquestre : vous réglez un article à la fois.",
+    "subtitle": "Achetez tout d'un coup : une commande, une référence, un paiement. Les articles payés par Mobile Money restent protégés par le séquestre.",
     "empty": {
       "title": "Votre panier est vide",
       "description": "Ajoutez des produits qui vous plaisent et revenez pour commander.",
@@ -357,7 +357,8 @@
     "items": "{count, plural, one {# article} other {# articles}}",
     "checkoutItem": "Acheter",
     "continueShopping": "Continuer mes achats",
-    "clear": "Vider le panier"
+    "clear": "Vider le panier",
+    "checkoutAll": "Commander {count, plural, one {# article} other {# articles}}"
   },
   "wishlist": {
     "title": "Vos favoris",
@@ -428,7 +429,9 @@
       "address": "Adresse de livraison",
       "addressPlaceholder": "Rue, quartier, ville, repère",
       "phone": "Téléphone pour la livraison",
-      "phoneHint": "Le vendeur l'utilise pour organiser la remise."
+      "phoneHint": "Le vendeur l'utilise pour organiser la remise.",
+      "requiredHint": "Obligatoire pour le paiement à la livraison.",
+      "optionalHint": "Facultatif. Aide les vendeurs à vous joindre pour la remise."
     },
     "placeOrder": "Commander — {amount} à la livraison",
     "codNote": "Rien à payer maintenant. Vous remettez {amount} en espèces à la réception. Les commandes en espèces ne sont pas couvertes par le séquestre, mais vous pouvez annuler jusqu'à ce que le vendeur confirme la livraison.",
@@ -436,6 +439,34 @@
       "title": "Commande confirmée",
       "description": "Le vendeur a été prévenu et vous contactera pour organiser la livraison. Préparez {amount} en espèces.",
       "action": "Voir ma commande"
+    },
+    "cart": {
+      "title": "Commander votre panier",
+      "subtitle": "Une seule commande pour tout votre panier. Chaque vendeur livre ses articles et vous confirmez chacun à la réception.",
+      "emptyTitle": "Rien à commander",
+      "emptyDescription": "Ajoutez d'abord des produits à votre panier.",
+      "emptyAction": "Voir les produits",
+      "yourDetails": "Vos coordonnées",
+      "guestIntro": "Pas besoin de compte. Nous les utilisons uniquement pour vous joindre au sujet de la livraison.",
+      "signInInstead": "Vous avez un compte ? Connectez-vous",
+      "name": "Nom complet",
+      "phone": "Numéro de téléphone",
+      "emailOptional": "E-mail (facultatif, pour votre reçu)",
+      "codBlockedBy": "Non proposé par {stores}. Retirez ces articles ou payez par Mobile Money.",
+      "placeOrderAll": "Commander · {count, plural, one {# article} other {# articles}}",
+      "payAll": "Payer {amount} pour tout",
+      "editCart": "Modifier le panier",
+      "successTitle": "Paiement reçu",
+      "codSuccessTitle": "Commande confirmée",
+      "reference": "Commande {reference} · {count, plural, one {# article} other {# articles}} · {total}",
+      "guestSave": "Conservez ce lien pour suivre votre commande. C'est le seul moyen d'y revenir sans compte.",
+      "copyLink": "Copier le lien",
+      "trackNow": "Suivre ma commande",
+      "guestRegisterHint": "Créez plus tard un compte avec le même e-mail et ces commandes y apparaîtront.",
+      "viewOrder": "Voir ma commande",
+      "tryAgain": "Réessayer",
+      "copied": "Lien copié.",
+      "copyFailed": "Copie impossible. Sélectionnez le lien et copiez-le manuellement."
     }
   },
   "orders": {
@@ -502,7 +533,31 @@
       "SELLER": "Annulée par le vendeur",
       "STAFF": "Annulée par Smart Market"
     },
-    "confirmReceiptHelpCod": "Ne confirmez qu'une fois l'article en main et le vendeur payé en espèces."
+    "confirmReceiptHelpCod": "Ne confirmez qu'une fois l'article en main et le vendeur payé en espèces.",
+    "group": {
+      "chip": "{reference} · {count, plural, one {# article} other {# articles}}",
+      "title": "Commande",
+      "trackTitle": "Suivre votre commande",
+      "trackSubtitle": "Ouvrez le lien de votre confirmation, ou saisissez votre référence de commande et le numéro de téléphone utilisé.",
+      "items": "{count, plural, one {# article} other {# articles}}",
+      "total": "Total",
+      "payment": {
+        "PENDING": "Paiement en attente",
+        "PROCESSING": "Paiement en cours",
+        "COMPLETED": "Payée",
+        "FAILED": "Paiement échoué",
+        "CANCELLED": "Paiement annulé"
+      },
+      "payNow": "Payer maintenant par Mobile Money",
+      "lookupTitle": "Retrouver votre commande",
+      "lookupHint": "Utilisez la référence de votre confirmation (SM-XXXXXX) et le numéro de téléphone donné à la commande.",
+      "reference": "Référence de commande",
+      "phoneUsed": "Numéro de téléphone utilisé à la commande",
+      "find": "Retrouver ma commande",
+      "notFound": "Aucune commande ne correspond à cette référence et ce numéro.",
+      "guestNote": "Vous avez commandé en tant qu'invité. Conservez le lien de cette page pour revenir à votre commande.",
+      "guestRegister": "Créer un compte"
+    }
   },
   "plans": {
     "title": "Abonnements",
@@ -1401,13 +1456,15 @@
       },
       "kind": {
         "order": "Commande",
-        "subscription": "Abonnement"
+        "subscription": "Abonnement",
+        "group": "Commande panier"
       },
       "reference": "Référence",
       "tabs": {
         "payments": "Paiements",
         "refunds": "Remboursements"
-      }
+      },
+      "groupItems": "{count, plural, one {# article} other {# articles}}"
     },
     "disputes": {
       "title": "Litiges",

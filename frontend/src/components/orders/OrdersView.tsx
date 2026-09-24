@@ -79,6 +79,11 @@ function OrderCard({ order, onChange }: { order: Order; onChange: (next: Order) 
           <span className="mt-1.5 flex flex-wrap items-center gap-1.5">
             <span className={cn("inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold", STATUS_STYLES[order.status])}>{t(`status.${order.status}`)}</span>
             {order.paymentMethod === "CASH_ON_DELIVERY" && <span className="inline-flex rounded-full bg-success/15 px-2.5 py-0.5 text-xs font-semibold text-success">{t("paymentMethod.CASH_ON_DELIVERY")}</span>}
+            {order.group && (
+              <Link href={`/account/orders/group/${order.group.id}`} className="inline-flex rounded-full bg-brand-sky px-2.5 py-0.5 text-xs font-semibold text-brand-blue hover:underline dark:bg-surface-hover dark:text-brand-blue-light">
+                {t("group.chip", { reference: order.group.reference, count: order.group.itemCount })}
+              </Link>
+            )}
           </span>
         </div>
         <div className="text-right">

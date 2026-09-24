@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus, ShieldCheck, Trash2 } from "lucide-react";
+import { ArrowRight, Minus, Plus, ShieldCheck, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useCart } from "@/features/cart/CartProvider";
@@ -67,7 +67,10 @@ export function CartView() {
               <p className="mt-4 flex items-start gap-2 rounded-xl bg-brand-sky/50 p-3 text-xs text-foreground-secondary dark:bg-surface-elevated">
                 <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand-blue" /> {t("subtitle")}
               </p>
-              <Link href="/products" className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-xl border border-border text-sm font-semibold text-foreground hover:bg-surface-hover">
+              <Link href="/checkout" className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-orange text-sm font-semibold text-white hover:bg-brand-orange-light">
+                {t("checkoutAll", { count: cart.count })} <ArrowRight className="size-4" />
+              </Link>
+              <Link href="/products" className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl border border-border text-sm font-semibold text-foreground hover:bg-surface-hover">
                 {t("continueShopping")}
               </Link>
               <button type="button" onClick={cart.clear} className="mt-2 w-full text-center text-xs text-foreground-muted hover:text-danger">

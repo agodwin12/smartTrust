@@ -160,6 +160,14 @@ export function OrderDetail({ orderId, perspective = "buyer" }: { orderId: strin
           <p className="mt-1 text-sm text-foreground-muted">{to("placedOn", { date: formatDate(order.createdAt, locale, { dateStyle: "long", timeStyle: "short" }) })}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {order.group &&
+            (perspective === "seller" || perspective === "admin" ? (
+              <span className="inline-flex rounded-full bg-brand-sky px-3 py-1 text-sm font-semibold text-brand-blue dark:bg-surface-hover dark:text-brand-blue-light">{to("group.chip", { reference: order.group.reference, count: order.group.itemCount })}</span>
+            ) : (
+              <Link href={`/account/orders/group/${order.group.id}`} className="inline-flex rounded-full bg-brand-sky px-3 py-1 text-sm font-semibold text-brand-blue hover:underline dark:bg-surface-hover dark:text-brand-blue-light">
+                {to("group.chip", { reference: order.group.reference, count: order.group.itemCount })}
+              </Link>
+            ))}
           {cod && <span className="inline-flex items-center gap-1 rounded-full bg-success/15 px-3 py-1 text-sm font-semibold text-success"><Banknote className="size-4" /> {to("paymentMethod.CASH_ON_DELIVERY")}</span>}
           <span className={cn("inline-flex rounded-full px-3 py-1 text-sm font-semibold", STATUS_STYLES[order.status])}>{to(`status.${order.status}`)}</span>
         </div>

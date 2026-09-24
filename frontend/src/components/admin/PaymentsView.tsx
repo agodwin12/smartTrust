@@ -36,6 +36,10 @@ export function PaymentsView() {
             <Link href={`/admin/orders/${p.order.id}`} className="block truncate font-semibold text-foreground hover:text-brand-blue">
               {t("kind.order")} · {p.order.advertisement?.title ?? <IdChip id={p.order.id} />}
             </Link>
+          ) : p.group ? (
+            <p className="truncate font-semibold text-foreground">
+              {t("kind.group")} · {p.group.reference} · {t("groupItems", { count: p.group.itemCount })}
+            </p>
           ) : p.subscription ? (
             <p className="truncate font-semibold text-foreground">
               {t("kind.subscription")} · {p.subscription.plan?.name}
@@ -44,7 +48,7 @@ export function PaymentsView() {
             <IdChip id={p.id} />
           )}
           <p className="truncate text-xs text-foreground-muted">
-            {p.order?.buyer?.email ?? p.subscription?.store?.name ?? ""}
+            {p.order?.buyer?.email ?? p.group?.buyer?.email ?? p.subscription?.store?.name ?? ""}
             {p.phoneNumber && ` · ${p.phoneNumber}`}
           </p>
         </div>

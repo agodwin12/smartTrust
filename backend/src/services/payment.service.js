@@ -28,7 +28,7 @@ function mapStatus(kpayStatus) {
 async function applyStatusUpdate({ externalId, providerPaymentId, providerReference, status, failureReason }) {
   const payment = await prisma.payment.findUnique({
     where: { externalId },
-    include: { subscription: { include: { plan: true } }, order: true },
+    include: { subscription: { include: { plan: true } }, order: true, group: { include: { orders: true } } },
   });
 
   if (!payment) return null;
@@ -80,6 +80,15 @@ async function applyStatusUpdate({ externalId, providerPaymentId, providerRefere
         metadata: { amount: Number(payment.amount) },
       });
     }
+    if (nextStatus === "COMPLETED" && payment.group) {
+      // A cart checkout: every line still awaiting payment moves to escrow for its own amount.
+      for (const order of payment.group.orders.filter((o) => o.status === "PENDING_PAYMENT")) {
+        // eslint-disable-next-line no-await-in-loop -- one escrow hold per line, in order
+        await moveOrderToEscrow(order, order.totalAmount);
+        void eventNotifications.orderPaid(order.id);
+        auditService.recordSystem({ action: "ESCROW_HELD", entityType: "Order", entityId: order.id, metadata: { amount: Number(order.totalAmount), groupId: payment.group.id, reference: payment.group.reference } });
+      }
+    }
   }
 
   return prisma.payment.findUnique({ where: { id: payment.id } });
@@ -121,6 +130,7 @@ async function listAll({ page = 1, pageSize = 20, status } = {}) {
       include: {
         order: { select: { id: true, buyerId: true, status: true, buyer: { select: { email: true } }, advertisement: { select: { title: true } } } },
         subscription: { select: { id: true, storeId: true, planId: true, status: true, plan: { select: { name: true } }, store: { select: { name: true, slug: true } } } },
+        group: { select: { id: true, reference: true, itemCount: true, isGuest: true, buyer: { select: { email: true, firstName: true, lastName: true } } } },
       },
     }),
     prisma.payment.count({ where }),

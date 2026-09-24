@@ -146,6 +146,34 @@ export type Order = {
   review?: { id: ID; rating: number; comment: string | null; createdAt: string } | null;
   /** Present on seller-side order lists/detail. */
   buyer?: { id: ID; firstName: string; lastName: string; phone: string | null; email?: string };
+  /** Set when the line came from a cart checkout (one reference for several lines). */
+  groupId?: ID | null;
+  group?: { id: ID; reference: string; itemCount: number; isGuest?: boolean } | null;
+};
+
+/** One line of a cart checkout: an Order whose listing is always embedded. */
+export type CheckoutLine = Omit<Order, "advertisement"> & {
+  advertisement: { id: ID; title: string; slug: string; price?: string; images: string[] | null; store?: StoreSummary };
+};
+
+/** A cart checkout: several lines bought together under one reference and one payment. */
+export type CheckoutGroup = {
+  id: ID;
+  reference: string;
+  /** Tracking-link secret; guests act on the order with it. */
+  accessToken?: string;
+  buyerId: ID;
+  isGuest: boolean;
+  paymentMethod: PaymentMethod;
+  totalAmount: string;
+  itemCount: number;
+  deliveryAddress?: string | null;
+  deliveryPhone?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  orders: CheckoutLine[];
+  payment?: (Payment & { phoneNumber?: string | null; operator?: string | null; failureReason?: string | null }) | null;
+  buyer?: { id: ID; firstName: string; lastName: string; email: string; phone: string | null; status?: string };
 };
 
 export type CartItem = {
@@ -155,6 +183,8 @@ export type CartItem = {
   price: string;
   image: string | null;
   storeName: string;
+  /** Mirrors the store setting at add time; absent means allowed. */
+  acceptsCashOnDelivery?: boolean;
   quantity: number;
 };
 
@@ -366,6 +396,7 @@ export type JobInfo = { name: string; description: string; intervalMs: number; l
 export type AdminPayment = Payment & {
   order?: { id: ID; buyerId: ID; status: OrderStatus; buyer?: { email: string }; advertisement?: { title: string } } | null;
   subscription?: { id: ID; storeId: ID; planId: ID; status: SubscriptionStatus; plan?: { name: string }; store?: { name: string; slug: string } } | null;
+  group?: { id: ID; reference: string; itemCount: number; isGuest: boolean; buyer?: { email: string; firstName: string; lastName: string } } | null;
 };
 
 export type AdminWithdrawal = Withdrawal & { store?: { name: string; slug: string } };

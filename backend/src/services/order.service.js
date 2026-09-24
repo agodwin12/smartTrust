@@ -263,6 +263,7 @@ async function getById(orderId, requester) {
       disputes: { orderBy: { createdAt: "desc" } },
       review: true,
       buyer: { select: { id: true, firstName: true, lastName: true, phone: true, email: true } },
+      group: { select: { id: true, reference: true, itemCount: true, isGuest: true } },
     },
   });
   if (!order) throw new ApiError(404, "Order not found.", "ORDER_NOT_FOUND");
@@ -283,7 +284,7 @@ async function listMineAsBuyer(buyerId, { page = 1, pageSize = 20 } = {}) {
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * pageSize,
       take: pageSize,
-      include: { advertisement: { select: { title: true, slug: true, images: true } } },
+      include: { advertisement: { select: { title: true, slug: true, images: true } }, group: { select: { id: true, reference: true, itemCount: true } } },
     }),
     prisma.order.count({ where }),
   ]);

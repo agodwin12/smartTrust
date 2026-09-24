@@ -14,15 +14,22 @@ function toSafeUser(user) {
 
 async function register({ email, password, firstName, lastName, phone }, meta) {
   const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) {
+  if (existing && existing.status !== "GUEST") {
     throw new ApiError(409, "An account with this email already exists.", "EMAIL_IN_USE");
   }
 
   const passwordHash = await bcrypt.hash(password, auth.bcryptSaltRounds);
 
-  const user = await prisma.user.create({
-    data: { email, passwordHash, firstName, lastName, phone },
-  });
+  // A guest who ordered with this email before keeps their orders: the row is upgraded
+  // into a real account instead of being duplicated.
+  const user = existing
+    ? await prisma.user.update({
+        where: { id: existing.id },
+        data: { passwordHash, firstName, lastName, status: "ACTIVE", emailVerifiedAt: null, ...(phone && phone !== existing.phone ? { phone } : {}) },
+      })
+    : await prisma.user.create({
+        data: { email, passwordHash, firstName, lastName, phone },
+      });
 
   // Registration succeeds either way — a slow/broken email provider shouldn't
   // block account creation. The user can always hit /resend-verification.

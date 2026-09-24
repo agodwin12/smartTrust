@@ -28,9 +28,10 @@ export const toCartItem = (product: Product): Omit<CartItem, "quantity"> => ({
   price: product.price,
   image: product.images?.[0] ?? null,
   storeName: product.store?.name ?? "",
+  acceptsCashOnDelivery: product.store?.acceptsCashOnDelivery ?? true,
 });
 
-/** Client-side cart: every listing is bought through its own escrow order, so the cart is a shortlist you check out item by item. */
+/** Client-side cart: checked out in one go at /checkout (one reference, one payment, one order line per listing). */
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems, hydrated] = useLocalStorageState<CartItem[]>(STORAGE_KEY, EMPTY);
 

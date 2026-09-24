@@ -32,6 +32,7 @@ enum UserStatus {
   ACTIVE
   SUSPENDED
   BANNED
+  GUEST // ordered without an account; becomes ACTIVE when they register with the same email
 }
 
 model User {
@@ -64,6 +65,7 @@ model User {
   otpCodes               OtpCode[]
   auditLogs              AuditLog[]
   wishlistItems          WishlistItem[]
+  checkoutGroups         CheckoutGroup[]
 
   @@map("users")
 }
@@ -357,6 +359,10 @@ model Order {
   cancelledBy       String? // "BUYER" | "SELLER" | "STAFF"
   cancelReason      String?
 
+  // Set when the line was created by a cart checkout (one reference, one payment, N lines).
+  groupId String?
+  group   CheckoutGroup? @relation(fields: [groupId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -369,6 +375,7 @@ model Order {
   @@index([buyerId])
   @@index([advertisementId])
   @@index([status])
+  @@index([groupId])
   @@map("orders")
 }
 
@@ -390,6 +397,8 @@ model Payment {
   order          Order?        @relation(fields: [orderId], references: [id], onDelete: Cascade)
   subscriptionId String?       @unique
   subscription   Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  groupId        String?       @unique
+  group          CheckoutGroup? @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
   amount   Decimal @db.Decimal(12, 2)
   currency String  @default("XAF")
@@ -720,4 +729,32 @@ model FlashCampaignItem {
   @@index([campaignId, status])
   @@index([advertisementId, applied])
   @@map("flash_campaign_items")
+}
+
+// ---------------------------------------------------------------------------
+// Cart checkout: one reference + one payment for several order lines (see checkout.service.js)
+// ---------------------------------------------------------------------------
+
+model CheckoutGroup {
+  id          String  @id @default(cuid())
+  reference   String  @unique // human code shown to the buyer, e.g. SM-7F3K2Q
+  accessToken String  @unique // tracking-link secret (guests act on the order with it)
+  buyerId     String
+  buyer       User    @relation(fields: [buyerId], references: [id])
+  isGuest     Boolean @default(false)
+
+  paymentMethod   PaymentMethod @default(MOBILE_MONEY)
+  totalAmount     Decimal       @db.Decimal(12, 2)
+  itemCount       Int
+  deliveryAddress String?
+  deliveryPhone   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders  Order[]
+  payment Payment?
+
+  @@index([buyerId])
+  @@map("checkout_groups")
 }

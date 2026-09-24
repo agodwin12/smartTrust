@@ -345,7 +345,7 @@
   },
   "cart": {
     "title": "Your cart",
-    "subtitle": "Each item is paid through its own escrow order, so you check out one item at a time.",
+    "subtitle": "Buy everything in one go: one order, one reference, one payment. Mobile Money items stay protected by escrow.",
     "empty": {
       "title": "Your cart is empty",
       "description": "Add products you like and come back to check out.",
@@ -357,7 +357,8 @@
     "items": "{count, plural, one {# item} other {# items}}",
     "checkoutItem": "Buy now",
     "continueShopping": "Continue shopping",
-    "clear": "Empty cart"
+    "clear": "Empty cart",
+    "checkoutAll": "Checkout {count, plural, one {# item} other {# items}}"
   },
   "wishlist": {
     "title": "Your wishlist",
@@ -428,7 +429,9 @@
       "address": "Delivery address",
       "addressPlaceholder": "Street, neighbourhood, city, landmark",
       "phone": "Phone number for the delivery",
-      "phoneHint": "The seller uses it to arrange the handover."
+      "phoneHint": "The seller uses it to arrange the handover.",
+      "requiredHint": "Required for cash on delivery.",
+      "optionalHint": "Optional. Helps sellers reach you about the handover."
     },
     "placeOrder": "Place order — {amount} on delivery",
     "codNote": "Nothing to pay now. You hand over {amount} in cash when you receive the item. Cash orders are not covered by escrow, but you can cancel until the seller confirms delivery.",
@@ -436,6 +439,34 @@
       "title": "Order confirmed",
       "description": "The seller has been notified and will contact you to arrange the delivery. Have {amount} ready in cash.",
       "action": "View my order"
+    },
+    "cart": {
+      "title": "Checkout your cart",
+      "subtitle": "One order for everything in your cart. Each seller delivers their own items and you confirm each one when it arrives.",
+      "emptyTitle": "Nothing to check out",
+      "emptyDescription": "Add products to your cart first.",
+      "emptyAction": "Browse products",
+      "yourDetails": "Your details",
+      "guestIntro": "No account needed. We only use these to reach you about the delivery.",
+      "signInInstead": "Have an account? Sign in",
+      "name": "Full name",
+      "phone": "Phone number",
+      "emailOptional": "Email (optional, for your receipt)",
+      "codBlockedBy": "Not offered by {stores}. Remove those items or pay by Mobile Money.",
+      "placeOrderAll": "Place order · {count, plural, one {# item} other {# items}}",
+      "payAll": "Pay {amount} for everything",
+      "editCart": "Edit cart",
+      "successTitle": "Payment received",
+      "codSuccessTitle": "Order confirmed",
+      "reference": "Order {reference} · {count, plural, one {# item} other {# items}} · {total}",
+      "guestSave": "Save this link to follow your order. It is the only way back to it without an account.",
+      "copyLink": "Copy link",
+      "trackNow": "Follow my order",
+      "guestRegisterHint": "Create an account later with the same email and these orders will appear in it.",
+      "viewOrder": "View my order",
+      "tryAgain": "Try again",
+      "copied": "Link copied.",
+      "copyFailed": "Could not copy. Select the link and copy it manually."
     }
   },
   "orders": {
@@ -502,7 +533,31 @@
       "SELLER": "Cancelled by the seller",
       "STAFF": "Cancelled by Smart Market"
     },
-    "confirmReceiptHelpCod": "Only confirm once you have the item in hand and paid the seller in cash."
+    "confirmReceiptHelpCod": "Only confirm once you have the item in hand and paid the seller in cash.",
+    "group": {
+      "chip": "{reference} · {count, plural, one {# item} other {# items}}",
+      "title": "Order",
+      "trackTitle": "Follow your order",
+      "trackSubtitle": "Open the link from your confirmation, or enter your order reference and the phone number you used.",
+      "items": "{count, plural, one {# item} other {# items}}",
+      "total": "Total",
+      "payment": {
+        "PENDING": "Payment pending",
+        "PROCESSING": "Payment processing",
+        "COMPLETED": "Paid",
+        "FAILED": "Payment failed",
+        "CANCELLED": "Payment cancelled"
+      },
+      "payNow": "Pay now with Mobile Money",
+      "lookupTitle": "Find your order",
+      "lookupHint": "Use the reference from your confirmation (SM-XXXXXX) and the phone number you gave at checkout.",
+      "reference": "Order reference",
+      "phoneUsed": "Phone number used at checkout",
+      "find": "Find my order",
+      "notFound": "No order matches this reference and phone number.",
+      "guestNote": "You ordered as a guest. Keep this page's link to come back to your order.",
+      "guestRegister": "Create an account"
+    }
   },
   "plans": {
     "title": "Subscription plans",
@@ -1401,13 +1456,15 @@
       },
       "kind": {
         "order": "Order",
-        "subscription": "Subscription"
+        "subscription": "Subscription",
+        "group": "Cart order"
       },
       "reference": "Reference",
       "tabs": {
         "payments": "Payments",
         "refunds": "Refunds"
-      }
+      },
+      "groupItems": "{count, plural, one {# item} other {# items}}"
     },
     "disputes": {
       "title": "Disputes",

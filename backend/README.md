@@ -269,6 +269,33 @@ POST   /api/disputes/:id/release-to-seller  admin sides with the seller — rele
 POST   /api/disputes/:id/refund-buyer       admin sides with the buyer — marks REFUNDED, no K-Pay payout yet (see below)
 ```
 
+### Cart checkout & guest orders
+
+```
+POST   /api/checkout                                  member (verified email) or guest — { items: [{ advertisementId, quantity }], paymentMethod, deliveryAddress?, deliveryPhone?, guest?: { name, phone, email? } }
+GET    /api/checkout/mine                             member's cart orders (paginated)
+GET    /api/checkout/:id                              buyer, staff, or anyone holding ?token=<accessToken>
+POST   /api/checkout/lookup                           guest without the link — { reference, phone } (phone must match the one used at checkout)
+POST   /api/checkout/:id/pay                          { provider, phoneNumber, token? } → ONE Mobile Money charge for the whole group
+POST   /api/checkout/:id/orders/:orderId/confirm-receipt   buyer or token holder — per line
+POST   /api/checkout/:id/orders/:orderId/cancel            buyer or token holder — { reason?, token? }, per line
+```
+
+A cart checkout creates a `CheckoutGroup` (human reference `SM-XXXXXX`, secret `accessToken`) and **one
+`Order` per listing** (duplicate cart lines are merged), all pointing at the group. Every existing order
+rule keeps applying per line: sellers confirm delivery on their own lines, escrow is held and released per
+line, disputes and refunds stay per line. Mobile Money is collected once: the group owns the `Payment`
+(`Payment.groupId`), and the K-Pay webhook moves every `PENDING_PAYMENT` line of the group to escrow.
+Cash on delivery is refused (422 `COD_NOT_ACCEPTED`) when any store in the cart has turned it off.
+
+**Guests** order without an account by giving a name, a phone number and an optional email. The service
+creates (or reuses, by email then phone) a `User` with `status = GUEST` and no password, so every
+buyer-side relation stays intact. Guests act on their order through the tracking link
+(`/orders/track?id=<groupId>&token=<accessToken>`) or the reference + phone lookup. Registering later with
+the guest's email **upgrades** that row to `ACTIVE` (see `auth.service.js#register`) instead of failing
+with `EMAIL_IN_USE`, so the guest orders land in the new account. Guest phones are stored as
+`+237XXXXXXXXX` for Cameroon numbers.
+
 **Dual confirmation, per the explicit requirement**: escrow never releases off a single "it's done"
 click. `Order` has two independent nullable timestamps, `sellerConfirmedAt` and `buyerConfirmedAt` —
 either can be set first, and `order.service.js#maybeComplete` only calls `escrow.service.js#release`
