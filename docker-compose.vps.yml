@@ -5,9 +5,9 @@
 # Differences from docker-compose.prod.yml (which brings its own Caddy):
 # - No Caddy: the host's nginx terminates HTTPS and proxies /api -> 127.0.0.1:5000 and
 #   everything else -> 127.0.0.1:3020 (see deploy/nginx-smartmarket.conf).
-# - backend and frontend use the HOST network and bind to 127.0.0.1 only, so nothing is
-#   reachable from outside except through nginx, and the backend talks to the host's
-#   PostgreSQL on 127.0.0.1:5432 without any pg_hba/listen_addresses change.
+# - The backend uses the HOST network bound to 127.0.0.1 only, so it talks to the host's
+#   PostgreSQL on 127.0.0.1:5432 without any pg_hba/listen_addresses change; the frontend
+#   is a bridge container published on 127.0.0.1:3020. Nothing is public except via nginx.
 # - Redis is a container published on 127.0.0.1:6379 (free on this host) for the backend.
 #
 # Root .env (read by compose):  PUBLIC_API_URL=https://<host>/api  PUBLIC_SITE_URL=https://<host>
@@ -56,11 +56,17 @@ services:
         NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:?set PUBLIC_API_URL in .env}
         NEXT_PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:?set PUBLIC_SITE_URL in .env}
     restart: unless-stopped
-    network_mode: host
+    # Bridge network, published on the host's loopback only. Next's standalone server must
+    # bind 0.0.0.0 (a loopback HOSTNAME makes it proxy its own locale rewrite over TLS and
+    # fail), so it is isolated by the port mapping instead of by the bind address.
+    ports:
+      - "127.0.0.1:3020:3000"
     environment:
-      PORT: "3020"
-      HOSTNAME: 127.0.0.1
-      API_INTERNAL_URL: http://127.0.0.1:5000/api
+      PORT: "3000"
+      HOSTNAME: 0.0.0.0
+      # Server-side rendering reaches the API through nginx (the backend is bound to the
+      # host's loopback, which a bridge container cannot see).
+      API_INTERNAL_URL: ${PUBLIC_API_URL}
     depends_on:
       - backend
     logging:
