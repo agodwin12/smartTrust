@@ -24,9 +24,10 @@ const fontClassName = [inter, montserrat, shareTech, satisfy, changaOne, lobster
 
 type Params = Promise<{ locale: string }>;
 
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
+// Every page under /[locale] shows live marketplace data, so nothing is prerendered at build
+// time: `next build` must succeed without a reachable API (inside the Docker image there is
+// none). Pages render per request; the catalog fetchers keep their own revalidate windows.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
