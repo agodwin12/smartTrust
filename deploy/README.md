@@ -122,3 +122,35 @@ lock-protected, so this is optional).
    `GOOGLE_CLIENT_ID=…`, `GOOGLE_CLIENT_SECRET=…`, `GOOGLE_REDIRECT_URI=https://smartmarket.example/api/auth/google/callback`, then restart the backend.
 8. Test: open the site → **Continue with Google** → you should land back on the site signed in; the backend logs `login` with `provider: google` in the audit log. A `redirect_uri_mismatch` error means step 6 and `GOOGLE_REDIRECT_URI` differ.
 
+## Variant: shared VPS with an existing nginx (staging on 31.97.53.16)
+
+When the server already runs nginx on 80/443 and PostgreSQL on the host (other apps live
+there), use `docker-compose.vps.yml` instead of the Caddy stack:
+
+1. Install Docker Engine + compose plugin (Docker's apt repository).
+2. Postgres on the host: `CREATE ROLE smartmarket LOGIN PASSWORD '…'; CREATE DATABASE smart_market OWNER smartmarket;`
+   No `pg_hba`/`listen_addresses` change: the backend container uses the host network and
+   connects to `127.0.0.1:5432`.
+3. `git clone https://github.com/agodwin12/smartTrust.git /var/www/smartmarket`, then copy
+   `backend/.env` (production values, `DATABASE_URL` to 127.0.0.1, `REDIS_URL=redis://127.0.0.1:6379`,
+   `CORS_ORIGIN`/`FRONTEND_URL`/`GOOGLE_REDIRECT_URI` on the public hostname, `SENTRY_ENVIRONMENT`)
+   and a root `.env` with `PUBLIC_API_URL=https://<host>/api` and `PUBLIC_SITE_URL=https://<host>`.
+4. nginx: `deploy/nginx-smartmarket.conf` → `/etc/nginx/sites-available/smartmarket`, enable it,
+   `nginx -t && systemctl reload nginx`, then `certbot --nginx -d <host> --redirect`.
+   Without a real domain, `<host>` can be `smartmarket.<server-ip>.nip.io`.
+5. `docker compose -f docker-compose.vps.yml --env-file .env up -d --build`
+   (backend binds 127.0.0.1:5000, frontend 127.0.0.1:3020, Redis 127.0.0.1:6379; nothing else is public).
+6. First data, all inside the backend container:
+   ```bash
+   C="docker compose -f docker-compose.vps.yml"
+   $C exec backend node scripts/seed-plans.js
+   $C exec backend node prisma/seed.js                       # optional demo stores/listings
+   $C exec -e EMAIL=… -e PASSWORD=… -e ROLE=SUPER_ADMIN backend node scripts/create-user.js
+   $C run --rm -v $PWD/images/drive-download-20260923T215307Z-1-001:/images -e IMAGES_DIR=/images       -e ADMIN_EMAIL=… -e ADMIN_PASSWORD=… -e API_URL=http://127.0.0.1:5000/api backend node scripts/import-catalog-categories.js
+   $C run --rm -v $PWD/images/drive-download-20260923T215307Z-1-001:/images -e IMAGES_DIR=/images       -e OWNER_PASSWORD=… backend node scripts/import-catalog-products.js
+   ```
+7. Later, with the real domain: add its `server_name` + certificate in nginx, update the three
+   URLs in both env files and `PUBLIC_*`, rebuild the frontend (`up -d --build frontend`), and
+   register the new Google redirect URI.
+
+Update: `git pull && docker compose -f docker-compose.vps.yml --env-file .env up -d --build`.
