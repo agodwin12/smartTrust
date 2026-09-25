@@ -5,7 +5,8 @@ module.exports = {
   nodeEnv: process.env.NODE_ENV || "development",
   isProduction: process.env.NODE_ENV === "production",
   databaseUrl: process.env.DATABASE_URL,
-  corsOrigin: process.env.CORS_ORIGIN || "http://localhost:3020",
+  // One origin or a comma-separated list (e.g. the apex domain plus a legacy alias during a move).
+  corsOrigin: (process.env.CORS_ORIGIN || "http://localhost:3020").split(",").map((o) => o.trim()).filter(Boolean),
   // Where a browser-redirect flow (Google OAuth) sends the user back to once
   // it's done — a backend API route can't just "return" a token to a page.
   frontendUrl: process.env.FRONTEND_URL || "http://localhost:3020",
