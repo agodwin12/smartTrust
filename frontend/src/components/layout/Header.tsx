@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, LogOut, Menu, Package, ShoppingCart, Store, UserRound } from "lucide-react";
+import { Heart, LayoutGrid, LogOut, Menu, Package, ShoppingCart, Store, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { useCart } from "@/features/cart/CartProvider";
@@ -11,6 +11,7 @@ import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MarketSearch } from "@/components/layout/MarketSearch";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { BrandMark } from "@/components/market/BrandMark";
+import { categoryIcon } from "@/components/market/CategoryIcon";
 import { MarketContainer } from "@/components/market/MarketContainer";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -37,7 +38,7 @@ function CountBadge({ count }: { count: number }) {
 type HeaderProps = {
   /** Root categories for the search select (fetched by PageShell). */
   categories?: Category[];
-  /** Slim quick-links row under the navy bar; the home page hides it because its sidebar covers navigation. */
+  /** Slim quick-links row under the navy bar (Categories, Deals, Stores, Subscriptions, How it works). */
   quickLinks?: boolean;
 };
 
@@ -117,7 +118,7 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
             <SheetTrigger aria-label={t("menu")} className={cn(lightAction, "-ml-2")}>
               <Menu className="size-5" />
             </SheetTrigger>
-            <SheetContent side="left" className="w-[86%] max-w-sm gap-0 bg-surface p-0">
+            <SheetContent side="left" className="w-[86%] max-w-sm gap-0 overflow-y-auto bg-surface p-0">
               <SheetHeader className="border-b border-border px-5 py-4">
                 <SheetTitle>
                   <BrandMark tone="light" size="sm" />
@@ -162,6 +163,23 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
                   </>
                 )}
               </nav>
+
+              {categories.length > 0 && (
+                <nav aria-label={t("categories")} className="border-t border-border px-3 py-3">
+                  <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-foreground-muted">{t("categories")}</p>
+                  {categories.map((category) => {
+                    const Icon = categoryIcon(category.slug);
+                    return (
+                      <SheetClose key={category.id} nativeButton={false} render={<Link href={`/categories/${category.slug}`} className={cn(mobileLinkClass, "flex items-center gap-3 py-2.5 text-[15px]")} />}>
+                        <Icon className="size-4 shrink-0 text-market-blue" aria-hidden /> {category.name}
+                      </SheetClose>
+                    );
+                  })}
+                  <SheetClose nativeButton={false} render={<Link href="/categories" className={cn(mobileLinkClass, "flex items-center gap-3 py-2.5 text-[15px] text-market-blue")} />}>
+                    <LayoutGrid className="size-4 shrink-0" aria-hidden /> {t("allCategories")}
+                  </SheetClose>
+                </nav>
+              )}
 
               <div className="mt-auto flex flex-col gap-3 border-t border-border px-5 py-5">
                 {status === "authenticated" ? (

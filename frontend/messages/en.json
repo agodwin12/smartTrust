@@ -48,7 +48,8 @@
     "languageNames": {
       "en": "English",
       "fr": "French"
-    }
+    },
+    "allCategories": "All categories"
   },
   "hero": {
     "badgeTitle": "Escrow protected",

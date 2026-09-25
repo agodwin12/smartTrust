@@ -106,7 +106,7 @@ export function ProductCard({ product, priority = false, className }: ProductCar
           {product.title}
         </Link>
         {product.description && (
-          <p className="line-clamp-1 font-script text-base leading-snug text-foreground-secondary">{product.description}</p>
+          <p className="line-clamp-2 text-[13px] leading-snug text-foreground-secondary sm:text-sm">{product.description}</p>
         )}
         <p className="text-xs text-foreground-muted">{t("soldBy", { store: product.store?.name ?? "" })}</p>
         {typeof product.rating === "number" && <RatingStars rating={product.rating} count={product.reviewCount} />}

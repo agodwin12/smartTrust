@@ -48,7 +48,8 @@
     "languageNames": {
       "en": "anglais",
       "fr": "français"
-    }
+    },
+    "allCategories": "Toutes les catégories"
   },
   "hero": {
     "badgeTitle": "Paiement sous séquestre",

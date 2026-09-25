@@ -1,26 +1,28 @@
-import { ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type BrandMarkProps = {
-  /** "dark" sits on the navy header, "light" on a white surface. */
+  /** "dark" sits on the navy header (the logo gets a white plate so its blue wordmark stays legible), "light" on a white surface. */
   tone?: "dark" | "light";
   size?: "sm" | "md";
   className?: string;
+  /** Load eagerly when the mark is above the fold (the header always is). */
+  priority?: boolean;
 };
 
-/** Text lockup from the reference design: "Smart Market" over a small "Smarttrustexpress" line. */
-export function BrandMark({ tone = "dark", size = "md", className }: BrandMarkProps) {
+/** The Smarttrustexpress logo, cropped to its artwork (public/logo-header.png, 993x198, transparent). */
+export function BrandMark({ tone = "dark", size = "md", className, priority = true }: BrandMarkProps) {
   const onNavy = tone === "dark";
+  // Phones: 28px tall but never wider than 40% of the screen, so the header icons always fit.
+  const height = size === "sm" ? "h-7 max-w-[40vw]" : "h-9";
   return (
-    <Link href="/" aria-label="Smart Market — home" className={cn("flex shrink-0 flex-col leading-none", className)}>
-      <span className={cn("font-market font-extrabold tracking-tight", size === "sm" ? "text-[18px]" : "text-[21px]", onNavy ? "text-white" : "text-market-navy")}>
-        Smart <span className="text-market-orange">Market</span>
-      </span>
-      <span className={cn("mt-0.5 inline-flex items-center gap-1 text-[10px] font-semibold", onNavy ? "text-white/75" : "text-market-blue")}>
-        <ShieldCheck className="size-3" aria-hidden />
-        Smarttrustexpress
-      </span>
+    <Link
+      href="/"
+      aria-label="Smart Market — home"
+      className={cn("inline-flex shrink-0 items-center", onNavy && "rounded-[7px] bg-white px-2 py-1", className)}
+    >
+      <Image src="/logo-header.png" alt="Smarttrustexpress" width={993} height={198} sizes="(max-width: 1024px) 40vw, 200px" priority={priority} className={cn("w-auto object-contain object-left", height)} />
     </Link>
   );
 }

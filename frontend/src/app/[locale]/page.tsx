@@ -31,7 +31,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { categories, subcategories, heroProducts, deals, newest, stores, showcase, flashCurrent, flashUpcoming } = await getHomeData();
 
   return (
-    <PageShell quickLinks={false} className="bg-market-canvas font-market">
+    <PageShell className="bg-market-canvas font-market">
       <JsonLd data={[websiteJsonLd(locale), organizationJsonLd()]} />
       <MarketContainer className="flex flex-col gap-2.5 py-2.5 lg:gap-3 lg:py-3">
         <div className="flex items-stretch gap-3">

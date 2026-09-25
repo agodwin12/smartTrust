@@ -72,7 +72,7 @@ export default async function ProductPage({ params }: Props) {
             {product.description && (
               <section className="mt-8">
                 <h2 className="text-2xl">{t("description")}</h2>
-                <p className="mt-3 whitespace-pre-line font-script text-xl leading-relaxed text-foreground-secondary">{product.description}</p>
+                <p className="mt-3 whitespace-pre-line text-[17px] leading-relaxed text-foreground sm:text-lg">{product.description}</p>
               </section>
             )}
           </div>
