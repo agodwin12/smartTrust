@@ -39,7 +39,7 @@ export function BuyBox({ product, store }: { product: Product; store?: StoreMode
   return (
     <aside className="rounded-3xl border border-border bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
-        <p className="font-script text-4xl leading-none text-brand-blue dark:text-brand-blue-light">{formatPrice(product.price, locale)}</p>
+        <p className="font-bold text-4xl leading-none text-brand-blue dark:text-brand-blue-light">{formatPrice(product.price, locale)}</p>
         {product.compareAtPrice && (
           <p className="text-sm text-foreground-muted">
             <span className="line-through">{formatPrice(product.compareAtPrice, locale)}</span>

@@ -170,6 +170,10 @@ model Store {
   // Sellers decide whether buyers may pay in cash at handover instead of through escrow.
   acceptsCashOnDelivery Boolean @default(true)
   status       StoreStatus @default(PENDING)
+  // Staff review of a new store (approve → ACTIVE, reject → SUSPENDED with the reason shown to the seller).
+  reviewNote   String?
+  reviewedAt   DateTime?
+  reviewedById String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -597,6 +601,9 @@ enum NotificationType {
   FLASH_APPLICATION_REJECTED
   FLASH_CAMPAIGN_LIVE
   FLASH_CAMPAIGN_ENDED
+  STORE_SUBMITTED
+  STORE_APPROVED
+  STORE_REJECTED
 }
 
 model Notification {

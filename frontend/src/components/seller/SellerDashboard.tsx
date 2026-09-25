@@ -58,7 +58,7 @@ export function SellerDashboard() {
         <Wallet className="size-8 shrink-0 text-brand-orange-light" />
         <div className="flex-1">
           <p className="text-xs uppercase tracking-wider text-white/70">{t("balance")}</p>
-          <p className="font-script text-4xl">{dash ? formatPrice(dash.wallet?.balance ?? 0, locale) : "…"}</p>
+          <p className="font-bold text-4xl">{dash ? formatPrice(dash.wallet?.balance ?? 0, locale) : "…"}</p>
         </div>
         <Link href="/seller/wallet" className="inline-flex h-11 items-center gap-2 rounded-xl bg-brand-orange px-5 text-sm font-semibold text-white hover:bg-brand-orange-light">
           {t("withdraw")} <ArrowRight className="size-4" />
@@ -127,7 +127,7 @@ export function SellerDashboard() {
                       {order.buyer ? `${order.buyer.firstName} ${order.buyer.lastName}` : ""} · {formatDate(order.createdAt, locale)} · {to(`status.${order.status}`)}
                     </span>
                   </span>
-                  <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</span>
+                  <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</span>
                 </Link>
               </li>
             ))}

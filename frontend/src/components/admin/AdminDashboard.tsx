@@ -43,6 +43,7 @@ export function AdminDashboard() {
     { key: "sales", icon: <TrendingUp className="size-5" />, value: stats ? formatPrice(stats.sales.amount, locale) : undefined, href: "/admin/orders", tone: "success" as const },
     { key: "withdrawals", icon: <Banknote className="size-5" />, value: stats?.withdrawalsPending.count, href: finance ? "/admin/withdrawals" : undefined, tone: "warning" as const },
     { key: "stores", icon: <Store className="size-5" />, value: stats?.stores.ACTIVE ?? (stats ? 0 : undefined), href: "/admin/stores", tone: "info" as const },
+    { key: "storesPending", icon: <Store className="size-5" />, value: stats?.stores.PENDING ?? (stats ? 0 : undefined), href: "/admin/stores?status=PENDING", tone: stats?.stores.PENDING ? ("warning" as const) : ("muted" as const) },
     { key: "listings", icon: <Package className="size-5" />, value: stats?.listings.PUBLISHED ?? (stats ? 0 : undefined), href: "/admin/listings", tone: "info" as const },
     { key: "users", icon: <Users className="size-5" />, value: stats?.users.total, href: "/admin/users", tone: "info" as const },
     { key: "staff", icon: <UserCog className="size-5" />, value: stats?.users.staff, href: "/admin/users?role=staff", tone: "muted" as const },

@@ -58,7 +58,7 @@ export function DisputesView() {
     },
     { key: "status", header: tc("status"), cell: (d) => <StatusPill status={d.status} label={t(`statuses.${d.status}`)} /> },
     { key: "order", header: t("viewOrder"), cell: (d) => <StatusPill status={d.order.status} label={to(`status.${d.order.status}`)} /> },
-    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (d) => <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(d.order.totalAmount, locale)}</span> },
+    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (d) => <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(d.order.totalAmount, locale)}</span> },
     { key: "date", header: tc("date"), className: "whitespace-nowrap text-foreground-secondary", cell: (d) => formatDate(d.createdAt, locale) },
     {
       key: "actions",

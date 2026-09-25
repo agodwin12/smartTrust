@@ -113,7 +113,7 @@ export function SellerOrdersView() {
                     )}
                     {(order.status === "PAID" || order.status === "CONFIRMED") && order.sellerConfirmedAt && <p className="mt-1 text-xs text-foreground-muted">{t("awaitingBuyer")}</p>}
                   </div>
-                  <p className="font-script text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
+                  <p className="font-bold text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <Link href={`/seller/orders/${order.id}`} className="inline-flex h-9 items-center rounded-lg border border-border px-3 text-xs font-semibold text-foreground hover:border-brand-blue hover:text-brand-blue">

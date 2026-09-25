@@ -3,14 +3,15 @@ const subscriptionService = require("../services/subscription.service");
 const audit = require("../services/audit.service");
 const ApiError = require("../utils/ApiError");
 
-async function myStoreId(userId) {
+async function myStoreId(userId, { requireApproved = false } = {}) {
   const store = await prisma.store.findUnique({ where: { ownerId: userId } });
-  if (!store) throw new ApiError(404, "You need a store before subscribing to a plan.", "STORE_NOT_FOUND");
+  if (!store) throw new ApiError(404, "You need a store first.", "STORE_NOT_FOUND");
+  if (requireApproved) require("../services/store.service").assertApproved(store);
   return store.id;
 }
 
 async function checkout(req, res) {
-  const storeId = await myStoreId(req.user.id);
+  const storeId = await myStoreId(req.user.id, { requireApproved: true });
   const result = await subscriptionService.checkout(storeId, req.body);
   audit.record(req, {
     action: "SUBSCRIPTION_CHECKOUT",

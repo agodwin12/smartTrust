@@ -12,6 +12,7 @@ const {
   createStoreSchema,
   updateStoreSchema,
   updateStoreStatusSchema,
+  rejectStoreSchema,
 } = require("../validators/store.validators");
 
 const router = Router();
@@ -39,6 +40,10 @@ router.patch(
   validateBody(updateStoreStatusSchema),
   controller.updateStatus
 );
+
+// New-store review: any staff member (SUPER_ADMIN, ACCOUNTANT, CUSTOMER_SERVICE).
+router.post("/:id/approve", authenticate, authorize(...STAFF), controller.approve);
+router.post("/:id/reject", authenticate, authorize(...STAFF), validateBody(rejectStoreSchema), controller.reject);
 
 // Public storefront page — kept last so it never shadows the routes above.
 router.get("/:slug/reviews", reviewController.listForStore);

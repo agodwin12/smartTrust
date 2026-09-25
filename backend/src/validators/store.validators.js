@@ -24,4 +24,8 @@ const updateStoreStatusSchema = z.object({
   status: z.enum(["PENDING", "ACTIVE", "SUSPENDED"]),
 });
 
-module.exports = { createStoreSchema, updateStoreSchema, updateStoreStatusSchema };
+const rejectStoreSchema = z.object({
+  reason: z.string().trim().min(5, "Give the seller a reason (at least 5 characters).").max(500),
+});
+
+module.exports = { createStoreSchema, updateStoreSchema, updateStoreStatusSchema, rejectStoreSchema };

@@ -307,7 +307,7 @@ export function CartCheckoutFlow({ product, quantity = 1 }: { product?: Product;
             </div>
             <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
               <span className="text-sm font-semibold text-foreground">{t("total")}</span>
-              <span className="font-script text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(subtotal, locale)}</span>
+              <span className="font-bold text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(subtotal, locale)}</span>
             </div>
             <button type="submit" disabled={phase === "starting"} className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-orange text-sm font-semibold text-white hover:bg-brand-orange-light disabled:opacity-60">
               {phase === "starting" ? <Loader2 className="size-4 animate-spin" /> : cod ? <Banknote className="size-4" /> : <ShieldCheck className="size-4" />}

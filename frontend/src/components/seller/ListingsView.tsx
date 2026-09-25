@@ -123,7 +123,7 @@ export function ListingsView() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-script text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(ad.price, locale)}</p>
+                    <p className="font-bold text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(ad.price, locale)}</p>
                     {ad.compareAtPrice && <p className="text-xs text-foreground-muted line-through">{formatPrice(ad.compareAtPrice, locale)}</p>}
                   </div>
                 </div>

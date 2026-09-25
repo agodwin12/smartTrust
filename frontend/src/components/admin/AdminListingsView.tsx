@@ -84,7 +84,7 @@ export function AdminListingsView() {
       className: "whitespace-nowrap",
       cell: (ad) => (
         <div>
-          <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(ad.price, locale)}</span>
+          <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(ad.price, locale)}</span>
           {ad.compareAtPrice && <p className="text-xs text-foreground-muted line-through">{formatPrice(ad.compareAtPrice, locale)}</p>}
         </div>
       ),

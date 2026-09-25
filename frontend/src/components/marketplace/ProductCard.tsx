@@ -112,7 +112,7 @@ export function ProductCard({ product, priority = false, className }: ProductCar
         {typeof product.rating === "number" && <RatingStars rating={product.rating} count={product.reviewCount} />}
 
         <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-2">
-          <p className="font-script text-lg leading-tight text-brand-blue dark:text-brand-blue-light sm:text-xl">
+          <p className="font-bold text-lg leading-tight text-brand-blue dark:text-brand-blue-light sm:text-xl">
             {formatPrice(product.price, locale)}
           </p>
           {product.compareAtPrice && (

@@ -233,7 +233,8 @@
     "moreFromStore": "Plus de {name}",
     "moreInCategory": "Plus dans {name}",
     "notFound": "Cette annonce n'est plus disponible.",
-    "cod": "Paiement à la livraison possible"
+    "cod": "Paiement à la livraison possible",
+    "youMayLike": "Vous aimerez aussi"
   },
   "stores": {
     "title": "Boutiques à la une",
@@ -751,7 +752,8 @@
       "track": "Suivre ma commande",
       "escrow": "Expliquer le séquestre",
       "seller": "Devenir vendeur",
-      "plans": "Voir les abonnements"
+      "plans": "Voir les abonnements",
+      "human": "Parler à une personne"
     },
     "typing": "L'assistant écrit…",
     "offline": "L'assistant est hors ligne pour le moment. Utilisez un raccourci ci-dessous ou contactez le support.",
@@ -762,7 +764,8 @@
     "orders": "Vos commandes",
     "reset": "Nouvelle conversation",
     "disclaimer": "Les réponses sont générées par une IA et peuvent contenir des erreurs. Prix et disponibilités proviennent des annonces en direct.",
-    "offlineStatus": "Hors ligne"
+    "offlineStatus": "Hors ligne",
+    "disclaimerBasic": "Réponses rapides à partir des annonces et de nos pages d'aide. Pour le reste, parlez à une personne sur WhatsApp."
   },
   "pwa": {
     "title": "Installer Smart Market",
@@ -939,6 +942,18 @@
       "FLASH_CAMPAIGN_ENDED": {
         "title": "{campaign} est terminée",
         "body": "Vos prix sont revenus à la normale."
+      },
+      "STORE_SUBMITTED": {
+        "title": "Nouvelle boutique à examiner : {store}",
+        "body": "Approuvez-la ou refusez-la dans l'administration."
+      },
+      "STORE_APPROVED": {
+        "title": "{store} est approuvée",
+        "body": "Choisissez un forfait et publiez vos annonces."
+      },
+      "STORE_REJECTED": {
+        "title": "{store} n'a pas été approuvée",
+        "body": "{comment}"
       }
     }
   },
@@ -1027,7 +1042,7 @@
     "onboarding": {
       "title": "Ouvrez votre boutique",
       "subtitle": "C'est ce que les acheteurs verront sur votre page publique. Tout est modifiable plus tard.",
-      "success": "Votre boutique est ouverte ! Choisissez un plan pour commencer à publier.",
+      "success": "Votre boutique a été soumise. Nous l'examinons rapidement et vous préviendrons.",
       "next": "Choisir un plan"
     },
     "storeForm": {
@@ -1249,6 +1264,13 @@
         "ENDED": "Terminée",
         "CANCELLED": "Annulée"
       }
+    },
+    "review": {
+      "pendingTitle": "Votre boutique est en attente de validation",
+      "pendingBody": "Notre équipe examine chaque nouvelle boutique, généralement sous 24 h. Vous pouvez préparer vos annonces en brouillon ; les forfaits et la publication s'ouvrent dès la validation.",
+      "rejectedTitle": "Votre boutique n'a pas été approuvée",
+      "suspendedTitle": "Votre boutique est suspendue",
+      "suspendedBody": "Mettez à jour les informations de votre boutique ou contactez le support, et nous l'examinerons à nouveau."
     }
   },
   "admin": {
@@ -1318,7 +1340,8 @@
       "subscriptions": "Abonnements actifs",
       "ordersByStatus": "Commandes par statut",
       "recentActivity": "Activité récente",
-      "allActivity": "Journal complet"
+      "allActivity": "Journal complet",
+      "storesPending": "Boutiques en attente de validation"
     },
     "users": {
       "title": "Utilisateurs",
@@ -1372,7 +1395,13 @@
         "SUSPENDED": "Suspendue"
       },
       "updated": "Statut de la boutique mis à jour.",
-      "confirmSuspend": "Suspendre cette boutique ? Ses annonces disparaissent immédiatement de la marketplace."
+      "confirmSuspend": "Suspendre cette boutique ? Ses annonces disparaissent immédiatement de la marketplace.",
+      "approve": "Approuver",
+      "reject": "Refuser",
+      "approved": "Boutique approuvée. Le vendeur a été prévenu.",
+      "rejected": "Boutique refusée. Le vendeur a été prévenu.",
+      "rejectPrompt": "Pourquoi cette boutique n'est-elle pas approuvée ? Le vendeur verra ce message.",
+      "rejectTooShort": "Indiquez une raison au vendeur (au moins 5 caractères)."
     },
     "categories": {
       "title": "Catégories",
@@ -1774,6 +1803,15 @@
       "inParent": "dans {parent}",
       "loading": "Recherche…",
       "suggestions": "Suggestions de recherche"
+    },
+    "rail": {
+      "previous": "Précédent",
+      "next": "Suivant"
     }
+  },
+  "widgets": {
+    "whatsapp": "Discutez avec nous sur WhatsApp",
+    "whatsappMessage": "Bonjour Smart Market, j'ai besoin d'aide pour…",
+    "backToTop": "Retour en haut"
   }
 }

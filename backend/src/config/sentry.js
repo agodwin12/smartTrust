@@ -2,13 +2,16 @@ const Sentry = require("@sentry/node");
 const logger = require("./logger");
 
 /**
- * Error tracking is opt-in: with no SENTRY_DSN the SDK is never initialised and every
+ * Error tracking is opt-in: with no SENTRY_DSN (or outside production) the SDK is never initialised and every
  * helper below is a cheap no-op, so local development and the tests run exactly as before.
  * Initialise as early as possible (server.js requires this before the app) so the SDK
  * can instrument http/pg/ioredis.
  */
 const dsn = process.env.SENTRY_DSN;
-const enabled = Boolean(dsn);
+// Only deployed servers report by default: a developer's PC (Postgres asleep, laptop under load)
+// would otherwise flood the project with local noise. Set SENTRY_ENABLE_IN_DEV=true to test locally.
+const deployed = process.env.NODE_ENV === "production" || process.env.SENTRY_ENABLE_IN_DEV === "true";
+const enabled = Boolean(dsn) && deployed;
 
 if (enabled) {
   Sentry.init({

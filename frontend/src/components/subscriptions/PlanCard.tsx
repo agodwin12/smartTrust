@@ -41,7 +41,7 @@ export async function PlanCard({ plan, highlighted = false, ctaHref }: { plan: S
         </span>
       )}
       <h3 className="font-sans text-xl font-semibold text-foreground">{plan.name}</h3>
-      <p className="mt-3 font-script text-4xl text-brand-blue dark:text-brand-blue-light">{formatPrice(plan.price, locale)}</p>
+      <p className="mt-3 font-bold text-4xl text-brand-blue dark:text-brand-blue-light">{formatPrice(plan.price, locale)}</p>
       <p className="text-sm text-foreground-muted">/ {t("duration", { days: plan.durationDays })}</p>
       <ul className="mt-6 space-y-2.5 text-sm text-foreground-secondary">
         {items.map((item, i) => (

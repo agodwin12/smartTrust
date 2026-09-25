@@ -29,7 +29,8 @@ async function createStore(ownerId, data, files) {
 
   return prisma.$transaction(async (tx) => {
     const store = await tx.store.create({
-      data: { ...data, ...imageUrls, ownerId, slug, status: "ACTIVE" },
+      // New stores wait for a staff review (SUPER_ADMIN, ACCOUNTANT or CUSTOMER_SERVICE) before they go live.
+      data: { ...data, ...imageUrls, ownerId, slug, status: "PENDING" },
     });
     await tx.wallet.create({ data: { storeId: store.id } });
     return store;
@@ -149,6 +150,32 @@ async function updateStatus(storeId, status) {
   return updated;
 }
 
+/**
+ * Staff decision on a store awaiting review. Approve: PENDING/SUSPENDED → ACTIVE.
+ * Reject: PENDING → SUSPENDED with a reason the seller sees.
+ */
+async function review(storeId, { approve, reason }, reviewerId) {
+  const store = await prisma.store.findUnique({ where: { id: storeId } });
+  if (!store) throw new ApiError(404, "Store not found.", "STORE_NOT_FOUND");
+  if (approve && store.status === "ACTIVE") throw new ApiError(409, "This store is already active.", "STORE_ALREADY_ACTIVE");
+  if (!approve && store.status !== "PENDING") throw new ApiError(409, "Only a store awaiting review can be rejected.", "STORE_NOT_PENDING");
+  const updated = await prisma.store.update({
+    where: { id: storeId },
+    data: { status: approve ? "ACTIVE" : "SUSPENDED", reviewNote: approve ? null : reason, reviewedAt: new Date(), reviewedById: reviewerId },
+  });
+  await require("./advertisement.service").invalidateListingCache();
+  return updated;
+}
+
+/** Selling actions (plans, publishing) need an approved store; drafts can be prepared meanwhile. */
+function assertApproved(store) {
+  if (!store) throw new ApiError(404, "You need a store first.", "STORE_NOT_FOUND");
+  if (store.status === "PENDING") throw new ApiError(409, "Your store is awaiting approval by the Smart Market team. You can prepare drafts meanwhile.", "STORE_PENDING_APPROVAL");
+  if (store.status !== "ACTIVE") throw new ApiError(409, "Your store is not active. Contact support for details.", "STORE_NOT_ACTIVE");
+}
+
 module.exports = {
+  review,
+  assertApproved,
   getMineDashboard,
   listAll, createStore, getMine, updateMine, getBySlug, listStores, updateStatus };

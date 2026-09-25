@@ -87,7 +87,7 @@ function OrderCard({ order, onChange }: { order: Order; onChange: (next: Order) 
           </span>
         </div>
         <div className="text-right">
-          <p className="font-script text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
+          <p className="font-bold text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
           <ChevronDown className={cn("ml-auto size-4 text-foreground-muted transition-transform", open && "rotate-180")} />
         </div>
       </button>

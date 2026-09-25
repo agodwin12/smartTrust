@@ -94,7 +94,7 @@ export function RefundSummary({ refund, onRetry, onRefresh, busy }: { refund: Re
     <div className="space-y-2 text-sm">
       <div className="flex flex-wrap items-center gap-2">
         <StatusPill status={refund.status} label={t(`statuses.${refund.status}`)} />
-        <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(refund.amount, locale)}</span>
+        <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(refund.amount, locale)}</span>
         <span className="text-xs text-foreground-muted">{t("attempts", { count: refund.attempts })}</span>
       </div>
       <p className="text-foreground-secondary">
@@ -192,7 +192,7 @@ export function RefundsView() {
       ),
     },
     { key: "attempts", header: t("attempts", { count: 2 }).replace(/^\d+\s*/, ""), className: "text-foreground-secondary", cell: (r) => r.attempts },
-    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (r) => <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(r.amount, locale)}</span> },
+    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (r) => <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(r.amount, locale)}</span> },
     { key: "date", header: tc("date"), className: "whitespace-nowrap text-foreground-secondary", cell: (r) => formatDate(r.createdAt, locale, { dateStyle: "medium", timeStyle: "short" }) },
     {
       key: "actions",

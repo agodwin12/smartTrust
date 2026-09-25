@@ -1,11 +1,12 @@
 "use client";
 
-import { ExternalLink, Loader2, Power, PowerOff } from "lucide-react";
+import { ExternalLink, Loader2, Power, PowerOff, Check, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { canOperate } from "@/features/admin/roles";
+import { canOperate, isStaff } from "@/features/admin/roles";
 import { useAdminList } from "@/features/admin/useAdminList";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Link } from "@/i18n/navigation";
@@ -24,7 +25,8 @@ export function StoresView() {
   const { user: me, authFetch } = useAuth();
   const describeError = useAuthError();
   const [q, setQ] = useState("");
-  const [status, setStatus] = useState<AdminStore["status"] | "">("");
+  const initialStatus = useSearchParams().get("status");
+  const [status, setStatus] = useState<AdminStore["status"] | "">(STATUSES.includes(initialStatus as AdminStore["status"]) ? (initialStatus as AdminStore["status"]) : "");
   const [busyId, setBusyId] = useState<string | null>(null);
   const list = useAdminList<AdminStore>("stores/all", { search: q || undefined, status: status || undefined });
 
@@ -34,6 +36,26 @@ export function StoresView() {
     try {
       await authFetch(`stores/${store.id}/status`, { method: "PATCH", body: { status: next } });
       toast.success(t("updated"));
+      list.reload();
+    } catch (err) {
+      toast.error(describeError(err));
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  // Any staff member (super admin, accountant, customer service) can review a new store.
+  const review = async (store: AdminStore, approve: boolean) => {
+    let reason: string | null = null;
+    if (!approve) {
+      reason = window.prompt(t("rejectPrompt"));
+      if (reason === null) return;
+      if (reason.trim().length < 5) return void toast.error(t("rejectTooShort"));
+    }
+    setBusyId(store.id);
+    try {
+      await authFetch(`stores/${store.id}/${approve ? "approve" : "reject"}`, { method: "POST", body: approve ? undefined : { reason: reason!.trim() } });
+      toast.success(approve ? t("approved") : t("rejected"));
       list.reload();
     } catch (err) {
       toast.error(describeError(err));
@@ -73,9 +95,18 @@ export function StoresView() {
         </div>
       ),
     },
-    { key: "status", header: tc("status"), cell: (s) => <StatusPill status={s.status} label={t(`statuses.${s.status}`)} /> },
+    {
+      key: "status",
+      header: tc("status"),
+      cell: (s) => (
+        <div className="min-w-0">
+          <StatusPill status={s.status} label={t(`statuses.${s.status}`)} />
+          {s.reviewNote && <p className="mt-1 line-clamp-2 max-w-[220px] text-xs text-foreground-muted">{s.reviewNote}</p>}
+        </div>
+      ),
+    },
     { key: "listings", header: t("listings"), className: "text-foreground-secondary", cell: (s) => s._count.advertisements },
-    { key: "balance", header: t("balance"), className: "whitespace-nowrap", cell: (s) => <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(s.wallet?.balance ?? 0, locale)}</span> },
+    { key: "balance", header: t("balance"), className: "whitespace-nowrap", cell: (s) => <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(s.wallet?.balance ?? 0, locale)}</span> },
     { key: "created", header: tc("date"), className: "whitespace-nowrap text-foreground-secondary", cell: (s) => formatDate(s.createdAt, locale) },
     {
       key: "actions",
@@ -88,7 +119,18 @@ export function StoresView() {
             <Link href={`/stores/${s.slug}`} className={rowAction}>
               <ExternalLink className="size-3.5" /> {tc("view")}
             </Link>
-            {canOperate(me) &&
+            {s.status === "PENDING" && isStaff(me) && (
+              <>
+                <button type="button" disabled={busy} onClick={() => review(s, true)} className={cn(rowAction, "border-success/40 text-success hover:border-success")}>
+                  {busy ? <Loader2 className="size-3.5 animate-spin" /> : <Check className="size-3.5" />} {t("approve")}
+                </button>
+                <button type="button" disabled={busy} onClick={() => review(s, false)} className={cn(rowAction, "border-danger/40 text-danger hover:border-danger")}>
+                  <X className="size-3.5" /> {t("reject")}
+                </button>
+              </>
+            )}
+            {s.status !== "PENDING" &&
+              canOperate(me) &&
               (s.status === "ACTIVE" ? (
                 <button type="button" disabled={busy} onClick={() => setStoreStatus(s, "SUSPENDED")} className={cn(rowAction, "border-danger/40 text-danger hover:border-danger")}>
                   {busy ? <Loader2 className="size-3.5 animate-spin" /> : <PowerOff className="size-3.5" />} {t("suspend")}

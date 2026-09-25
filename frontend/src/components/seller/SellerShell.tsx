@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, LayoutDashboard, Package, ShoppingBag, Store, Wallet, CreditCard, Settings, Zap, type LucideIcon } from "lucide-react";
+import { ExternalLink, LayoutDashboard, Package, ShoppingBag, Store, Wallet, CreditCard, Settings, Zap, type LucideIcon, Clock, ShieldAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, type ReactNode } from "react";
 import { useAuth } from "@/features/auth/AuthProvider";
@@ -88,7 +88,28 @@ function StoreGate({ children }: { children: ReactNode }) {
       <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange lg:hidden">{t("title")}</p>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <SellerNav />
-        <div className="min-w-0">{children}</div>
+        <div className="min-w-0">
+          {user?.store?.status === "PENDING" && (
+            <div role="status" className="mb-6 flex items-start gap-3 rounded-2xl border border-warning/40 bg-warning/10 p-4 text-sm text-foreground">
+              <Clock className="mt-0.5 size-5 shrink-0 text-warning" aria-hidden />
+              <div>
+                <p className="font-semibold">{t("review.pendingTitle")}</p>
+                <p className="mt-0.5 text-foreground-secondary">{t("review.pendingBody")}</p>
+              </div>
+            </div>
+          )}
+          {user?.store?.status === "SUSPENDED" && (
+            <div role="alert" className="mb-6 flex items-start gap-3 rounded-2xl border border-danger/40 bg-danger/5 p-4 text-sm text-foreground">
+              <ShieldAlert className="mt-0.5 size-5 shrink-0 text-danger" aria-hidden />
+              <div>
+                <p className="font-semibold">{t(user.store.reviewNote ? "review.rejectedTitle" : "review.suspendedTitle")}</p>
+                {user.store.reviewNote && <p className="mt-1 rounded-lg bg-surface px-3 py-2 text-foreground">{user.store.reviewNote}</p>}
+                <p className="mt-1 text-foreground-secondary">{t("review.suspendedBody")}</p>
+              </div>
+            </div>
+          )}
+          {children}
+        </div>
       </div>
     </Container>
   );

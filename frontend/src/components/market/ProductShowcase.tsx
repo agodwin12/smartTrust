@@ -1,6 +1,7 @@
 import { ArrowRight, Clock, Eye, Wallet, type LucideIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { AutoRail } from "@/components/market/AutoRail";
 import { DealCard } from "@/components/market/DealCard";
 import { SectionTitle } from "@/components/market/SectionTitle";
 import type { Product } from "@/types";
@@ -13,7 +14,7 @@ const GROUPS: { key: keyof ShowcaseGroups; icon: LucideIcon; href: string }[] = 
   { key: "budget", icon: Wallet, href: "/products?maxPrice=50000&sort=popular" },
 ];
 
-/** Fifteen listings in three themed rows of five (a snap rail per row on phones). */
+/** Three themed rows of up to 12 listings, each an auto-sliding rail (2 per view on phones, 5 on desktop). */
 export async function ProductShowcase({ groups }: { groups: ShowcaseGroups }) {
   const t = await getTranslations("market.showcase");
   const rows = GROUPS.filter(({ key }) => groups[key].length > 0);
@@ -37,13 +38,11 @@ export async function ProductShowcase({ groups }: { groups: ShowcaseGroups }) {
                 <ArrowRight className="size-3.5" aria-hidden />
               </Link>
             </div>
-            <ul className="no-scrollbar flex snap-x snap-mandatory gap-2 overflow-x-auto lg:grid lg:grid-cols-5 lg:overflow-visible">
-              {groups[key].slice(0, 5).map((product) => (
-                <li key={product.id} className="w-[150px] shrink-0 snap-start lg:w-auto">
-                  <DealCard product={product} tone="catalog" />
-                </li>
+            <AutoRail label={t(`groups.${key}`)} itemClassName="w-[calc((100%-0.5rem)/2)] sm:w-[calc((100%-1rem)/3)] lg:w-[calc((100%-2rem)/5)]">
+              {groups[key].slice(0, 12).map((product) => (
+                <DealCard key={product.id} product={product} tone="catalog" />
               ))}
-            </ul>
+            </AutoRail>
           </div>
         ))}
       </div>

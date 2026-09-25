@@ -1,6 +1,6 @@
 "use client";
 
-import { Bot, ExternalLink, MessageCircle, RotateCcw, Send, X } from "lucide-react";
+import { Bot, ExternalLink, Headset, MessageCircle, RotateCcw, Send, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -39,7 +39,7 @@ const CHIPS = [
 const HISTORY_LIMIT = 12;
 
 /** Spec 23: bottom-right launcher, gentle idle pulse every ~10s, panel scales 0.96→1. */
-export function ChatLauncher() {
+export function ChatLauncher({ whatsappUrl = null }: { whatsappUrl?: string | null }) {
   const t = useTranslations("chat");
   const to = useTranslations("orders");
   const locale = useLocale();
@@ -50,6 +50,7 @@ export function ChatLauncher() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [busy, setBusy] = useState(false);
   const [enabled, setEnabled] = useState<boolean | null>(null);
+  const [mode, setMode] = useState<"ai" | "basic">("basic");
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -61,8 +62,12 @@ export function ChatLauncher() {
   useEffect(() => {
     if (!open || enabled !== null) return;
     let cancelled = false;
-    authFetch<{ enabled: boolean }>("assistant/status")
-      .then((r) => !cancelled && setEnabled(r.enabled))
+    authFetch<{ enabled: boolean; mode?: "ai" | "basic" }>("assistant/status")
+      .then((r) => {
+        if (cancelled) return;
+        setEnabled(r.enabled);
+        setMode(r.mode ?? "ai");
+      })
       .catch(() => !cancelled && setEnabled(false));
     return () => {
       cancelled = true;
@@ -148,7 +153,7 @@ export function ChatLauncher() {
               )}
               {messages.map((m) => (
                 <div key={m.id} className="space-y-2">
-                  <Bubble from={m.from} tone={m.tone}>
+                  <Bubble from={m.from} tone={m.tone} onNavigate={() => setOpen(false)}>
                     {m.text}
                   </Bubble>
                   {m.products && m.products.length > 0 && (
@@ -160,7 +165,7 @@ export function ChatLauncher() {
                             <span className="min-w-0 flex-1">
                               <span className="block truncate text-sm font-semibold text-foreground">{p.title}</span>
                               <span className="flex items-baseline gap-1.5">
-                                <span className="font-script text-base text-brand-blue dark:text-brand-blue-light">{formatPrice(p.price, locale)}</span>
+                                <span className="font-bold text-base text-brand-blue dark:text-brand-blue-light">{formatPrice(p.price, locale)}</span>
                                 {p.compareAtPrice && <span className="text-xs text-foreground-muted line-through">{formatPrice(p.compareAtPrice, locale)}</span>}
                               </span>
                               {p.store && <span className="block truncate text-xs text-foreground-muted">{p.store.name}</span>}
@@ -208,6 +213,14 @@ export function ChatLauncher() {
                   {t(`chips.${chip.key}`)}
                 </Link>
               ))}
+              <a
+                href={whatsappUrl ?? "/help/contact"}
+                target={whatsappUrl ? "_blank" : undefined}
+                rel={whatsappUrl ? "noopener noreferrer" : undefined}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#25D366]/50 bg-[#25D366]/10 px-3 py-1.5 text-xs font-semibold text-[#128C4B] transition-colors hover:bg-[#25D366]/20 dark:text-[#4ADE80]"
+              >
+                <Headset className="size-3.5" aria-hidden /> {t("chips.human")}
+              </a>
             </div>
 
             <form onSubmit={onSubmit} className="border-t border-border p-3">
@@ -226,7 +239,7 @@ export function ChatLauncher() {
                   <Send className="size-4" />
                 </button>
               </div>
-              <p className="mt-2 text-[10px] leading-snug text-foreground-muted">{t("disclaimer")}</p>
+              <p className="mt-2 text-[10px] leading-snug text-foreground-muted">{mode === "ai" ? t("disclaimer") : t("disclaimerBasic")}</p>
             </form>
           </motion.div>
         )}
@@ -253,11 +266,33 @@ export function ChatLauncher() {
   );
 }
 
-function Bubble({ from, tone, children }: { from: Message["from"]; tone?: "error"; children: React.ReactNode }) {
+// Site paths (/deals, /products/x, /search?q=…) and web links (https://wa.me/…) in assistant replies.
+const LINK_PATTERN = /(https?:\/\/[^\s)]+|(?<![\w/])\/[a-z][\w\-/]*(?:\?[\w=%&+\-.]*)?(?:#[\w-]+)?)/gi;
+
+function linkify(text: string, onNavigate?: () => void) {
+  const parts = text.split(LINK_PATTERN);
+  return parts.map((part, i) => {
+    if (i % 2 === 0) return part;
+    const clean = part.replace(/[.,;:!?]+$/, "");
+    const tail = part.slice(clean.length);
+    const link = clean.startsWith("http") ? (
+      <a key={i} href={clean} target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2">
+        {clean.replace(/^https?:\/\//, "")}
+      </a>
+    ) : (
+      <Link key={i} href={clean} onClick={onNavigate} className="font-semibold underline underline-offset-2">
+        {clean}
+      </Link>
+    );
+    return tail ? [link, tail] : link;
+  });
+}
+
+function Bubble({ from, tone, children, onNavigate }: { from: Message["from"]; tone?: "error"; children: React.ReactNode; onNavigate?: () => void }) {
   return (
     <div className={cn("flex", from === "user" ? "justify-end" : "justify-start")}>
       <p className={cn("max-w-[85%] whitespace-pre-line rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed", from === "user" ? "rounded-br-md bg-brand-blue text-white" : tone === "error" ? "rounded-bl-md bg-danger/10 text-danger" : "rounded-bl-md bg-surface-hover text-foreground")}>
-        {children}
+        {from === "assistant" && typeof children === "string" ? linkify(children, onNavigate) : children}
       </p>
     </div>
   );

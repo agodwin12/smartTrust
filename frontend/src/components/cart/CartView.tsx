@@ -34,7 +34,7 @@ export function CartView() {
                       {item.title}
                     </Link>
                     <p className="text-xs text-foreground-muted">{item.storeName}</p>
-                    <p className="mt-1 font-script text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(Number(item.price) * item.quantity, locale)}</p>
+                    <p className="mt-1 font-bold text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(Number(item.price) * item.quantity, locale)}</p>
                     <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-2">
                       <div className="inline-flex h-9 items-center rounded-lg border border-border">
                         <button type="button" onClick={() => cart.setQuantity(item.id, item.quantity - 1)} className="inline-flex size-9 items-center justify-center text-foreground-secondary" aria-label="-">
@@ -62,7 +62,7 @@ export function CartView() {
               <p className="text-sm text-foreground-secondary">{t("items", { count: cart.count })}</p>
               <p className="mt-2 flex items-center justify-between">
                 <span className="font-semibold text-foreground">{t("subtotal")}</span>
-                <span className="font-script text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(cart.subtotal, locale)}</span>
+                <span className="font-bold text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(cart.subtotal, locale)}</span>
               </p>
               <p className="mt-4 flex items-start gap-2 rounded-xl bg-brand-sky/50 p-3 text-xs text-foreground-secondary dark:bg-surface-elevated">
                 <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand-blue" /> {t("subtitle")}

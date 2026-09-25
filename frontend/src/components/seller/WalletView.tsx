@@ -91,7 +91,7 @@ export function WalletView() {
         <Wallet className="size-8 shrink-0 text-brand-orange-light" />
         <div>
           <p className="text-xs uppercase tracking-wider text-white/70">{t("balance")}</p>
-          <p className="font-script text-4xl">{balance === null ? "…" : formatPrice(balance, locale)}</p>
+          <p className="font-bold text-4xl">{balance === null ? "…" : formatPrice(balance, locale)}</p>
         </div>
       </section>
 
@@ -143,7 +143,7 @@ export function WalletView() {
             {history.map((w) => (
               <li key={w.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
                 <div>
-                  <p className="font-script text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(w.amount, locale)}</p>
+                  <p className="font-bold text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(w.amount, locale)}</p>
                   <p className="text-xs text-foreground-muted">
                     {w.provider && tc.has(w.provider) ? tc(w.provider) : w.provider} · +{w.phoneNumber} · {formatDate(w.createdAt, locale, { dateStyle: "medium", timeStyle: "short" })}
                   </p>

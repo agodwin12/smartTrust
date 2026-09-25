@@ -183,11 +183,11 @@ describe("platform endpoints", () => {
     assert.equal(missing.headers["x-request-id"], "trace-123");
   });
 
-  test("the assistant is offline without a model key and validates its input", async () => {
-    assert.deepEqual((await request(app).get("/api/assistant/status")).body, { enabled: false });
-    const off = await request(app).post("/api/assistant/chat").send({ messages: [{ role: "user", content: "hello" }], locale: "en" });
-    assert.equal(off.status, 503);
-    assert.equal(off.body.code, "ASSISTANT_UNAVAILABLE");
+  test("without a model key the assistant answers in built-in mode and validates its input", async () => {
+    assert.deepEqual((await request(app).get("/api/assistant/status")).body, { enabled: true, mode: "basic" });
+    const hello = await request(app).post("/api/assistant/chat").send({ messages: [{ role: "user", content: "hello" }], locale: "en" });
+    assert.equal(hello.status, 200);
+    assert.equal(hello.body.model, "basic");
     const bad = await request(app).post("/api/assistant/chat").send({ messages: [{ role: "assistant", content: "hi" }] });
     assert.equal(bad.status, 422);
   });

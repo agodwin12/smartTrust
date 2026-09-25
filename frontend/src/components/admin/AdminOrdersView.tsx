@@ -78,7 +78,7 @@ export function AdminOrdersView() {
       header: t("escrow"),
       cell: (o) => (o.escrow ? <StatusPill status={o.escrow.status} label={t(`escrowStatus.${o.escrow.status}`)} /> : <span className="text-foreground-muted">—</span>),
     },
-    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (o) => <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(o.totalAmount, locale)}</span> },
+    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (o) => <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(o.totalAmount, locale)}</span> },
     { key: "date", header: tc("date"), className: "whitespace-nowrap text-foreground-secondary", cell: (o) => formatDate(o.createdAt, locale) },
     {
       key: "actions",

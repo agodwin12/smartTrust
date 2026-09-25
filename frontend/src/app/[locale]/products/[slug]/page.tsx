@@ -29,18 +29,26 @@ export default async function ProductPage({ params }: Props) {
   const product = await getProduct(slug);
   if (!product) notFound();
 
-  const [t, tc, tp, locale, fromStore, inCategory, store] = await Promise.all([
+  const [t, tc, tp, locale, fromStore, inCategory, popular, store] = await Promise.all([
     getTranslations("product"),
     getTranslations("catalog"),
     getTranslations("products"),
     getLocale(),
-    listProducts({ storeId: product.storeId, pageSize: 5 }),
-    listProducts({ categorySlug: product.category.slug, pageSize: 5 }),
+    listProducts({ storeId: product.storeId, pageSize: 9 }),
+    listProducts({ categorySlug: product.category.slug, pageSize: 13 }),
+    listProducts({ sort: "popular", pageSize: 24 }),
     getStore(product.store.slug),
   ]);
-  const related = (items: typeof fromStore.items) => items.filter((p) => p.id !== product.id).slice(0, 4);
-  const moreFromStore = related(fromStore.items);
-  const moreInCategory = related(inCategory.items).filter((p) => !moreFromStore.some((m) => m.id === p.id));
+  // Up to 8 from the same store, 12 from the same category, then popular listings to reach 12 more.
+  const shown = new Set([product.id]);
+  const take = (items: typeof fromStore.items, max: number) => {
+    const picked = items.filter((p) => !shown.has(p.id)).slice(0, max);
+    picked.forEach((p) => shown.add(p.id));
+    return picked;
+  };
+  const moreFromStore = take(fromStore.items, 8);
+  const moreInCategory = take(inCategory.items, 12);
+  const youMayLike = take(popular.items, 12);
 
   return (
     <PageShell>
@@ -94,6 +102,14 @@ export default async function ProductPage({ params }: Props) {
           <Container>
             <SectionHeading title={t("moreInCategory", { name: product.category.name })} href={`/categories/${product.category.slug}`} linkLabel={tc("empty.action")} />
             <ProductGrid products={moreInCategory} />
+          </Container>
+        </section>
+      )}
+      {youMayLike.length > 0 && (
+        <section className="border-t border-border bg-surface py-12">
+          <Container>
+            <SectionHeading title={t("youMayLike")} href="/products?sort=popular" linkLabel={tc("empty.action")} />
+            <ProductGrid products={youMayLike} />
           </Container>
         </section>
       )}

@@ -14,14 +14,14 @@ export type HomeData = {
   deals: Product[];
   newest: Product[];
   stores: Store[];
-  /** Three rows of five for the showcase: most viewed, just listed, under 50,000 FCFA. */
+  /** Three rows of twelve for the showcase: most viewed, just listed, under 50,000 FCFA. */
   showcase: ShowcaseGroups;
   /** Back-office flash campaign running now / scheduled next (null when none). */
   flashCurrent: FlashCampaign | null;
   flashUpcoming: FlashCampaign | null;
 };
 
-const MIN = { categories: 12, subcategories: 6, deals: 6, newest: 4, stores: 4, row: 5 } as const;
+const MIN = { categories: 12, subcategories: 6, deals: 12, newest: 12, stores: 4, row: 12 } as const;
 const BUDGET_MAX = 50000;
 
 const safe = async <T>(promise: Promise<T>, fallback: T): Promise<T> => {
@@ -53,7 +53,7 @@ const withCategoryImage = (category: Category): Category => ({
 
 const byCount = (a: Category, b: Category) => (b.productCount ?? 0) - (a.productCount ?? 0);
 
-/** Five per row, never the same listing twice across the rows (or the "Newest" panel). */
+/** Twelve per row, never the same listing twice across the rows (or the "Newest" panel). */
 function showcaseRows(popular: Product[], latest: Product[], budget: Product[], skip: Product[]): ShowcaseGroups {
   const seen = new Set(skip.map((p) => p.id));
   const take = (source: Product[]) => {
@@ -76,9 +76,9 @@ export async function getHomeData(): Promise<HomeData> {
     safe(listProducts({ deals: true, sort: "popular", pageSize: MIN.deals }).then((r) => r.items), []),
     safe(listProducts({ sort: "newest", pageSize: MIN.newest }).then((r) => r.items), []),
     safe(listStores({ pageSize: MIN.stores }).then((r) => r.items), []),
-    safe(listProducts({ sort: "popular", pageSize: 15 }).then((r) => r.items), []),
-    safe(listProducts({ sort: "newest", pageSize: 12 }).then((r) => r.items), []),
-    safe(listProducts({ sort: "popular", maxPrice: BUDGET_MAX, pageSize: 12 }).then((r) => r.items), []),
+    safe(listProducts({ sort: "popular", pageSize: 40 }).then((r) => r.items), []),
+    safe(listProducts({ sort: "newest", pageSize: 48 }).then((r) => r.items), []),
+    safe(listProducts({ sort: "popular", maxPrice: BUDGET_MAX, pageSize: 40 }).then((r) => r.items), []),
     getCurrentFlashCampaign(),
     getUpcomingFlashCampaign(),
   ]);

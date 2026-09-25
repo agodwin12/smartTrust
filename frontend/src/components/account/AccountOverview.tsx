@@ -108,7 +108,7 @@ export function AccountOverview() {
                       {formatDate(order.createdAt, locale)} · {to(`status.${order.status}`)}
                     </span>
                   </span>
-                  <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</span>
+                  <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</span>
                 </Link>
               </li>
             ))}

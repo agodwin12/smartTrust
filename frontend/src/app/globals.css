@@ -183,7 +183,7 @@
   --font-display: var(--font-changa-one), var(--font-montserrat), sans-serif;
   --font-heading: var(--font-share-tech), var(--font-montserrat), sans-serif;
   --font-accent: var(--font-lobster-two), Georgia, serif;
-  --font-script: var(--font-satisfy), cursive;
+  --font-script: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif; /* prices use the paragraph font */
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 

@@ -171,7 +171,7 @@ export function PlansView() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h2 className="text-xl">{plan.name}</h2>
-                  <p className="font-script text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(plan.price, locale)}</p>
+                  <p className="font-bold text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(plan.price, locale)}</p>
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   {!plan.isActive && <StatusPill tone="muted" label={t("inactive")} />}

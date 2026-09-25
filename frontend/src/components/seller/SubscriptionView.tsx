@@ -94,7 +94,7 @@ export function SubscriptionView() {
                 )}
               >
                 <span className="font-sans text-lg font-semibold text-foreground">{plan.name}</span>
-                <span className="mt-1 font-script text-3xl text-brand-blue dark:text-brand-blue-light">{formatPrice(plan.price, locale)}</span>
+                <span className="mt-1 font-bold text-3xl text-brand-blue dark:text-brand-blue-light">{formatPrice(plan.price, locale)}</span>
                 <span className="text-xs text-foreground-muted">/ {tp("duration", { days: plan.durationDays })}</span>
                 <ul className="mt-3 space-y-1 text-sm text-foreground-secondary">
                   <li className="flex gap-2"><Check className="mt-0.5 size-4 text-success" /> {tp("ads", { count: plan.adQuota })}</li>

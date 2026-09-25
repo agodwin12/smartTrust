@@ -64,4 +64,27 @@ async function sendContactNotification({ id, name, email, subject, message, loca
   });
 }
 
-module.exports = { sendOtpEmail, sendContactNotification };
+/** Tells a seller whether their new store was approved (with the reason when it was not). */
+async function sendStoreDecisionEmail({ to, firstName, storeName, approved, reason, dashboardUrl }) {
+  const subject = approved ? `Your store "${storeName}" is approved` : `Your store "${storeName}" was not approved`;
+  const body = approved
+    ? `<p style="color: #333; font-size: 15px;">Good news: your store <strong>${escapeHtml(storeName)}</strong> has been approved. You can now choose a plan and publish your listings.</p>`
+    : `<p style="color: #333; font-size: 15px;">Your store <strong>${escapeHtml(storeName)}</strong> was not approved yet.</p>
+       ${reason ? `<p style="color: #333; font-size: 15px; background: #F2F2F2; padding: 12px 16px; border-radius: 8px;">${escapeHtml(reason)}</p>` : ""}
+       <p style="color: #333; font-size: 15px;">Update your store details and reply to this email or contact support if you have questions.</p>`;
+  return getClient().emails.send({
+    from: resendConfig.fromEmail,
+    to,
+    subject,
+    html: `
+      <div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px;">
+        <h2 style="color: #1B2A4A; margin-bottom: 4px;">Smart Market</h2>
+        <p style="color: #333; font-size: 15px;">Hi ${escapeHtml(firstName || "there")},</p>
+        ${body}
+        <p style="margin-top: 20px;"><a href="${escapeHtml(dashboardUrl)}" style="display: inline-block; background: #F7941D; color: #fff; text-decoration: none; font-weight: 600; padding: 12px 20px; border-radius: 8px;">Open my seller area</a></p>
+      </div>
+    `,
+  });
+}
+
+module.exports = { sendOtpEmail, sendContactNotification, sendStoreDecisionEmail };

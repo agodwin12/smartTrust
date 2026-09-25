@@ -274,7 +274,7 @@ function CheckoutInner({ product }: { product: Product }) {
           </div>
           <p className="mt-5 flex items-center justify-between border-t border-border pt-4">
             <span className="text-sm font-semibold text-foreground">{t("total")}</span>
-            <span className="font-script text-3xl text-brand-blue dark:text-brand-blue-light">{formatPrice(total, locale)}</span>
+            <span className="font-bold text-3xl text-brand-blue dark:text-brand-blue-light">{formatPrice(total, locale)}</span>
           </p>
         </aside>
       </div>

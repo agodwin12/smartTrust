@@ -207,7 +207,7 @@ export function OrderDetail({ orderId, perspective = "buyer" }: { orderId: strin
                     </Link>
                   </p>
                 )}
-                <p className="mt-2 font-script text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
+                <p className="mt-2 font-bold text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
               </div>
             </div>
           </section>
@@ -358,7 +358,7 @@ export function OrderDetail({ orderId, perspective = "buyer" }: { orderId: strin
                 <span className={cn("inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold", order.refund.status === "COMPLETED" ? "bg-success/15 text-success" : order.refund.status === "FAILED" || order.refund.status === "CANCELLED" ? "bg-warning/15 text-warning" : "bg-brand-blue/10 text-brand-blue dark:text-brand-blue-light")}>
                   {t(`refund.statuses.${order.refund.status}`)}
                 </span>
-                <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(order.refund.amount, locale)}</span>
+                <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(order.refund.amount, locale)}</span>
               </p>
               <p className="mt-2 text-sm text-foreground-secondary">
                 {order.refund.status === "COMPLETED"
@@ -392,7 +392,7 @@ export function OrderDetail({ orderId, perspective = "buyer" }: { orderId: strin
               <p className="text-xs text-foreground-muted">{to("cod.noEscrow")}</p>
               <div className="flex justify-between gap-3 border-t border-border pt-2">
                 <span className="text-foreground-muted">{to("total")}</span>
-                <span className="font-script text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</span>
+                <span className="font-bold text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</span>
               </div>
             </div>
           ) : order.payment ? (
@@ -413,7 +413,7 @@ export function OrderDetail({ orderId, perspective = "buyer" }: { orderId: strin
               )}
               <div className="flex justify-between gap-3 border-t border-border pt-2">
                 <dt className="text-foreground-muted">{to("total")}</dt>
-                <dd className="font-script text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</dd>
+                <dd className="font-bold text-xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</dd>
               </div>
             </dl>
           ) : (

@@ -1,8 +1,9 @@
 const userService = require("../services/user.service");
 const audit = require("../services/audit.service");
 
+// Fresh read with the store summary (status, review note): the cached req.user has no relations.
 async function me(req, res) {
-  res.json({ user: req.user });
+  res.json({ user: await userService.getById(req.user.id) });
 }
 
 async function updateMe(req, res) {

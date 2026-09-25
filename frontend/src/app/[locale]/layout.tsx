@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Changa_One, Inter, Lobster_Two, Montserrat, Satisfy, Share_Tech } from "next/font/google";
+import { Changa_One, Inter, Lobster_Two, Montserrat, Share_Tech } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -8,6 +8,8 @@ import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { ChatLauncher } from "@/components/chatbot/ChatLauncher";
+import { FloatingWidgets } from "@/components/layout/FloatingWidgets";
+import { getSiteContact } from "@/features/site/contact";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 import "../globals.css";
@@ -16,11 +18,10 @@ import { SITE_URL } from "@/lib/seo";
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"] });
 const shareTech = Share_Tech({ variable: "--font-share-tech", subsets: ["latin"], weight: "400" });
-const satisfy = Satisfy({ variable: "--font-satisfy", subsets: ["latin"], weight: "400" });
 const changaOne = Changa_One({ variable: "--font-changa-one", subsets: ["latin"], weight: "400" });
 const lobsterTwo = Lobster_Two({ variable: "--font-lobster-two", subsets: ["latin"], weight: ["400", "700"] });
 
-const fontClassName = [inter, montserrat, shareTech, satisfy, changaOne, lobsterTwo].map((f) => f.variable).join(" ");
+const fontClassName = [inter, montserrat, shareTech, changaOne, lobsterTwo].map((f) => f.variable).join(" ");
 
 type Params = Promise<{ locale: string }>;
 
@@ -62,6 +63,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const contact = await getSiteContact();
 
   return (
     <html lang={locale} suppressHydrationWarning className={`${fontClassName} h-full`}>
@@ -70,7 +72,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           <NextIntlClientProvider>
             <AppProviders>
               {children}
-              <ChatLauncher />
+              <FloatingWidgets whatsappUrl={contact.whatsappUrl} />
+              <ChatLauncher whatsappUrl={contact.whatsappUrl} />
               <InstallPrompt />
               <ServiceWorkerRegister />
             </AppProviders>

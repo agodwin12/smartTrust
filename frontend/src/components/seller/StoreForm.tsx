@@ -69,7 +69,7 @@ export function StoreForm({ mode, initial }: StoreFormProps) {
         await authFetch("stores", { method: "POST", body: form });
         await refreshUser();
         toast.success(to("success"));
-        router.push("/seller/subscription");
+        router.push("/seller");
       } else {
         await authFetch("stores/me", { method: "PATCH", body: form });
         await refreshUser();

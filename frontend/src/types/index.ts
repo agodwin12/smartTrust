@@ -84,7 +84,7 @@ export type User = {
   status: "ACTIVE" | "SUSPENDED" | "BANNED";
   emailVerifiedAt: string | null;
   googleId?: string | null;
-  store?: { id: ID; name: string; slug: string; status: Store["status"] } | null;
+  store?: { id: ID; name: string; slug: string; status: Store["status"]; reviewNote?: string | null } | null;
   createdAt: string;
 };
 
@@ -214,7 +214,10 @@ export type NotificationType =
   | "FLASH_APPLICATION_APPROVED"
   | "FLASH_APPLICATION_REJECTED"
   | "FLASH_CAMPAIGN_LIVE"
-  | "FLASH_CAMPAIGN_ENDED";
+  | "FLASH_CAMPAIGN_ENDED"
+  | "STORE_SUBMITTED"
+  | "STORE_APPROVED"
+  | "STORE_REJECTED";
 
 export type AppNotification = {
   id: ID;
@@ -324,6 +327,8 @@ export type AdminStats = {
 };
 
 export type AdminStore = Store & {
+  reviewNote?: string | null;
+  reviewedAt?: string | null;
   owner: { id: ID; email: string; firstName: string; lastName: string };
   wallet: { balance: string } | null;
   _count: { advertisements: number; reviews: number };

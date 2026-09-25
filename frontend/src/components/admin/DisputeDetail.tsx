@@ -111,7 +111,7 @@ export function DisputeDetail({ disputeId }: { disputeId: string }) {
                   <IdChip id={order.id} /> <StatusPill status={order.status} label={to(`status.${order.status}`)} />
                   {order.escrow && <StatusPill status={order.escrow.status} label={`${tor("escrow")}: ${tor(`escrowStatus.${order.escrow.status}`)}`} />}
                 </p>
-                <p className="mt-2 font-script text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
+                <p className="mt-2 font-bold text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
               </div>
             </div>
             <Link href={`/admin/orders/${order.id}`} className={cn(adminSecondary, "mt-4 w-full sm:w-auto")}>

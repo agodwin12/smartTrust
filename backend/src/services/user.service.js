@@ -14,7 +14,7 @@ function toSafeUser(user) {
 async function getById(id) {
   const user = await prisma.user.findUnique({
     where: { id },
-    include: { store: { select: { id: true, name: true, slug: true, status: true } } },
+    include: { store: { select: { id: true, name: true, slug: true, status: true, reviewNote: true } } },
   });
   if (!user) throw new ApiError(404, "User not found.", "USER_NOT_FOUND");
   return toSafeUser(user);
@@ -68,7 +68,7 @@ async function listUsers({ page = 1, pageSize = 20, role, status, search } = {})
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * pageSize,
       take: pageSize,
-      include: { store: { select: { id: true, name: true, slug: true, status: true } } },
+      include: { store: { select: { id: true, name: true, slug: true, status: true, reviewNote: true } } },
     }),
     prisma.user.count({ where }),
   ]);

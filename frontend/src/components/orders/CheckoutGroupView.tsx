@@ -149,7 +149,7 @@ export function CheckoutGroupView({ mode, groupId }: { mode: Mode; groupId?: str
           </div>
           <div className="text-right">
             <p className="text-xs text-foreground-muted">{t("total")}</p>
-            <p className="font-script text-3xl text-brand-blue dark:text-brand-blue-light">{formatPrice(group.totalAmount, locale)}</p>
+            <p className="font-bold text-3xl text-brand-blue dark:text-brand-blue-light">{formatPrice(group.totalAmount, locale)}</p>
             {payment && <p className={cn("mt-1 inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold", payment.status === "COMPLETED" ? "bg-success/15 text-success" : paymentInFlight ? "bg-warning/15 text-warning" : "bg-danger/10 text-danger")}>{t(`payment.${payment.status}`)}</p>}
           </div>
         </div>

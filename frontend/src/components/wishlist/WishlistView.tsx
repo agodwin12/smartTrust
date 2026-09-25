@@ -37,7 +37,7 @@ export function WishlistView() {
                     {item.title}
                   </Link>
                   <p className="text-xs text-foreground-muted">{item.storeName}</p>
-                  <p className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(item.price, locale)}</p>
+                  <p className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(item.price, locale)}</p>
                   <div className="mt-auto flex gap-2 pt-2">
                     <button
                       type="button"

@@ -1,6 +1,7 @@
 import { ArrowRight, Zap } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { AutoRail } from "@/components/market/AutoRail";
 import { CountdownTimer } from "@/components/market/CountdownTimer";
 import { DealCard } from "@/components/market/DealCard";
 import { SectionTitle } from "@/components/market/SectionTitle";
@@ -15,12 +16,12 @@ type FlashDealsProps = {
   upcoming?: FlashCampaign | null;
 };
 
-/** Pale-orange deals block (design guide §12 / §20): six compact tiles on wide screens, a snap rail on phones. */
+/** Pale-orange deals block (design guide §12 / §20): up to 12 deals in a rail that turns a page every 5 s (2 per view on phones, 6 on wide screens). */
 export async function FlashDeals({ products, campaign, upcoming }: FlashDealsProps) {
   const t = await getTranslations("market.flash");
   const live = campaign && campaign.phase === "ACTIVE" && (campaign.items?.length ?? 0) > 0 ? campaign : null;
   const items: Product[] = live ? live.items!.map((item) => item.advertisement as unknown as Product) : products;
-  const deals = items.slice(0, 6);
+  const deals = items.slice(0, 12);
 
   const title = live ? live.name : t("title");
   const subtitle = live ? (live.description ?? t("campaignSubtitle")) : upcoming ? t("nextSale", { name: upcoming.name }) : t("subtitle");
@@ -62,13 +63,11 @@ export async function FlashDeals({ products, campaign, upcoming }: FlashDealsPro
           </Link>
         </div>
       ) : (
-        <ul className="no-scrollbar mt-2.5 flex snap-x snap-mandatory gap-2 overflow-x-auto lg:grid lg:grid-cols-3 lg:overflow-visible xl:grid-cols-6">
+        <AutoRail label={title} className="mt-2.5" itemClassName="w-[calc((100%-0.5rem)/2)] sm:w-[calc((100%-1rem)/3)] lg:w-[calc((100%-1.5rem)/4)] xl:w-[calc((100%-2.5rem)/6)]">
           {deals.map((product) => (
-            <li key={product.id} className="w-[140px] shrink-0 snap-start lg:w-auto">
-              <DealCard product={product} />
-            </li>
+            <DealCard key={product.id} product={product} />
           ))}
-        </ul>
+        </AutoRail>
       )}
 
       <Link href="/deals" className="market-link mt-2 sm:hidden">

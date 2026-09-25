@@ -1,7 +1,7 @@
 const assistantService = require("../services/assistant.service");
 
 async function status(req, res) {
-  res.json({ enabled: assistantService.isEnabled() });
+  res.json({ enabled: assistantService.isEnabled(), mode: assistantService.mode() });
 }
 
 async function chat(req, res) {

@@ -7,9 +7,10 @@ const audit = require("../services/audit.service");
 const ApiError = require("../utils/ApiError");
 const { OPERATIONS } = require("../utils/roles");
 
-async function myStoreId(userId) {
+async function myStoreId(userId, { requireApproved = false } = {}) {
   const store = await prisma.store.findUnique({ where: { ownerId: userId } });
   if (!store) throw new ApiError(404, "You need a store before posting an advertisement.", "STORE_NOT_FOUND");
+  if (requireApproved) require("../services/store.service").assertApproved(store);
   return store.id;
 }
 
@@ -29,7 +30,7 @@ async function update(req, res) {
 }
 
 async function publish(req, res) {
-  const storeId = await myStoreId(req.user.id);
+  const storeId = await myStoreId(req.user.id, { requireApproved: true });
   const ad = await advertisementService.publish(req.params.id, storeId);
   audit.record(req, { action: "AD_PUBLISHED", entityType: "Advertisement", entityId: ad.id, metadata: { storeId } });
   await bust();

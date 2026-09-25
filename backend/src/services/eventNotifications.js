@@ -296,10 +296,54 @@ async function flashCampaignMoved(campaign, items, live) {
   }
 }
 
+/** A seller opened a store: every active staff member gets a review request. */
+async function storeSubmitted(store) {
+  try {
+    const staff = await prisma.user.findMany({
+      where: { role: { in: ["SUPER_ADMIN", "ACCOUNTANT", "CUSTOMER_SERVICE"] }, status: "ACTIVE" },
+      select: { id: true },
+    });
+    await Promise.all(
+      staff.map((member) =>
+        notify(member.id, {
+          type: "STORE_SUBMITTED",
+          title: `New store to review: ${store.name}`,
+          body: store.location ?? null,
+          data: { storeId: store.id, storeName: store.name, storeSlug: store.slug },
+        })
+      )
+    );
+  } catch (error) {
+    logger.warn({ err: error.message }, "[notifications] store submitted event failed");
+  }
+}
+
+/** The owner learns the decision in-app and by email (email failures never block the review). */
+async function storeReviewed(store, approved) {
+  try {
+    const owner = await prisma.user.findUnique({ where: { id: store.ownerId }, select: { id: true, email: true, firstName: true } });
+    if (!owner) return;
+    await notify(owner.id, {
+      type: approved ? "STORE_APPROVED" : "STORE_REJECTED",
+      title: approved ? `${store.name} is approved` : `${store.name} was not approved`,
+      body: approved ? null : store.reviewNote ?? null,
+      data: { storeId: store.id, storeName: store.name, storeSlug: store.slug, reviewNote: store.reviewNote ?? null },
+    });
+    const { frontendUrl } = require("../config/env");
+    await require("./email.service")
+      .sendStoreDecisionEmail({ to: owner.email, firstName: owner.firstName, storeName: store.name, approved, reason: store.reviewNote, dashboardUrl: `${frontendUrl}/seller` })
+      .catch((error) => logger.warn({ err: error.message, storeId: store.id }, "[notifications] store decision email failed"));
+  } catch (error) {
+    logger.warn({ err: error.message }, "[notifications] store reviewed event failed");
+  }
+}
+
 const flashCampaignLive = (campaign, items) => flashCampaignMoved(campaign, items, true);
 const flashCampaignEnded = (campaign, items) => flashCampaignMoved(campaign, items, false);
 
 module.exports = {
+  storeSubmitted,
+  storeReviewed,
   flashApplicationReviewed,
   flashCampaignLive,
   flashCampaignEnded,

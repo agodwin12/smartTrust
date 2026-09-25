@@ -50,7 +50,7 @@ export function WithdrawalsView() {
     },
     { key: "provider", header: t("provider"), className: "text-foreground-secondary", cell: (w) => w.provider ?? "—" },
     { key: "phone", header: t("phone"), className: "font-mono text-xs text-foreground-secondary", cell: (w) => w.phoneNumber },
-    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (w) => <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(w.amount, locale)}</span> },
+    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (w) => <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(w.amount, locale)}</span> },
     { key: "date", header: tc("date"), className: "whitespace-nowrap text-foreground-secondary", cell: (w) => formatDate(w.createdAt, locale, { dateStyle: "medium", timeStyle: "short" }) },
   ];
 

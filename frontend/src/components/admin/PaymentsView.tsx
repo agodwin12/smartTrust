@@ -70,7 +70,7 @@ export function PaymentsView() {
       className: "text-foreground-secondary",
       cell: (p) => <span className="font-mono text-xs">{p.providerReference ?? p.externalId ?? "—"}</span>,
     },
-    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (p) => <span className="font-script text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(p.amount, locale)}</span> },
+    { key: "amount", header: tc("amount"), className: "whitespace-nowrap", cell: (p) => <span className="font-bold text-lg text-brand-blue dark:text-brand-blue-light">{formatPrice(p.amount, locale)}</span> },
     { key: "date", header: tc("date"), className: "whitespace-nowrap text-foreground-secondary", cell: (p) => formatDate(p.createdAt, locale, { dateStyle: "medium", timeStyle: "short" }) },
   ];
 

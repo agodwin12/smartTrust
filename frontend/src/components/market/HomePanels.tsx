@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 import { formatCompactNumber, formatPrice, initials } from "@/lib/format";
+import { AutoRail } from "@/components/market/AutoRail";
 import { categoryIcon } from "@/components/market/CategoryIcon";
 import { SectionTitle } from "@/components/market/SectionTitle";
 import type { Category, Product, Store } from "@/types";
@@ -53,9 +54,9 @@ export async function HomePanels({ subcategories, newest, stores }: { subcategor
       </Panel>
 
       <Panel title={t("newest.title")} subtitle={t("newest.subtitle")} href="/new-arrivals" linkLabel={t("seeAll")} empty={newest.length === 0}>
-        <ul className="grid grid-cols-4 gap-2">
-          {newest.slice(0, 4).map((product) => (
-            <li key={product.id} className="min-w-0">
+        <AutoRail label={t("newest.title")} itemClassName="w-[calc((100%-1rem)/3)] sm:w-[calc((100%-1.5rem)/4)]">
+          {newest.slice(0, 12).map((product) => (
+            <div key={product.id} className="min-w-0">
               <Link href={`/products/${product.slug}`} className="group flex flex-col gap-1">
                 <span className="relative block h-[64px] w-full overflow-hidden rounded-[7px] border border-market-border-soft bg-market-blue-light/60">
                   {product.images?.[0] && <Image src={product.images[0]} alt="" fill sizes="100px" loading="lazy" className="object-cover transition-transform group-hover:scale-[1.04]" />}
@@ -64,9 +65,9 @@ export async function HomePanels({ subcategories, newest, stores }: { subcategor
                 <span className="line-clamp-1 text-[10.5px] font-semibold leading-tight text-market-text transition-colors group-hover:text-market-blue">{product.title}</span>
                 <span className="text-[11px] font-extrabold leading-none text-market-red">{formatPrice(product.price, locale)}</span>
               </Link>
-            </li>
+            </div>
           ))}
-        </ul>
+        </AutoRail>
       </Panel>
 
       <Panel title={t("stores.title")} subtitle={t("stores.subtitle")} href="/stores" linkLabel={t("seeAll")} empty={stores.length === 0}>
