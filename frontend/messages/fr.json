@@ -1293,7 +1293,8 @@
       "withdrawals": "Retraits",
       "support": "Messagerie support",
       "audit": "Journal d'audit",
-      "flashDeals": "Ventes flash"
+      "flashDeals": "Ventes flash",
+      "assistant": "Assistant IA"
     },
     "common": {
       "search": "Rechercher…",
@@ -1668,6 +1669,34 @@
         "confirmRemove": "Retirer cette annonce de la campagne ?",
         "noItems": "Aucune annonce dans cette campagne pour l’instant."
       }
+    },
+    "assistant": {
+      "title": "Assistant IA",
+      "subtitle": "Posez vos questions sur les commandes, paiements, litiges, boutiques ou l'activité de l'équipe, avec n'importe quel filtre : une boutique, un acheteur, un statut, une période. Réponses à partir des données en direct. Réservé au Super Admin.",
+      "online": "Gemini en ligne · {model}",
+      "paused": "Gemini en pause (limite de requêtes), résumés simples en attendant",
+      "notConfigured": "Clé Gemini non configurée",
+      "emptyTitle": "Que voulez-vous savoir ?",
+      "emptyBody": "Choisissez une question ou tapez la vôtre. Vous pouvez citer une boutique, un acheteur, un produit, un statut ou des dates.",
+      "suggestions": {
+        "today": "Que s'est-il passé aujourd'hui ?",
+        "week": "Résume cette semaine",
+        "awaiting": "Quelles commandes attendent encore la livraison ?",
+        "disputes": "Montre les litiges ouverts",
+        "stores": "Quelles boutiques attendent une validation ?",
+        "top": "Top 5 des boutiques sur les 30 derniers jours",
+        "failed": "Paiements échoués ce mois-ci",
+        "activity": "Qu'a fait l'équipe hier ?"
+      },
+      "placeholder": "ex. commandes en espèces de Smart Trust la semaine dernière",
+      "send": "Demander",
+      "reset": "Nouvelle conversation",
+      "thinking": "Analyse des données…",
+      "orders": "Commandes citées",
+      "error": "Une erreur est survenue. Réessayez.",
+      "footnote": "Réponses générées par Gemini à partir de données en lecture seule. Vérifiez les commandes avant toute action sur l'argent.",
+      "restrictedTitle": "Réservé au Super Admin",
+      "restrictedBody": "L'assistant IA est réservé au Super Admin."
     }
   },
   "market": {

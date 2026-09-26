@@ -1,6 +1,6 @@
 const { test, describe, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-// helpers first: it loads test/bootstrap.js (GEMINI_API_KEY is empty there, so the built-in mode answers).
+// helpers first: it loads test/bootstrap.js. The storefront chat never calls Gemini (Super Admin only).
 const { app, request, resetDb, teardown, createUser, createStore, createCategory, createListing, createPaidOrder, login, as } = require("./helpers");
 
 const ask = (text, { token, locale = "en" } = {}) => {
@@ -8,7 +8,7 @@ const ask = (text, { token, locale = "en" } = {}) => {
   return req.post("/api/assistant/chat").send({ messages: [{ role: "user", content: text }], locale });
 };
 
-describe("chat assistant without a Gemini key (built-in mode)", () => {
+describe("storefront chat (built-in answers, no AI model)", () => {
   let buyer, sofa;
 
   before(async () => {
@@ -63,15 +63,6 @@ describe("chat assistant without a Gemini key (built-in mode)", () => {
     const res = await ask("helicopter");
     assert.equal(res.body.products.length, 0);
     assert.match(res.body.reply, /\/categories/);
-  });
-
-  test("tool declarations are valid for Gemini (no unsupported schema keywords)", () => {
-    const [{ functionDeclarations }] = require("../src/services/assistant.service").geminiTools();
-    assert.equal(functionDeclarations.length, 7);
-    const banned = /"(minimum|maximum|default|additionalProperties)"/;
-    assert.ok(!banned.test(JSON.stringify(functionDeclarations)), "limits are moved into descriptions");
-    assert.ok(!functionDeclarations.find((f) => f.name === "list_categories").parameters, "argument-less functions omit parameters");
-    assert.deepEqual(functionDeclarations.find((f) => f.name === "search_products").parameters.required, ["query"]);
   });
 
   test("the public contact endpoint answers even without a WhatsApp number", async () => {

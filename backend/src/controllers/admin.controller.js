@@ -1,6 +1,7 @@
 const adminService = require("../services/admin.service");
 const jobs = require("../jobs");
 const audit = require("../services/audit.service");
+const adminAssistant = require("../services/adminAssistant.service");
 
 async function stats(req, res) {
   res.json(await adminService.stats());
@@ -16,4 +17,18 @@ async function runJob(req, res) {
   res.json({ run: record });
 }
 
-module.exports = { stats, listJobs, runJob };
+/** Super Admin AI assistant (Gemini): questions about orders, money and activity, answered from read-only tools. */
+async function assistantStatus(req, res) {
+  res.json(adminAssistant.status());
+}
+
+async function assistantChat(req, res) {
+  const { messages, locale } = req.body;
+  const result = await adminAssistant.chat({ messages, locale, admin: req.user });
+  audit.record(req, { action: "ADMIN_ASSISTANT_QUERY", entityType: "Assistant", metadata: { question: messages[messages.length - 1].content.slice(0, 300), model: result.model } });
+  res.json(result);
+}
+
+module.exports = {
+  assistantStatus,
+  assistantChat, stats, listJobs, runJob };
