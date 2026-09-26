@@ -36,17 +36,17 @@ module.exports = {
     enabled: process.env.JOBS_ENABLED !== "false" && process.env.NODE_ENV !== "test",
   },
 
-  // Claude-powered shopping assistant. Without an API key the /assistant routes answer
-  // 503 ASSISTANT_UNAVAILABLE and the widget falls back to its shortcut chips.
   // Public contact channels shown on the site (WhatsApp bubble, chat hand-off). Digits only for WhatsApp.
   site: {
     whatsapp: (process.env.SUPPORT_WHATSAPP || "").replace(/\D/g, ""),
     supportEmail: process.env.SUPPORT_EMAIL || "",
   },
 
+  // Gemini shopping assistant (same key and model as ELIZFLOW). Without a key the chat answers
+  // in its built-in mode (live listings + canned help), see assistant.service.js.
   assistant: {
-    apiKey: process.env.ANTHROPIC_API_KEY,
-    model: process.env.ASSISTANT_MODEL || "claude-opus-5",
+    apiKey: process.env.GEMINI_API_KEY,
+    model: process.env.ASSISTANT_MODEL || "gemini-2.5-flash",
     maxTurns: parseInt(process.env.ASSISTANT_MAX_TOOL_TURNS || "4", 10),
   },
 

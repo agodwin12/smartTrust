@@ -24,6 +24,6 @@ process.env.KPAY_WEBHOOK_SECRET = "test-webhook-secret";
 process.env.KPAY_GATEWAY_SECRET = "test-gateway-secret";
 process.env.KPAY_BASE_URL = "http://127.0.0.1:9"; // closed port: every provider call fails fast
 process.env.RESEND_API_KEY = "";
-process.env.ANTHROPIC_API_KEY = "";
+process.env.GEMINI_API_KEY = ""; // never call Gemini from the tests
 process.env.SENTRY_DSN = "";
 process.env.GENERAL_RATE_LIMIT_PER_MINUTE = "100000";

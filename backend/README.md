@@ -342,15 +342,15 @@ order/`HELD` escrow and driving the rest of the flow through the real endpoints.
 only updates records today; sending the money back requires the same withdrawal machinery pointed at
 the buyer's number, which wasn't in scope for this pass.
 
-## Chat assistant (Claude)
+## Chat assistant (Gemini)
 
-`src/services/assistant.service.js` powers the storefront widget through the Anthropic SDK (`ANTHROPIC_API_KEY`, `ASSISTANT_MODEL` default `claude-opus-5`, `ASSISTANT_MAX_TOOL_TURNS` default 4). Without a key `GET /assistant/status` reports `enabled: false` and `POST /assistant/chat` answers `503 ASSISTANT_UNAVAILABLE`, so the site keeps working.
+`src/services/assistant.service.js` powers the storefront widget through Google's `@google/generative-ai` SDK, the same API and model as ELIZFLOW (`GEMINI_API_KEY`, `ASSISTANT_MODEL` default `gemini-2.5-flash`, `ASSISTANT_MAX_TOOL_TURNS` default 4). `GET /assistant/status` reports `{ enabled: true, mode: "ai" | "basic" }`.
 
+- **No key, or Gemini failing** (bad key, quota 429, outage, timeout): the chat answers in its built-in mode (`basicChat`) — keyword intents in English and French, live product search with budgets, orders, escrow, cash on delivery, plans, selling, deals, categories and a hand-off to WhatsApp. The site never shows the chat as offline.
 - `POST /assistant/chat` — body `{ messages: [{role, content}] (≤12, starts and ends with the user), locale: "en"|"fr" }`; optional bearer token (a bad token still 401s so the client can refresh). Rate limited to 30 messages / 10 min per IP.
-- The model gets a static, cached system prompt (escrow flow, selling flow, site routes, guardrails) plus a per-request context block (language, who is signed in), `effort: low`, `max_tokens: 1024`, and seven read-only tools: `search_products`, `browse_category`, `list_categories`, `get_deals`, `get_subscription_plans`, `get_store`, `get_my_orders` (only returns data for the signed-in user). Tool inputs are validated with zod; invalid input goes back as an `is_error` tool result.
-- Parallel tool calls are executed together and returned in one user message; after `ASSISTANT_MAX_TOOL_TURNS` rounds the last request forbids tools so the model must answer in text. `stop_reason: "refusal"` becomes a fixed polite reply.
-- Response: `{ reply, products[], orders[], model, usage }` — every listing/order the tools touched is returned as a card so the UI never depends on links inside the prose.
-- Error mapping: authentication → 503 `ASSISTANT_UNAVAILABLE`, rate limit → 503 `ASSISTANT_BUSY`, connection → 503, other API errors → 502 `ASSISTANT_ERROR`.
+- Gemini gets a system instruction (escrow flow, selling flow, site routes, guardrails) plus a per-request context line (language, who is signed in), `maxOutputTokens: 1024`, thinking disabled, and seven read-only function declarations: `search_products`, `browse_category`, `list_categories`, `get_deals`, `get_subscription_plans`, `get_store`, `get_my_orders` (only returns data for the signed-in user). They are derived from JSON schemas by `geminiTools()`, which strips keywords Gemini rejects (`minimum`, `maximum`, `default`, `additionalProperties`); zod still validates every call.
+- Parallel function calls run together and go back as one `function` turn; after `ASSISTANT_MAX_TOOL_TURNS` rounds the last request sets `functionCallingConfig.mode = NONE` so the model must answer in text. Blocked answers (`SAFETY`, `PROHIBITED_CONTENT`…) become a fixed polite reply. Transient 5xx errors are retried once.
+- Response: `{ reply, products[], orders[], model, usage }` — every listing/order the tools touched is returned as a card so the UI never depends on links in the text.
 
 ## Tests
 

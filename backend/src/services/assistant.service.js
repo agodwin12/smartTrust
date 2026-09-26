@@ -1,4 +1,4 @@
-const Anthropic = require("@anthropic-ai/sdk");
+const { GoogleGenerativeAI, FunctionCallingMode } = require("@google/generative-ai");
 const { z } = require("zod");
 const { assistant: config } = require("../config/env");
 const ApiError = require("../utils/ApiError");
@@ -10,7 +10,7 @@ const planService = require("./subscriptionPlan.service");
 const logger = require("../config/logger");
 
 /**
- * Claude-powered shopping assistant.
+ * Gemini-powered shopping assistant (same API and model as ELIZFLOW: @google/generative-ai, gemini-2.5-flash).
  *
  * Stateless: the client sends the recent transcript, the model answers with plain text and
  * may call the read-only tools below for live data (listings, categories, plans, the signed-in
@@ -22,13 +22,13 @@ const MAX_TOKENS = 1024; // short conversational replies by design
 const CARD_LIMIT = 6;
 
 let client = null;
-// Claude answers when ANTHROPIC_API_KEY is set; otherwise the built-in mode below keeps the chat useful.
+// Gemini answers when GEMINI_API_KEY is set; otherwise the built-in mode below keeps the chat useful.
 const hasAi = () => Boolean(config.apiKey);
 const isEnabled = () => true;
 const mode = () => (hasAi() ? "ai" : "basic");
 function getClient() {
   if (!hasAi()) throw new ApiError(503, "The assistant is not available right now.", "ASSISTANT_UNAVAILABLE");
-  if (!client) client = new Anthropic({ apiKey: config.apiKey, maxRetries: 1, timeout: 45_000 });
+  if (!client) client = new GoogleGenerativeAI(config.apiKey);
   return client;
 }
 
@@ -83,7 +83,7 @@ const categoryInput = z.object({ categorySlug: z.string().trim().min(1).max(80),
 const limitInput = z.object({ limit: z.coerce.number().int().min(1).max(CARD_LIMIT).default(4) });
 const storeInput = z.object({ slug: z.string().trim().min(1).max(80) });
 
-// Order matters: the tool list is part of the cached prompt prefix, so keep it stable.
+// Tool list in JSON-schema form; geminiTools() below turns it into Gemini function declarations.
 const TOOLS = [
   {
     name: "search_products",
@@ -136,6 +136,28 @@ const TOOLS = [
     name: "get_my_orders",
     description: "Return the signed-in user's five most recent orders with their status. Only works when the user is signed in.",
     input_schema: { type: "object", properties: {} },
+  },
+];
+
+/**
+ * Gemini accepts an OpenAPI subset: no minimum/maximum/default/additionalProperties, and a
+ * function without arguments must omit `parameters`. Limits move into the description and the
+ * zod schemas still enforce them server-side.
+ */
+function toGeminiSchema(schema) {
+  const { minimum, maximum, default: _default, additionalProperties, ...rest } = schema;
+  const out = { ...rest };
+  if (minimum !== undefined || maximum !== undefined) out.description = `${rest.description ? `${rest.description} ` : ""}(${minimum ?? ""}–${maximum ?? ""})`.trim();
+  if (rest.properties) out.properties = Object.fromEntries(Object.entries(rest.properties).map(([key, value]) => [key, toGeminiSchema(value)]));
+  if (rest.items) out.items = toGeminiSchema(rest.items);
+  return out;
+}
+
+const geminiTools = () => [
+  {
+    functionDeclarations: TOOLS.map(({ name, description, input_schema: schema }) =>
+      Object.keys(schema.properties ?? {}).length ? { name, description, parameters: toGeminiSchema(schema) } : { name, description }
+    ),
   },
 ];
 
@@ -235,17 +257,22 @@ const REFUSAL_REPLY = {
   fr: "Je ne peux pas répondre à cette demande. Je suis là pour tout ce qui concerne les achats, la vente, les commandes et les paiements sur SmartPlaze.",
 };
 
+/** Any failure on the Gemini side (bad key, quota, outage, timeout, network) → an ApiError the chat can fall back from. */
 function mapSdkError(error) {
-  if (error instanceof Anthropic.AuthenticationError) return new ApiError(503, "The assistant is not available right now.", "ASSISTANT_UNAVAILABLE");
-  if (error instanceof Anthropic.RateLimitError) return new ApiError(503, "The assistant is busy, please try again in a moment.", "ASSISTANT_BUSY");
-  if (error instanceof Anthropic.APIConnectionError) return new ApiError(503, "The assistant could not be reached.", "ASSISTANT_UNAVAILABLE");
-  if (error instanceof Anthropic.APIError) return new ApiError(502, "The assistant returned an error.", "ASSISTANT_ERROR");
+  if (error instanceof ApiError) return error;
+  const status = error?.status;
+  if (status === 429) return new ApiError(503, "The assistant is busy, please try again in a moment.", "ASSISTANT_BUSY");
+  if (status === 400 || status === 401 || status === 403) return new ApiError(503, "The assistant is not available right now.", "ASSISTANT_UNAVAILABLE");
+  if (status >= 500 || error?.name === "AbortError" || /fetch failed|timeout|ECONN|ENOTFOUND/i.test(error?.message ?? "")) {
+    return new ApiError(503, "The assistant could not be reached.", "ASSISTANT_UNAVAILABLE");
+  }
+  if (error?.name?.startsWith?.("GoogleGenerativeAI")) return new ApiError(502, "The assistant returned an error.", "ASSISTANT_ERROR");
   return error;
 }
 
 
 /* ------------------------------------------------------------------------- */
-/* Built-in mode (no ANTHROPIC_API_KEY, or Claude unreachable)                */
+/* Built-in mode (no GEMINI_API_KEY, or Gemini unreachable)                   */
 /* ------------------------------------------------------------------------- */
 
 const fold = (text) => String(text ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -393,86 +420,98 @@ async function basicChat({ messages, locale = "en", user = null }) {
   }
 }
 
+const BLOCKED = new Set(["SAFETY", "PROHIBITED_CONTENT", "BLOCKLIST", "SPII", "RECITATION"]);
+
+/** One Gemini call; retries once on a transient 5xx, like ELIZFLOW's generateWithRetry. */
+async function generate(model, request) {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return (await model.generateContent(request)).response;
+    } catch (error) {
+      if (attempt >= 2 || !(error?.status >= 500)) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  }
+}
+
 async function chat({ messages, locale = "en", user = null }) {
   if (!hasAi()) return basicChat({ messages, locale, user });
-  const anthropic = getClient();
-  const transcript = messages.map((m) => ({ role: m.role, content: m.content }));
   const products = new Map();
   const orders = new Map();
   let usage = { input: 0, output: 0 };
 
-  // `final` forbids further tool calls so a tool-happy model still ends with a text answer.
-  const request = (final = false) =>
-    anthropic.messages.create({
-      model: config.model,
-      max_tokens: MAX_TOKENS,
-      output_config: { effort: "low" },
-      system: [
-        { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
-        { type: "text", text: contextBlock({ locale, user }) },
-      ],
-      tools: TOOLS,
-      ...(final && { tool_choice: { type: "none" } }),
-      messages: transcript,
-    });
-
   let response;
   try {
-    response = await request();
-    for (let turn = 0; turn <= config.maxTurns; turn += 1) {
-      usage = { input: usage.input + (response.usage?.input_tokens ?? 0), output: usage.output + (response.usage?.output_tokens ?? 0) };
-      if (response.stop_reason === "pause_turn") {
-        transcript.push({ role: "assistant", content: response.content });
-        response = await request();
-        continue;
-      }
-      if (response.stop_reason !== "tool_use") break;
+    const model = getClient().getGenerativeModel(
+      {
+        model: config.model,
+        systemInstruction: `${SYSTEM_PROMPT}\n\n${contextBlock({ locale, user })}`,
+        tools: geminiTools(),
+        // Short replies, no hidden "thinking" pass: the answers are conversational and latency matters.
+        generationConfig: { maxOutputTokens: MAX_TOKENS, temperature: 0.4, thinkingConfig: { thinkingBudget: 0 } },
+      },
+      { timeout: 30_000 }
+    );
+    // Gemini calls the assistant "model"; tool results go back as role "function".
+    const contents = messages.map((m) => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] }));
+    // `final` forbids further tool calls so a tool-happy model still ends with a text answer.
+    const request = (final = false) => ({
+      contents,
+      ...(final && { toolConfig: { functionCallingConfig: { mode: FunctionCallingMode.NONE } } }),
+    });
 
-      const calls = response.content.filter((block) => block.type === "tool_use");
-      transcript.push({ role: "assistant", content: response.content });
+    response = await generate(model, request());
+    for (let turn = 0; turn <= config.maxTurns; turn += 1) {
+      usage = { input: usage.input + (response.usageMetadata?.promptTokenCount ?? 0), output: usage.output + (response.usageMetadata?.candidatesTokenCount ?? 0) };
+      const calls = response.functionCalls?.() ?? [];
+      if (calls.length === 0) break;
+
+      contents.push(response.candidates[0].content);
       const results = await Promise.all(
         calls.map(async (call) => {
           try {
-            const result = await runTool(call.name, call.input, { user });
+            const result = await runTool(call.name, call.args ?? {}, { user });
             for (const ad of result.products ?? []) products.set(ad.id, productCard(ad));
             for (const order of result.orders ?? []) orders.set(order.id, orderCard(order));
-            return { type: "tool_result", tool_use_id: call.id, content: result.text };
+            return { functionResponse: { name: call.name, response: { content: JSON.parse(result.text) } } };
           } catch (error) {
             const reason = error.issues ? error.issues.map((issue) => `${issue.path.join(".")}: ${issue.message}`).join("; ") : error.message;
             logger.warn({ tool: call.name, reason }, "[assistant] tool failed");
-            return { type: "tool_result", tool_use_id: call.id, content: JSON.stringify({ error: error.issues ? `Invalid input (${reason}). Fix the arguments and call again.` : "The tool failed; tell the user to try again or use the site navigation." }), is_error: true };
+            return { functionResponse: { name: call.name, response: { error: error.issues ? `Invalid input (${reason}). Fix the arguments and call again.` : "The tool failed; tell the user to try again or use the site navigation." } } };
           }
         })
       );
-      // All results go back in ONE user message, in call order.
-      transcript.push({ role: "user", content: results });
-      response = await request(turn + 1 >= config.maxTurns);
+      // All results go back in ONE message, in call order.
+      contents.push({ role: "function", parts: results });
+      response = await generate(model, request(turn + 1 >= config.maxTurns));
     }
   } catch (error) {
     const mapped = mapSdkError(error);
     if (mapped.code === "ASSISTANT_UNAVAILABLE" || mapped.code === "ASSISTANT_BUSY" || mapped.code === "ASSISTANT_ERROR") {
-      logger.warn({ code: mapped.code }, "[assistant] Claude unavailable, answering in built-in mode");
+      logger.warn({ code: mapped.code, status: error?.status, reason: error?.message?.slice(0, 200) }, "[assistant] Gemini unavailable, answering in built-in mode");
       return basicChat({ messages, locale, user });
     }
     throw mapped;
   }
 
-  const reply =
-    response.stop_reason === "refusal"
-      ? REFUSAL_REPLY[locale] ?? REFUSAL_REPLY.en
-      : response.content
-          .filter((block) => block.type === "text")
-          .map((block) => block.text)
-          .join("\n")
-          .trim() || (locale === "fr" ? "Je n'ai pas pu formuler de réponse. Pouvez-vous reformuler ?" : "I couldn't come up with an answer. Could you rephrase?");
+  const candidate = response.candidates?.[0];
+  const blocked = Boolean(response.promptFeedback?.blockReason) || BLOCKED.has(candidate?.finishReason);
+  const text = (candidate?.content?.parts ?? [])
+    .filter((part) => typeof part.text === "string" && !part.thought)
+    .map((part) => part.text)
+    .join("\n")
+    .trim();
+  const reply = blocked
+    ? REFUSAL_REPLY[locale] ?? REFUSAL_REPLY.en
+    : text || (locale === "fr" ? "Je n'ai pas pu formuler de réponse. Pouvez-vous reformuler ?" : "I couldn't come up with an answer. Could you rephrase?");
 
   return {
     reply,
     products: [...products.values()].slice(0, CARD_LIMIT),
     orders: [...orders.values()].slice(0, 5),
-    model: response.model,
+    model: response.modelVersion ?? config.model,
     usage,
   };
 }
 
-module.exports = { chat, isEnabled, mode, basicChat };
+module.exports = { chat, isEnabled, mode, basicChat, geminiTools };
