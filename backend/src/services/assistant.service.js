@@ -23,7 +23,11 @@ const CARD_LIMIT = 6;
 
 let client = null;
 // Gemini answers when GEMINI_API_KEY is set; otherwise the built-in mode below keeps the chat useful.
-const hasAi = () => Boolean(config.apiKey);
+// A rejected key (suspended, invalid, no permission) is not retried on every message: the chat
+// answers in built-in mode for a while, then tries Gemini again (so a reactivated key comes back alone).
+const KEY_REJECTED_PAUSE_MS = 10 * 60 * 1000;
+let aiPausedUntil = 0;
+const hasAi = () => Boolean(config.apiKey) && Date.now() >= aiPausedUntil;
 const isEnabled = () => true;
 const mode = () => (hasAi() ? "ai" : "basic");
 function getClient() {
@@ -487,6 +491,12 @@ async function chat({ messages, locale = "en", user = null }) {
     }
   } catch (error) {
     const mapped = mapSdkError(error);
+    if ([400, 401, 403].includes(error?.status)) aiPausedUntil = Date.now() + KEY_REJECTED_PAUSE_MS;
+    if (error?.status === 429) {
+      // Quota hit (the free tier allows 5 requests/minute): wait what Google asks (retryDelay "27s"), 60 s by default.
+      const retry = (error.errorDetails ?? []).find((d) => d.retryDelay)?.retryDelay;
+      aiPausedUntil = Date.now() + (parseInt(retry, 10) > 0 ? parseInt(retry, 10) * 1000 : 60_000);
+    }
     if (mapped.code === "ASSISTANT_UNAVAILABLE" || mapped.code === "ASSISTANT_BUSY" || mapped.code === "ASSISTANT_ERROR") {
       logger.warn({ code: mapped.code, status: error?.status, reason: error?.message?.slice(0, 200) }, "[assistant] Gemini unavailable, answering in built-in mode");
       return basicChat({ messages, locale, user });
