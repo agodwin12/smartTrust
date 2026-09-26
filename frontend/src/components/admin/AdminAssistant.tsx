@@ -151,16 +151,16 @@ export function AdminAssistant() {
                 <ul className="grid w-full max-w-[92%] gap-1.5 sm:max-w-[80%] sm:grid-cols-2" aria-label={t("orders")}>
                   {m.orders.map((o) => (
                     <li key={o.id}>
-                      <Link href={`/admin/orders/${o.id}`} className="flex items-center gap-3 rounded-xl border border-border bg-background p-2.5 transition-colors hover:border-brand-blue">
-                        <span className="min-w-0 flex-1">
-                          <span className="block truncate text-sm font-semibold text-foreground">{o.title}</span>
-                          <span className="block text-xs text-foreground-muted">
-                            #{o.shortId}
-                            {o.reference && ` · ${o.reference}`} · {formatPrice(o.totalAmount, locale)} · {formatDate(o.createdAt, locale)}
-                          </span>
+                      <Link href={`/admin/orders/${o.id}`} className="flex h-full flex-col gap-1.5 rounded-xl border border-border bg-background p-3 transition-colors hover:border-brand-blue">
+                        <span className="flex items-start justify-between gap-2">
+                          <span className="min-w-0 truncate text-sm font-semibold text-foreground">{o.title}</span>
+                          <ExternalLink className="mt-0.5 size-4 shrink-0 text-foreground-muted" aria-hidden />
                         </span>
-                        <StatusPill status={o.status} label={to(`status.${o.status}`)} />
-                        <ExternalLink className="size-4 shrink-0 text-foreground-muted" aria-hidden />
+                        <span className="text-xs text-foreground-muted">
+                          #{o.shortId}
+                          {o.reference && ` · ${o.reference}`} · {formatPrice(o.totalAmount, locale)} · {formatDate(o.createdAt, locale)}
+                        </span>
+                        <StatusPill status={o.status} label={to(`status.${o.status}`)} className="self-start" />
                       </Link>
                     </li>
                   ))}
