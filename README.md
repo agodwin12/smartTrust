@@ -1,4 +1,4 @@
-# Smart Market
+# SmartPlaze
 
 Multi-vendor e-commerce marketplace — internal product of GODWIN TECH SOLUTION.
 See [`docs/Cahier_de_Charges_Smart_Market.docx`](docs/Cahier_de_Charges_Smart_Market.docx) for the full functional/technical scope.

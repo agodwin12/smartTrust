@@ -125,7 +125,7 @@ const orderCompleted = (orderId) =>
       notify(ctx.buyerId, {
         type: "ORDER_COMPLETED",
         title: `Order completed: ${ctx.advertisement.title}`,
-        body: "Thanks for buying on Smart Market — you can now review the seller.",
+        body: "Thanks for buying on SmartPlaze — you can now review the seller.",
         data: payload(ctx),
       }),
     ])

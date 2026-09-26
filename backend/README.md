@@ -1,4 +1,4 @@
-# Smart Market — Backend API
+# SmartPlaze — Backend API
 
 Express.js (JavaScript) + PostgreSQL via [Prisma](https://www.prisma.io/), organized as MVC.
 
@@ -142,7 +142,7 @@ DELETE /api/categories/:id           SUPER_ADMIN only — 409 if it still has su
 
 Images upload to Cloudflare R2 (S3-compatible) via `services/storage.service.js` — JPEG/PNG/WebP
 only, 5MB max. The bucket (`heyama-objects`) is **shared with another project**, so every object
-Smart Market writes is namespaced under the `smart-market/` key prefix (`config/env.js` →
+SmartPlaze writes is namespaced under the `smart-market/` key prefix (`config/env.js` →
 `r2.keyPrefix`) to avoid any collision. Replacing or removing a category's image deletes the old
 R2 object; deleting a category deletes its image too — nothing is left orphaned in the shared
 bucket. Uploads go through the backend (multer, in-memory, never touches disk) rather than

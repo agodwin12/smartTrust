@@ -44,7 +44,7 @@ const money = (n) => `${Number(n).toLocaleString("en-US")} FCFA`;
 function describe(product) {
   const lines = [product.description];
   if (product.range) lines.push(`Price range: ${money(product.range[0])} – ${money(product.range[1])} depending on model and quantity; the price shown is the standard retail price.`);
-  lines.push(`Sold by Smart Trust, ${LOCATION}. Delivery across Cameroon; pay through Smart Market escrow or cash at handover.`);
+  lines.push(`Sold by Smart Trust, ${LOCATION}. Delivery across Cameroon; pay through SmartPlaze escrow or cash at handover.`);
   return lines.join("\n\n");
 }
 

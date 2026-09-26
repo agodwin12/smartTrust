@@ -1,4 +1,4 @@
-/* Smart Market service worker.
+/* SmartPlaze service worker.
  *
  * Deliberately conservative so it can never serve stale application code:
  *   - images, fonts and PWA icons  → stale-while-revalidate (fast repeat visits, no re-downloads)

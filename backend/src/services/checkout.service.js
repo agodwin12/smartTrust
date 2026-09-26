@@ -89,7 +89,7 @@ async function resolveGuestBuyer({ name, email, phone }) {
   }
   return prisma.user.create({
     data: {
-      email: normalisedEmail ?? `guest-${crypto.randomBytes(5).toString("hex")}@guest.smartmarket.invalid`,
+      email: normalisedEmail ?? `guest-${crypto.randomBytes(5).toString("hex")}@guest.smartplaze.invalid`,
       firstName,
       lastName,
       phone: normalisedPhone,
@@ -224,7 +224,7 @@ async function pay(id, requester, { provider, phoneNumber }) {
       provider,
       phoneNumber,
       externalId,
-      description: `Smart Market order ${group.reference} (${group.itemCount} item${group.itemCount === 1 ? "" : "s"})`,
+      description: `SmartPlaze order ${group.reference} (${group.itemCount} item${group.itemCount === 1 ? "" : "s"})`,
       metadata: { groupId: group.id, reference: group.reference },
     });
   } catch (err) {

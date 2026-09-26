@@ -59,7 +59,7 @@ export async function Footer() {
         <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-12 xl:gap-8">
           {/* Brand */}
           <div className="xl:col-span-3">
-            <Link href="/" className="inline-block" aria-label="Smart Market — home">
+            <Link href="/" className="inline-block" aria-label="SmartPlaze — home">
               <Image src="/logo.png" alt="Smarttrustexpress" width={1080} height={374} className="h-12 w-auto" />
             </Link>
             <p className="mt-3 font-accent text-lg text-foreground-secondary">{t("tagline")}</p>

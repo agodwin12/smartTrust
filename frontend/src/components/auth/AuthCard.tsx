@@ -8,7 +8,7 @@ export function AuthCard({ title, subtitle, children, footer }: { title: string;
   return (
     <Container className="flex flex-1 items-center justify-center py-10 sm:py-16">
       <div className="w-full max-w-md">
-        <Link href="/" className="mx-auto mb-6 block w-fit" aria-label="Smart Market — home">
+        <Link href="/" className="mx-auto mb-6 block w-fit" aria-label="SmartPlaze — home">
           <Image src="/logo.png" alt="Smarttrustexpress" width={1080} height={374} className="h-12 w-auto" priority />
         </Link>
         <div className="rounded-3xl border border-border bg-surface p-6 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.4)] sm:p-8">

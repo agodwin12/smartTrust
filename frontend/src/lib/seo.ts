@@ -3,7 +3,7 @@ import { routing } from "@/i18n/routing";
 
 /** Public origin of the site (no trailing slash). Set NEXT_PUBLIC_SITE_URL in production. */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3020").replace(/\/$/, "");
-export const SITE_NAME = "Smart Market";
+export const SITE_NAME = "SmartPlaze";
 
 /** "/products/x" → "/products/x" for the default locale, "/fr/products/x" for French. */
 export function localizedPath(locale: string, path: string): string {

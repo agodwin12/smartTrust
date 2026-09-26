@@ -19,7 +19,7 @@ export function BrandMark({ tone = "dark", size = "md", className, priority = tr
   return (
     <Link
       href="/"
-      aria-label="Smart Market — home"
+      aria-label="SmartPlaze — home"
       className={cn("inline-flex shrink-0 items-center", onNavy && "rounded-[7px] bg-white px-2 py-1", className)}
     >
       <Image src="/logo-header.png" alt="Smarttrustexpress" width={993} height={198} sizes="(max-width: 1024px) 40vw, 200px" priority={priority} className={cn("w-auto object-contain object-left", height)} />

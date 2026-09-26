@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Smart Market",
-    short_name: "Smart Market",
+    name: "SmartPlaze",
+    short_name: "SmartPlaze",
     description: "Shop with confidence. Discover products from verified sellers with escrow-protected payments.",
     id: "/",
     start_url: "/",

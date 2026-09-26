@@ -37,15 +37,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      default: `Smart Market — ${t("slides.marketplace.titleLine1")} ${t("slides.marketplace.titleLine3")}`,
-      template: "%s · Smart Market",
+      default: `SmartPlaze — ${t("slides.marketplace.titleLine1")} ${t("slides.marketplace.titleLine3")}`,
+      template: "%s · SmartPlaze",
     },
     description: t("slides.marketplace.description"),
-    applicationName: "Smart Market",
+    applicationName: "SmartPlaze",
     manifest: "/manifest.webmanifest",
-    appleWebApp: { capable: true, statusBarStyle: "default", title: "Smart Market" },
+    appleWebApp: { capable: true, statusBarStyle: "default", title: "SmartPlaze" },
     icons: { icon: "/icons/icon-192.png", apple: "/apple-touch-icon.png" },
-    openGraph: { type: "website", siteName: "Smart Market", locale },
+    openGraph: { type: "website", siteName: "SmartPlaze", locale },
   };
 }
 

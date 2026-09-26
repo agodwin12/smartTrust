@@ -1,4 +1,4 @@
-# Smart Market — Backend Review & Backlog (2026-09-22)
+# SmartPlaze — Backend Review & Backlog (2026-09-22)
 
 **Overall score: 6.5 / 10** — solid architecture, verified correctness, not yet production-ready.
 

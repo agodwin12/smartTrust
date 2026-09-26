@@ -90,7 +90,7 @@ async function checkout(storeId, { planId, provider, phoneNumber }) {
       provider,
       phoneNumber,
       externalId,
-      description: `Smart Market subscription — ${plan.name}`,
+      description: `SmartPlaze subscription — ${plan.name}`,
       metadata: { subscriptionId: subscription.id, planId: plan.id, storeId },
     });
   } catch (err) {

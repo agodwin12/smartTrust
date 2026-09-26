@@ -1,7 +1,7 @@
-# Smart Market --- Dark Premium Design System & Claude Code Implementation Brief
+# SmartPlaze --- Dark Premium Design System & Claude Code Implementation Brief
 
-**Project:** Smart Market\
-**Brand:** Smarttrustexpress / Smart Market\
+**Project:** SmartPlaze\
+**Brand:** Smarttrustexpress / SmartPlaze\
 **Primary direction:** Dark Premium Marketplace\
 **Required modes:** Dark Mode + Light Mode\
 **Frontend:** Next.js\
@@ -15,7 +15,7 @@ prototype
 ## 1. Purpose
 
 This document is the visual and interaction specification that Claude
-Code must follow when implementing the Smart Market frontend.
+Code must follow when implementing the SmartPlaze frontend.
 
 The selected visual direction is the **Dark Premium Marketplace**
 concept from the approved homepage references.
@@ -81,7 +81,7 @@ basic local classifieds website.
 
 ### 2.2 Marketplace first
 
-Smart Market must visually communicate:
+SmartPlaze must visually communicate:
 
 > Thousands of products. Multiple independent sellers. One trusted
 > marketplace.
@@ -699,7 +699,7 @@ Visual flow:
 ``` text
 1. You Pay
       ↓
-2. Smart Market Holds Funds
+2. SmartPlaze Holds Funds
       ↓
 3. Seller Delivers
       ↓
@@ -731,7 +731,7 @@ Example:
 Supporting text:
 
 > Create your store, choose a subscription plan, publish your products
-> and reach customers through Smart Market.
+> and reach customers through SmartPlaze.
 
 CTA:
 
@@ -774,7 +774,7 @@ pressure.
 
 # 23. AI Chatbot
 
-The AI assistant must feel like a native Smart Market feature.
+The AI assistant must feel like a native SmartPlaze feature.
 
 Floating launcher:
 
@@ -1587,7 +1587,7 @@ where appropriate.
 
 # 50. Final Visual Objective
 
-The final Smart Market experience should feel like:
+The final SmartPlaze experience should feel like:
 
 > **A premium technology-driven marketplace where users feel safe enough
 > to transact and excited enough to explore.**
@@ -1679,7 +1679,7 @@ The homepage is considered visually complete when:
 
 # 53. Brand Signature
 
-The Smart Market visual signature should consistently combine:
+The SmartPlaze visual signature should consistently combine:
 
 **Deep navy + electric blue + controlled orange + premium surfaces +
 subtle depth + precise motion.**

@@ -1,4 +1,4 @@
-# Prompt for ChatGPT — Smart Market home page redesign (5 concepts)
+# Prompt for ChatGPT — SmartPlaze home page redesign (5 concepts)
 
 Copy everything below the line into ChatGPT. Paste its answer back here and the chosen concept
 will be implemented on the existing frontend without any backend change.
@@ -6,7 +6,7 @@ will be implemented on the existing frontend without any backend change.
 ---
 
 You are a senior e-commerce product designer. Design **five distinct home page concepts** for
-**Smart Market** ("Smarttrustexpress"), a multi-vendor marketplace in Cameroon, taking
+**SmartPlaze** ("Smarttrustexpress"), a multi-vendor marketplace in Cameroon, taking
 **Amazon, Jumia and Oraimo** (and other popular marketplaces) as references. I will implement
 the concept I pick, so the output must be a precise, implementable specification, not mood
 boards.

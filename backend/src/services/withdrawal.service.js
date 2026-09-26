@@ -44,7 +44,7 @@ async function request(storeId, { provider, phoneNumber, amount }) {
       provider,
       phoneNumber,
       externalId,
-      description: `Smart Market seller payout — ${storeId}`,
+      description: `SmartPlaze seller payout — ${storeId}`,
       metadata: { storeId, withdrawalId: withdrawal.id },
     });
   } catch (err) {

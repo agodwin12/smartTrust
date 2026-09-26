@@ -151,7 +151,7 @@ const PRODUCTS = [
 ];
 
 async function main() {
-  console.log("Seeding Smart Market…");
+  console.log("Seeding SmartPlaze…");
 
   // --- Categories -----------------------------------------------------------
   const categoryBySlug = new Map();

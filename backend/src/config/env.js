@@ -61,7 +61,7 @@ module.exports = {
       process.env.CLOUDFLARE_R2_API_ENDPOINT ||
       `https://${process.env.CLOUDFLARE_R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     publicUrl: process.env.CLOUDFLARE_R2_PUBLIC_URL,
-    // Every Smart Market object lives under this prefix — the bucket is shared with
+    // Every SmartPlaze object lives under this prefix — the bucket is shared with
     // other projects, so this keeps our files from ever colliding with theirs.
     keyPrefix: "smart-market",
   },
@@ -84,9 +84,9 @@ module.exports = {
 
   resend: {
     apiKey: process.env.RESEND_API_KEY,
-    fromEmail: process.env.RESEND_FROM_EMAIL || "Smart Market <onboarding@resend.dev>",
+    fromEmail: process.env.RESEND_FROM_EMAIL || "SmartPlaze <onboarding@resend.dev>",
     // Where website contact-form messages are forwarded.
-    supportEmail: process.env.SUPPORT_EMAIL || "support@smartmarket.dev",
+    supportEmail: process.env.SUPPORT_EMAIL || "support@smartplaze.com",
   },
 
   otp: {

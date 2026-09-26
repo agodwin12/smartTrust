@@ -170,7 +170,7 @@ async function review(storeId, { approve, reason }, reviewerId) {
 /** Selling actions (plans, publishing) need an approved store; drafts can be prepared meanwhile. */
 function assertApproved(store) {
   if (!store) throw new ApiError(404, "You need a store first.", "STORE_NOT_FOUND");
-  if (store.status === "PENDING") throw new ApiError(409, "Your store is awaiting approval by the Smart Market team. You can prepare drafts meanwhile.", "STORE_PENDING_APPROVAL");
+  if (store.status === "PENDING") throw new ApiError(409, "Your store is awaiting approval by the SmartPlaze team. You can prepare drafts meanwhile.", "STORE_PENDING_APPROVAL");
   if (store.status !== "ACTIVE") throw new ApiError(409, "Your store is not active. Contact support for details.", "STORE_NOT_ACTIVE");
 }
 

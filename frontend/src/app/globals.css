@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ----------------------------------------------------------------------------
-   Smart Market design tokens
+   SmartPlaze design tokens
    Light mode: the "pallet" Coolors palette — #FDFDFD · #4B6186 · #FEFEFE · #D4ECFA · #EFA732
    Dark mode:  the Dark Premium palette from docs/Smart_Market_Dark_Premium_Design_System_for_Claude_Code.md
    Components only ever use the semantic names (bg-surface, text-brand-orange, ...) — never a raw hex.

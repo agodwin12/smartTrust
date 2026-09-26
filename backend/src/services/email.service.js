@@ -20,7 +20,7 @@ function getClient() {
 function otpEmailHtml({ firstName, code, purposeLabel, expiryMinutes }) {
   return `
     <div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px;">
-      <h2 style="color: #1B2A4A; margin-bottom: 4px;">Smart Market</h2>
+      <h2 style="color: #1B2A4A; margin-bottom: 4px;">SmartPlaze</h2>
       <p style="color: #333; font-size: 15px;">Hi ${firstName},</p>
       <p style="color: #333; font-size: 15px;">Your ${purposeLabel} code is:</p>
       <div style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #1B2A4A; background: #F2F2F2; padding: 16px 24px; text-align: center; border-radius: 8px; margin: 16px 0;">
@@ -33,7 +33,7 @@ function otpEmailHtml({ firstName, code, purposeLabel, expiryMinutes }) {
 
 async function sendOtpEmail({ to, firstName, code, purpose, expiryMinutes }) {
   const purposeLabel = purpose === "PASSWORD_RESET" ? "password reset" : "email verification";
-  const subject = purpose === "PASSWORD_RESET" ? "Reset your Smart Market password" : "Verify your Smart Market email";
+  const subject = purpose === "PASSWORD_RESET" ? "Reset your SmartPlaze password" : "Verify your SmartPlaze email";
 
   return getClient().emails.send({
     from: resendConfig.fromEmail,
@@ -78,7 +78,7 @@ async function sendStoreDecisionEmail({ to, firstName, storeName, approved, reas
     subject,
     html: `
       <div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px;">
-        <h2 style="color: #1B2A4A; margin-bottom: 4px;">Smart Market</h2>
+        <h2 style="color: #1B2A4A; margin-bottom: 4px;">SmartPlaze</h2>
         <p style="color: #333; font-size: 15px;">Hi ${escapeHtml(firstName || "there")},</p>
         ${body}
         <p style="margin-top: 20px;"><a href="${escapeHtml(dashboardUrl)}" style="display: inline-block; background: #F7941D; color: #fff; text-decoration: none; font-weight: 600; padding: 12px 20px; border-radius: 8px;">Open my seller area</a></p>

@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "Smart Market",
+    "brand": "SmartPlaze",
     "viewAll": "Voir tout",
     "learnMore": "En savoir plus",
     "loading": "Chargement…",
@@ -38,7 +38,7 @@
     "account": "Mon compte",
     "myOrders": "Mes commandes",
     "myStore": "Ma boutique",
-    "sell": "Vendre sur Smart Market",
+    "sell": "Vendre sur SmartPlaze",
     "signOut": "Se déconnecter",
     "signedInAs": "Connecté en tant que",
     "notifications": "Notifications",
@@ -110,7 +110,7 @@
         "titleLine1": "Payez en confiance.",
         "titleLine2": "Argent conservé.",
         "titleLine3": "Libéré à la livraison.",
-        "description": "Chaque commande passe par le séquestre Smart Market. Le vendeur n'est payé qu'après votre confirmation de réception.",
+        "description": "Chaque commande passe par le séquestre SmartPlaze. Le vendeur n'est payé qu'après votre confirmation de réception.",
         "primary": "Comment ça marche",
         "secondary": "Protection acheteur",
         "steps": {
@@ -226,7 +226,7 @@
     "was": "au lieu de",
     "escrow": {
       "title": "Achetez en toute confiance",
-      "point1": "Votre paiement est conservé sous séquestre par Smart Market.",
+      "point1": "Votre paiement est conservé sous séquestre par SmartPlaze.",
       "point2": "Le vendeur n'est payé qu'une fois que vous confirmez la réception.",
       "point3": "Un problème ? Ouvrez un litige et notre équipe intervient."
     },
@@ -244,7 +244,7 @@
     "products": "{count} produits",
     "defaultCategory": "Marketplace",
     "directoryTitle": "Boutiques",
-    "directorySubtitle": "Tous les vendeurs vérifiés de Smart Market.",
+    "directorySubtitle": "Tous les vendeurs vérifiés de SmartPlaze.",
     "searchPlaceholder": "Rechercher une boutique…",
     "memberSince": "Membre depuis {date}",
     "listings": "{count, plural, =0 {Aucune annonce} one {# annonce} other {# annonces}}",
@@ -270,7 +270,7 @@
       "password": "Mot de passe",
       "forgot": "Mot de passe oublié ?",
       "submit": "Se connecter",
-      "noAccount": "Nouveau sur Smart Market ?",
+      "noAccount": "Nouveau sur SmartPlaze ?",
       "register": "Créer un compte",
       "google": "Continuer avec Google"
     },
@@ -401,7 +401,7 @@
       "description": "Le paiement a été annulé ou a expiré. Vous pouvez réessayer.",
       "retry": "Réessayer"
     },
-    "escrowNote": "Votre paiement est conservé par Smart Market jusqu'à ce que vous confirmiez la livraison.",
+    "escrowNote": "Votre paiement est conservé par SmartPlaze jusqu'à ce que vous confirmiez la livraison.",
     "verifyEmail": {
       "title": "Vérifiez d'abord votre e-mail",
       "description": "Pour votre sécurité, les achats nécessitent une adresse e-mail vérifiée.",
@@ -418,7 +418,7 @@
       "title": "Comment souhaitez-vous payer ?",
       "MOBILE_MONEY": {
         "title": "Mobile Money (séquestre)",
-        "description": "Payez maintenant. Smart Market conserve l'argent jusqu'à votre confirmation de livraison."
+        "description": "Payez maintenant. SmartPlaze conserve l'argent jusqu'à votre confirmation de livraison."
       },
       "CASH_ON_DELIVERY": {
         "title": "Paiement à la livraison",
@@ -535,7 +535,7 @@
     "cancelledBy": {
       "BUYER": "Annulée par l'acheteur",
       "SELLER": "Annulée par le vendeur",
-      "STAFF": "Annulée par Smart Market"
+      "STAFF": "Annulée par SmartPlaze"
     },
     "confirmReceiptHelpCod": "Ne confirmez qu'une fois l'article en main et le vendeur payé en espèces.",
     "group": {
@@ -580,7 +580,7 @@
     "faqTitle": "Questions sur les plans"
   },
   "sell": {
-    "eyebrow": "Vendre sur Smart Market",
+    "eyebrow": "Vendre sur SmartPlaze",
     "title": "Transformez vos produits en entreprise.",
     "description": "Ouvrez une boutique, choisissez un plan, publiez vos annonces et touchez des acheteurs qui paient via séquestre — vous êtes payé, à chaque fois.",
     "cta": "Ouvrir ma boutique",
@@ -608,7 +608,7 @@
   },
   "pages": {
     "howItWorks": {
-      "title": "Comment fonctionne Smart Market",
+      "title": "Comment fonctionne SmartPlaze",
       "subtitle": "Acheter et vendre avec le séquestre, étape par étape."
     },
     "sellerGuide": {
@@ -628,7 +628,7 @@
       "subtitle": "Nous répondons sous un jour ouvré."
     },
     "about": {
-      "title": "À propos de Smart Market",
+      "title": "À propos de SmartPlaze",
       "subtitle": "Une marketplace fondée sur la confiance, faite au Cameroun."
     },
     "terms": {
@@ -667,14 +667,14 @@
   "escrow": {
     "eyebrow": "Le séquestre, comment ça marche",
     "title": "Votre paiement reste protégé jusqu'à la réception de votre commande.",
-    "subtitle": "Chaque achat sur Smart Market passe par un séquestre. Personne n'est payé tant que les deux parties n'ont pas confirmé.",
+    "subtitle": "Chaque achat sur SmartPlaze passe par un séquestre. Personne n'est payé tant que les deux parties n'ont pas confirmé.",
     "steps": {
       "pay": {
         "title": "Vous payez",
         "description": "Réglez via Mobile Money ou Orange Money."
       },
       "hold": {
-        "title": "Smart Market conserve les fonds",
+        "title": "SmartPlaze conserve les fonds",
         "description": "Votre argent est gardé en sécurité sous séquestre."
       },
       "deliver": {
@@ -696,7 +696,7 @@
     "eyebrow": "Pour les vendeurs",
     "title": "Vendez à un public mondial",
     "subtitle": "Transformez vos produits en entreprise.",
-    "description": "Créez votre boutique, choisissez un abonnement, publiez vos produits et touchez des clients grâce à Smart Market.",
+    "description": "Créez votre boutique, choisissez un abonnement, publiez vos produits et touchez des clients grâce à SmartPlaze.",
     "cta": "Devenir vendeur",
     "secondary": "Voir les abonnements"
   },
@@ -736,13 +736,13 @@
       "success": "Merci — vous êtes inscrit.",
       "error": "Inscription impossible. Veuillez réessayer."
     },
-    "copyright": "© {year} Smart Market. Tous droits réservés.",
+    "copyright": "© {year} SmartPlaze. Tous droits réservés.",
     "followUs": "Suivez-nous"
   },
   "chat": {
-    "open": "Ouvrir l'assistant Smart Market",
+    "open": "Ouvrir l'assistant SmartPlaze",
     "close": "Fermer l'assistant",
-    "title": "Assistant Smart Market",
+    "title": "Assistant SmartPlaze",
     "status": "En ligne",
     "greeting": "Bonjour ! Je peux vous aider à trouver un produit, suivre une commande ou expliquer comment le séquestre vous protège. Que souhaitez-vous faire ?",
     "placeholder": "Posez votre question…",
@@ -768,7 +768,7 @@
     "disclaimerBasic": "Réponses rapides à partir des annonces et de nos pages d'aide. Pour le reste, parlez à une personne sur WhatsApp."
   },
   "pwa": {
-    "title": "Installer Smart Market",
+    "title": "Installer SmartPlaze",
     "description": "Ajoutez l'application à votre téléphone ou ordinateur pour un accès plus rapide et une expérience plein écran.",
     "install": "Installer l'app",
     "later": "Plus tard",
@@ -805,7 +805,7 @@
         "action": "Vérifier maintenant"
       },
       "seller": {
-        "title": "Vendre sur Smart Market",
+        "title": "Vendre sur SmartPlaze",
         "description": "Ouvrez une boutique, choisissez un plan et publiez avec des paiements sous séquestre.",
         "action": "Ouvrir une boutique",
         "manage": "Gérer ma boutique"
@@ -869,7 +869,7 @@
       },
       "ORDER_COMPLETED": {
         "title": "Commande terminée : {product}",
-        "body": "Merci d'avoir acheté sur Smart Market — vous pouvez maintenant évaluer le vendeur."
+        "body": "Merci d'avoir acheté sur SmartPlaze — vous pouvez maintenant évaluer le vendeur."
       },
       "DISPUTE_CREATED": {
         "title": "Un litige a été ouvert sur {product}",
@@ -1229,7 +1229,7 @@
     },
     "flashDeals": {
       "title": "Ventes flash",
-      "subtitle": "Proposez une annonce pour une vente flash Smart Market : vous indiquez un prix de campagne, notre équipe le valide, et le prix s’applique automatiquement pendant la vente.",
+      "subtitle": "Proposez une annonce pour une vente flash SmartPlaze : vous indiquez un prix de campagne, notre équipe le valide, et le prix s’applique automatiquement pendant la vente.",
       "open": "Campagnes ouvertes aux candidatures",
       "noneOpen": "Aucune campagne ouverte pour le moment",
       "noneOpenHint": "La prochaine vente flash apparaîtra ici dès son annonce.",
@@ -1238,7 +1238,7 @@
       "currentPrice": "Prix actuel {price}",
       "discount": "{percent} % de remise",
       "minDiscount": "Remise minimale : {percent} %",
-      "note": "Note pour Smart Market (facultatif)",
+      "note": "Note pour SmartPlaze (facultatif)",
       "notePlaceholder": "Stock, tailles, toute info utile",
       "submit": "Soumettre pour validation",
       "submitted": "Candidature envoyée.",
@@ -1249,7 +1249,7 @@
       "withdraw": "Retirer",
       "withdrawn": "Candidature retirée.",
       "livePrice": "prix de campagne actif",
-      "reviewNote": "Note de Smart Market",
+      "reviewNote": "Note de SmartPlaze",
       "dates": "{start} → {end}",
       "status": {
         "PENDING": "En attente",
@@ -1277,7 +1277,7 @@
     "title": "Administration",
     "noAccess": {
       "title": "Réservé au personnel",
-      "description": "Cet espace est réservé à l'équipe Smart Market.",
+      "description": "Cet espace est réservé à l'équipe SmartPlaze.",
       "action": "Retour à l'accueil"
     },
     "nav": {
@@ -1727,7 +1727,7 @@
       "secs": "Sec",
       "empty": "Aucune annonce en promotion pour le moment. Revenez bientôt.",
       "browse": "Voir tous les produits",
-      "campaignSubtitle": "Vente flash organisée par Smart Market, prix vérifiés",
+      "campaignSubtitle": "Vente flash organisée par SmartPlaze, prix vérifiés",
       "nextSale": "Prochaine vente flash : {name}",
       "startsIn": "Débute dans",
       "refreshIn": "Renouvellement dans",
@@ -1737,14 +1737,14 @@
       "days": "Jours"
     },
     "trust": {
-      "label": "Pourquoi acheter sur Smart Market",
+      "label": "Pourquoi acheter sur SmartPlaze",
       "escrow": {
         "title": "Paiements sous séquestre",
         "text": "Payez avec MTN Mobile Money ou Orange Money. Le vendeur est payé après votre confirmation."
       },
       "verified": {
         "title": "Vendeurs vérifiés",
-        "text": "Des boutiques indépendantes, de vraies personnes, vérifiées par Smart Market."
+        "text": "Des boutiques indépendantes, de vraies personnes, vérifiées par SmartPlaze."
       },
       "protection": {
         "title": "Protection acheteur",
@@ -1811,7 +1811,7 @@
   },
   "widgets": {
     "whatsapp": "Discutez avec nous sur WhatsApp",
-    "whatsappMessage": "Bonjour Smart Market, j'ai besoin d'aide pour…",
+    "whatsappMessage": "Bonjour SmartPlaze, j'ai besoin d'aide pour…",
     "backToTop": "Retour en haut"
   }
 }

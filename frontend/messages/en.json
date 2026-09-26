@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "Smart Market",
+    "brand": "SmartPlaze",
     "viewAll": "View all",
     "learnMore": "Learn more",
     "loading": "Loading…",
@@ -38,7 +38,7 @@
     "account": "My account",
     "myOrders": "My orders",
     "myStore": "My store",
-    "sell": "Sell on Smart Market",
+    "sell": "Sell on SmartPlaze",
     "signOut": "Sign out",
     "signedInAs": "Signed in as",
     "notifications": "Notifications",
@@ -110,7 +110,7 @@
         "titleLine1": "Pay with confidence.",
         "titleLine2": "Money held safely.",
         "titleLine3": "Released on delivery.",
-        "description": "Every order goes through Smart Market escrow. The seller is paid only after you confirm you received what you ordered.",
+        "description": "Every order goes through SmartPlaze escrow. The seller is paid only after you confirm you received what you ordered.",
         "primary": "How it works",
         "secondary": "Buyer protection",
         "steps": {
@@ -226,7 +226,7 @@
     "was": "was",
     "escrow": {
       "title": "Buy with confidence",
-      "point1": "Your payment is held in escrow by Smart Market.",
+      "point1": "Your payment is held in escrow by SmartPlaze.",
       "point2": "The seller only gets paid once you confirm receipt.",
       "point3": "Something wrong? Open a dispute and our team steps in."
     },
@@ -244,7 +244,7 @@
     "products": "{count} products",
     "defaultCategory": "Marketplace",
     "directoryTitle": "Stores",
-    "directorySubtitle": "Every verified seller on Smart Market.",
+    "directorySubtitle": "Every verified seller on SmartPlaze.",
     "searchPlaceholder": "Search stores…",
     "memberSince": "Member since {date}",
     "listings": "{count, plural, =0 {No listings} one {# listing} other {# listings}}",
@@ -270,7 +270,7 @@
       "password": "Password",
       "forgot": "Forgot password?",
       "submit": "Sign in",
-      "noAccount": "New to Smart Market?",
+      "noAccount": "New to SmartPlaze?",
       "register": "Create an account",
       "google": "Continue with Google"
     },
@@ -401,7 +401,7 @@
       "description": "The payment was cancelled or timed out. You can try again.",
       "retry": "Try again"
     },
-    "escrowNote": "Your payment is held by Smart Market until you confirm delivery.",
+    "escrowNote": "Your payment is held by SmartPlaze until you confirm delivery.",
     "verifyEmail": {
       "title": "Verify your email first",
       "description": "For your security, purchases require a verified email address.",
@@ -418,7 +418,7 @@
       "title": "How would you like to pay?",
       "MOBILE_MONEY": {
         "title": "Mobile Money (escrow)",
-        "description": "Pay now. Smart Market holds the money until you confirm delivery."
+        "description": "Pay now. SmartPlaze holds the money until you confirm delivery."
       },
       "CASH_ON_DELIVERY": {
         "title": "Cash on delivery",
@@ -535,7 +535,7 @@
     "cancelledBy": {
       "BUYER": "Cancelled by the buyer",
       "SELLER": "Cancelled by the seller",
-      "STAFF": "Cancelled by Smart Market"
+      "STAFF": "Cancelled by SmartPlaze"
     },
     "confirmReceiptHelpCod": "Only confirm once you have the item in hand and paid the seller in cash.",
     "group": {
@@ -580,7 +580,7 @@
     "faqTitle": "Plan questions"
   },
   "sell": {
-    "eyebrow": "Sell on Smart Market",
+    "eyebrow": "Sell on SmartPlaze",
     "title": "Turn your products into a business.",
     "description": "Open a store, choose a plan, publish your listings and reach buyers who pay through escrow — so you get paid, every time.",
     "cta": "Open my store",
@@ -608,7 +608,7 @@
   },
   "pages": {
     "howItWorks": {
-      "title": "How Smart Market works",
+      "title": "How SmartPlaze works",
       "subtitle": "Buying and selling with escrow, step by step."
     },
     "sellerGuide": {
@@ -628,7 +628,7 @@
       "subtitle": "We answer within one business day."
     },
     "about": {
-      "title": "About Smart Market",
+      "title": "About SmartPlaze",
       "subtitle": "A marketplace built on trust, made in Cameroon."
     },
     "terms": {
@@ -667,14 +667,14 @@
   "escrow": {
     "eyebrow": "How escrow works",
     "title": "Your payment stays protected until you receive your order.",
-    "subtitle": "Every purchase on Smart Market goes through escrow. Nobody gets paid until both sides confirm.",
+    "subtitle": "Every purchase on SmartPlaze goes through escrow. Nobody gets paid until both sides confirm.",
     "steps": {
       "pay": {
         "title": "You Pay",
         "description": "Checkout with Mobile Money or Orange Money."
       },
       "hold": {
-        "title": "Smart Market Holds Funds",
+        "title": "SmartPlaze Holds Funds",
         "description": "Your money is kept safe in escrow."
       },
       "deliver": {
@@ -696,7 +696,7 @@
     "eyebrow": "For sellers",
     "title": "Sell to a global audience",
     "subtitle": "Turn your products into a business.",
-    "description": "Create your store, choose a subscription plan, publish your products and reach customers through Smart Market.",
+    "description": "Create your store, choose a subscription plan, publish your products and reach customers through SmartPlaze.",
     "cta": "Become a Seller",
     "secondary": "View Subscription Plans"
   },
@@ -736,13 +736,13 @@
       "success": "Thanks — you're on the list.",
       "error": "Subscription failed. Please try again."
     },
-    "copyright": "© {year} Smart Market. All rights reserved.",
+    "copyright": "© {year} SmartPlaze. All rights reserved.",
     "followUs": "Follow us"
   },
   "chat": {
-    "open": "Open the Smart Market assistant",
+    "open": "Open the SmartPlaze assistant",
     "close": "Close assistant",
-    "title": "Smart Market Assistant",
+    "title": "SmartPlaze Assistant",
     "status": "Online",
     "greeting": "Hi! I can help you find products, track an order or explain how escrow protects you. What would you like to do?",
     "placeholder": "Ask me anything…",
@@ -768,7 +768,7 @@
     "disclaimerBasic": "Quick answers from live listings and our help pages. For anything else, talk to a person on WhatsApp."
   },
   "pwa": {
-    "title": "Install Smart Market",
+    "title": "Install SmartPlaze",
     "description": "Add the app to your phone or computer for faster access and a full-screen experience.",
     "install": "Install app",
     "later": "Not now",
@@ -805,7 +805,7 @@
         "action": "Verify now"
       },
       "seller": {
-        "title": "Sell on Smart Market",
+        "title": "Sell on SmartPlaze",
         "description": "Open a store, choose a plan and start listing with escrow-protected payments.",
         "action": "Open a store",
         "manage": "Manage my store"
@@ -869,7 +869,7 @@
       },
       "ORDER_COMPLETED": {
         "title": "Order completed: {product}",
-        "body": "Thanks for buying on Smart Market — you can now review the seller."
+        "body": "Thanks for buying on SmartPlaze — you can now review the seller."
       },
       "DISPUTE_CREATED": {
         "title": "A dispute was opened on {product}",
@@ -1229,7 +1229,7 @@
     },
     "flashDeals": {
       "title": "Flash deals",
-      "subtitle": "Put a listing in a Smart Market flash sale: propose a campaign price, our team approves it, and the price applies automatically for the duration of the sale.",
+      "subtitle": "Put a listing in a SmartPlaze flash sale: propose a campaign price, our team approves it, and the price applies automatically for the duration of the sale.",
       "open": "Campaigns open for applications",
       "noneOpen": "No campaign is open right now",
       "noneOpenHint": "You will see the next flash sale here as soon as it is announced.",
@@ -1238,7 +1238,7 @@
       "currentPrice": "Current price {price}",
       "discount": "{percent}% off",
       "minDiscount": "Minimum discount: {percent}%",
-      "note": "Note for Smart Market (optional)",
+      "note": "Note for SmartPlaze (optional)",
       "notePlaceholder": "Stock, sizes, anything useful",
       "submit": "Submit for approval",
       "submitted": "Application submitted.",
@@ -1249,7 +1249,7 @@
       "withdraw": "Withdraw",
       "withdrawn": "Application withdrawn.",
       "livePrice": "campaign price live",
-      "reviewNote": "Note from Smart Market",
+      "reviewNote": "Note from SmartPlaze",
       "dates": "{start} → {end}",
       "status": {
         "PENDING": "Pending review",
@@ -1277,7 +1277,7 @@
     "title": "Administration",
     "noAccess": {
       "title": "Staff only",
-      "description": "This area is reserved for Smart Market staff.",
+      "description": "This area is reserved for SmartPlaze staff.",
       "action": "Back to home"
     },
     "nav": {
@@ -1727,7 +1727,7 @@
       "secs": "Secs",
       "empty": "No discounted listings right now. Check back soon.",
       "browse": "Browse all products",
-      "campaignSubtitle": "Back-office flash sale, prices checked by Smart Market",
+      "campaignSubtitle": "Back-office flash sale, prices checked by SmartPlaze",
       "nextSale": "Next flash sale: {name}",
       "startsIn": "Starts in",
       "refreshIn": "Deals refresh in",
@@ -1737,14 +1737,14 @@
       "days": "Days"
     },
     "trust": {
-      "label": "Why buy on Smart Market",
+      "label": "Why buy on SmartPlaze",
       "escrow": {
         "title": "Secure Escrow Payments",
         "text": "Pay with MTN Mobile Money or Orange Money. Seller paid after you confirm receipt."
       },
       "verified": {
         "title": "Verified Sellers",
-        "text": "Independent stores, real people, verified by Smart Market."
+        "text": "Independent stores, real people, verified by SmartPlaze."
       },
       "protection": {
         "title": "Buyer Protection",
@@ -1811,7 +1811,7 @@
   },
   "widgets": {
     "whatsapp": "Chat with us on WhatsApp",
-    "whatsappMessage": "Hello Smart Market, I need help with…",
+    "whatsappMessage": "Hello SmartPlaze, I need help with…",
     "backToTop": "Back to top"
   }
 }

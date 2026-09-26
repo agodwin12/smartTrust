@@ -79,7 +79,7 @@ async function send(refund) {
       provider: operator,
       phoneNumber: refund.phoneNumber,
       externalId: refund.externalId,
-      description: `Smart Market refund — order ${refund.orderId}`,
+      description: `SmartPlaze refund — order ${refund.orderId}`,
       metadata: { orderId: refund.orderId, refundId: refund.id, kind: "refund" },
     });
   } catch (err) {

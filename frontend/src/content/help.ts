@@ -3,10 +3,10 @@ import type { Localized, PageContent } from "@/content/types";
 
 export const howItWorks: Localized<PageContent> = {
   en: {
-    title: "How Smart Market works",
+    title: "How SmartPlaze works",
     subtitle: "Buying and selling with escrow, step by step.",
     intro:
-      "Smart Market is a marketplace where every payment goes through escrow: the buyer pays Smart Market, not the seller, and the money is only released once the order is confirmed by both sides. Here is exactly what happens.",
+      "SmartPlaze is a marketplace where every payment goes through escrow: the buyer pays SmartPlaze, not the seller, and the money is only released once the order is confirmed by both sides. Here is exactly what happens.",
     sections: [
       {
         id: "buying",
@@ -14,7 +14,7 @@ export const howItWorks: Localized<PageContent> = {
         steps: [
           { title: "Find a listing", description: "Browse categories, deals or search. Every listing belongs to a verified store with a public profile." },
           { title: "Buy now", description: "Choose a quantity and pay with MTN Mobile Money or Orange Money. You approve the payment on your phone with your PIN." },
-          { title: "Smart Market holds the money", description: "The amount sits in escrow. The seller can see the order is paid but cannot touch the funds." },
+          { title: "SmartPlaze holds the money", description: "The amount sits in escrow. The seller can see the order is paid but cannot touch the funds." },
           { title: "The seller delivers", description: "The seller hands over or ships the item and confirms delivery in their dashboard." },
           { title: "You confirm receipt", description: "Check the item, then confirm receipt in My orders. Only then is the seller paid." },
         ],
@@ -23,7 +23,7 @@ export const howItWorks: Localized<PageContent> = {
         id: "escrow-explained",
         heading: "Escrow, in plain words",
         paragraphs: [
-          "Escrow means a trusted third party keeps the money while a deal is being completed. On Smart Market that third party is the platform itself.",
+          "Escrow means a trusted third party keeps the money while a deal is being completed. On SmartPlaze that third party is the platform itself.",
           "Because both the buyer and the seller have to confirm before funds move, neither side can be cheated: a buyer never pays for something that never arrives, and a seller never delivers something that never gets paid.",
         ],
       },
@@ -42,7 +42,7 @@ export const howItWorks: Localized<PageContent> = {
         heading: "When something goes wrong",
         bullets: [
           "Either side can open a dispute while an order is paid and not yet completed.",
-          "A dispute freezes the order: nobody can confirm or release funds until Smart Market reviews it.",
+          "A dispute freezes the order: nobody can confirm or release funds until SmartPlaze reviews it.",
           "Our team looks at the evidence from both sides and either releases the money to the seller or refunds the buyer.",
         ],
       },
@@ -58,10 +58,10 @@ export const howItWorks: Localized<PageContent> = {
     ],
   },
   fr: {
-    title: "Comment fonctionne Smart Market",
+    title: "Comment fonctionne SmartPlaze",
     subtitle: "Acheter et vendre avec le séquestre, étape par étape.",
     intro:
-      "Smart Market est une marketplace où chaque paiement passe par un séquestre : l'acheteur paie Smart Market, pas le vendeur, et l'argent n'est libéré qu'une fois la commande confirmée par les deux parties. Voici exactement ce qui se passe.",
+      "SmartPlaze est une marketplace où chaque paiement passe par un séquestre : l'acheteur paie SmartPlaze, pas le vendeur, et l'argent n'est libéré qu'une fois la commande confirmée par les deux parties. Voici exactement ce qui se passe.",
     sections: [
       {
         id: "buying",
@@ -69,7 +69,7 @@ export const howItWorks: Localized<PageContent> = {
         steps: [
           { title: "Trouvez une annonce", description: "Parcourez les catégories, les promos ou la recherche. Chaque annonce appartient à une boutique vérifiée avec un profil public." },
           { title: "Achetez", description: "Choisissez une quantité et payez avec MTN Mobile Money ou Orange Money. Vous approuvez le paiement sur votre téléphone avec votre code PIN." },
-          { title: "Smart Market conserve l'argent", description: "Le montant est placé sous séquestre. Le vendeur voit que la commande est payée mais ne peut pas toucher les fonds." },
+          { title: "SmartPlaze conserve l'argent", description: "Le montant est placé sous séquestre. Le vendeur voit que la commande est payée mais ne peut pas toucher les fonds." },
           { title: "Le vendeur livre", description: "Le vendeur remet ou expédie l'article et confirme la livraison dans son espace." },
           { title: "Vous confirmez la réception", description: "Vérifiez l'article, puis confirmez la réception dans Mes commandes. Ce n'est qu'à ce moment que le vendeur est payé." },
         ],
@@ -78,7 +78,7 @@ export const howItWorks: Localized<PageContent> = {
         id: "escrow-explained",
         heading: "Le séquestre, en clair",
         paragraphs: [
-          "Le séquestre, c'est un tiers de confiance qui garde l'argent pendant qu'une transaction se termine. Sur Smart Market, ce tiers est la plateforme elle-même.",
+          "Le séquestre, c'est un tiers de confiance qui garde l'argent pendant qu'une transaction se termine. Sur SmartPlaze, ce tiers est la plateforme elle-même.",
           "Comme l'acheteur et le vendeur doivent tous deux confirmer avant que les fonds bougent, personne ne peut être lésé : un acheteur ne paie jamais pour un article qui n'arrive pas, et un vendeur ne livre jamais un article qui ne sera pas payé.",
         ],
       },
@@ -97,7 +97,7 @@ export const howItWorks: Localized<PageContent> = {
         heading: "Quand quelque chose ne va pas",
         bullets: [
           "Chaque partie peut ouvrir un litige tant qu'une commande est payée et pas encore terminée.",
-          "Un litige gèle la commande : personne ne peut confirmer ni libérer les fonds tant que Smart Market ne l'a pas examiné.",
+          "Un litige gèle la commande : personne ne peut confirmer ni libérer les fonds tant que SmartPlaze ne l'a pas examiné.",
           "Notre équipe étudie les éléments des deux parties et libère l'argent au vendeur ou rembourse l'acheteur.",
         ],
       },
@@ -147,7 +147,7 @@ export const sellerGuide: Localized<PageContent> = {
       {
         heading: "4. Hero placement",
         paragraphs: [
-          "Business and Premium sellers can feature one of their published listings in the homepage hero and in its category hero for the duration defined by their plan. Smart Market admins may also feature outstanding listings.",
+          "Business and Premium sellers can feature one of their published listings in the homepage hero and in its category hero for the duration defined by their plan. SmartPlaze admins may also feature outstanding listings.",
         ],
       },
       {
@@ -209,7 +209,7 @@ export const sellerGuide: Localized<PageContent> = {
       {
         heading: "4. Mise en avant",
         paragraphs: [
-          "Les vendeurs Business et Premium peuvent mettre l'une de leurs annonces publiées à la une de l'accueil et de sa catégorie pendant la durée définie par leur plan. Les administrateurs de Smart Market peuvent aussi mettre en avant des annonces remarquables.",
+          "Les vendeurs Business et Premium peuvent mettre l'une de leurs annonces publiées à la une de l'accueil et de sa catégorie pendant la durée définie par leur plan. Les administrateurs de SmartPlaze peuvent aussi mettre en avant des annonces remarquables.",
         ],
       },
       {
@@ -241,11 +241,11 @@ export const returns: Localized<PageContent> = {
   en: {
     title: "Returns & refunds",
     subtitle: "What happens when an order doesn't go as planned.",
-    intro: "Because every payment is held in escrow, a refund on Smart Market is never a matter of chasing a seller. Here is how protection works.",
+    intro: "Because every payment is held in escrow, a refund on SmartPlaze is never a matter of chasing a seller. Here is how protection works.",
     sections: [
       {
         heading: "You are protected until you confirm",
-        paragraphs: ["The seller is only paid after you confirm receipt. Until then your money stays with Smart Market. Take the time to inspect the item before confirming."],
+        paragraphs: ["The seller is only paid after you confirm receipt. Until then your money stays with SmartPlaze. Take the time to inspect the item before confirming."],
       },
       {
         heading: "When to open a dispute",
@@ -276,11 +276,11 @@ export const returns: Localized<PageContent> = {
   fr: {
     title: "Retours et remboursements",
     subtitle: "Ce qui se passe quand une commande ne se déroule pas comme prévu.",
-    intro: "Comme chaque paiement est sous séquestre, un remboursement sur Smart Market ne consiste jamais à courir après un vendeur. Voici comment fonctionne la protection.",
+    intro: "Comme chaque paiement est sous séquestre, un remboursement sur SmartPlaze ne consiste jamais à courir après un vendeur. Voici comment fonctionne la protection.",
     sections: [
       {
         heading: "Vous êtes protégé jusqu'à votre confirmation",
-        paragraphs: ["Le vendeur n'est payé qu'après votre confirmation de réception. Jusque-là, votre argent reste chez Smart Market. Prenez le temps d'inspecter l'article avant de confirmer."],
+        paragraphs: ["Le vendeur n'est payé qu'après votre confirmation de réception. Jusque-là, votre argent reste chez SmartPlaze. Prenez le temps d'inspecter l'article avant de confirmer."],
       },
       {
         heading: "Quand ouvrir un litige",
@@ -317,14 +317,14 @@ export const faq: Localized<{ group: string; items: FaqItem[] }[]> = {
       items: [
         { question: "Do I need an account to buy?", answer: "Yes — an account with a verified email lets you track your order, confirm receipt and open a dispute if needed. Sign-up takes a minute, with email or Google." },
         { question: "How do I pay?", answer: "With MTN Mobile Money or Orange Money. You enter your number, receive a prompt on your phone and approve with your PIN." },
-        { question: "When is the seller paid?", answer: "Only after you confirm receipt in My orders. Until then your money is held in escrow by Smart Market." },
+        { question: "When is the seller paid?", answer: "Only after you confirm receipt in My orders. Until then your money is held in escrow by SmartPlaze." },
         { question: "Can I buy several items at once?", answer: "You can keep several items in your cart, but each item is paid through its own escrow order so every purchase is protected separately." },
       ],
     },
     {
       group: "Escrow & disputes",
       items: [
-        { question: "What is escrow?", answer: "A trusted third party — Smart Market — keeps the money until both the buyer and the seller confirm the deal is done." },
+        { question: "What is escrow?", answer: "A trusted third party — SmartPlaze — keeps the money until both the buyer and the seller confirm the deal is done." },
         { question: "What if the item is not as described?", answer: "Don't confirm receipt. Open a dispute from My orders; the order is frozen and our team reviews both sides." },
         { question: "How long does a dispute take?", answer: "Most are resolved within 3 business days." },
       ],
@@ -353,14 +353,14 @@ export const faq: Localized<{ group: string; items: FaqItem[] }[]> = {
       items: [
         { question: "Faut-il un compte pour acheter ?", answer: "Oui — un compte avec un e-mail vérifié vous permet de suivre votre commande, de confirmer la réception et d'ouvrir un litige si besoin. L'inscription prend une minute, par e-mail ou Google." },
         { question: "Comment payer ?", answer: "Avec MTN Mobile Money ou Orange Money. Vous saisissez votre numéro, recevez une demande sur votre téléphone et approuvez avec votre code PIN." },
-        { question: "Quand le vendeur est-il payé ?", answer: "Seulement après votre confirmation de réception dans Mes commandes. Jusque-là, votre argent est sous séquestre chez Smart Market." },
+        { question: "Quand le vendeur est-il payé ?", answer: "Seulement après votre confirmation de réception dans Mes commandes. Jusque-là, votre argent est sous séquestre chez SmartPlaze." },
         { question: "Puis-je acheter plusieurs articles à la fois ?", answer: "Vous pouvez garder plusieurs articles dans votre panier, mais chaque article est payé via sa propre commande sous séquestre, pour que chaque achat soit protégé séparément." },
       ],
     },
     {
       group: "Séquestre et litiges",
       items: [
-        { question: "Qu'est-ce que le séquestre ?", answer: "Un tiers de confiance — Smart Market — garde l'argent jusqu'à ce que l'acheteur et le vendeur confirment tous deux que la transaction est terminée." },
+        { question: "Qu'est-ce que le séquestre ?", answer: "Un tiers de confiance — SmartPlaze — garde l'argent jusqu'à ce que l'acheteur et le vendeur confirment tous deux que la transaction est terminée." },
         { question: "Et si l'article n'est pas conforme ?", answer: "Ne confirmez pas la réception. Ouvrez un litige depuis Mes commandes ; la commande est gelée et notre équipe examine les deux versions." },
         { question: "Combien de temps dure un litige ?", answer: "La plupart sont résolus sous 3 jours ouvrés." },
       ],

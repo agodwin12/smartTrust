@@ -1,16 +1,16 @@
-# Deploying Smart Market
+# Deploying SmartPlaze
 
 Target: one Linux VPS (Ubuntu 22.04/24.04, 2 vCPU / 4 GB is enough to start) running
 Docker Compose, with PostgreSQL installed on the host (the project's standing decision:
 only the backend and frontend are containerised). Caddy in the stack terminates HTTPS with
 automatic Let's Encrypt certificates, so no nginx/certbot work is needed.
 
-Everything below assumes the domain is `smartmarket.example`; replace it everywhere.
+Everything below assumes the domain is `smartplaze.com`; replace it everywhere.
 
 ## 1. DNS (do this first)
 
-Create `A` (and `AAAA` if you have IPv6) records for `smartmarket.example` and
-`www.smartmarket.example` pointing at the server. Caddy requests the certificate on first
+Create `A` (and `AAAA` if you have IPv6) records for `smartplaze.com` and
+`www.smartplaze.com` pointing at the server. Caddy requests the certificate on first
 start and will keep failing (and retrying) until the records resolve.
 
 ## 2. Server preparation
@@ -53,8 +53,8 @@ Third-party dashboards need the production URLs:
 
 | Provider | Setting | Value |
 |---|---|---|
-| K-Pay | Webhook URL | `https://smartmarket.example/api/payments/webhooks/kpay` |
-| Google Cloud | Authorized redirect URI | `https://smartmarket.example/api/auth/google/callback` |
+| K-Pay | Webhook URL | `https://smartplaze.com/api/payments/webhooks/kpay` |
+| Google Cloud | Authorized redirect URI | `https://smartplaze.com/api/auth/google/callback` |
 | Resend | Verified sender domain | the domain used in `RESEND_FROM_EMAIL` |
 | Cloudflare R2 | Public bucket URL | `CLOUDFLARE_R2_PUBLIC_URL` (also whitelisted in `frontend/next.config.ts` `images.remotePatterns`) |
 
@@ -63,8 +63,8 @@ Third-party dashboards need the production URLs:
 ```bash
 docker compose -f docker-compose.prod.yml --env-file .env up -d --build
 docker compose -f docker-compose.prod.yml logs -f caddy   # wait for "certificate obtained"
-curl -s https://smartmarket.example/api/health            # {"status":"ok",...}
-curl -s https://smartmarket.example/healthz               # frontend liveness
+curl -s https://smartplaze.com/api/health            # {"status":"ok",...}
+curl -s https://smartplaze.com/healthz               # frontend liveness
 ```
 
 The backend container runs `prisma migrate deploy` on every start, so the schema is
@@ -111,15 +111,15 @@ lock-protected, so this is optional).
 ## Google OAuth client (Sign in with Google)
 
 1. Go to https://console.cloud.google.com and sign in with the Google account that should own the credentials (a company account, not a personal one).
-2. Create a project: top bar project picker → **New project** → name it `Smart Market` → **Create**, then select it.
-3. Configure the consent screen: left menu **APIs & Services → OAuth consent screen** (Google now calls this **Google Auth Platform → Branding/Audience**). Choose **External**, fill App name `Smart Market`, user support email, the app logo (optional), **Authorized domains** = your domain (e.g. `smartmarket.example`), developer contact email → Save.
+2. Create a project: top bar project picker → **New project** → name it `SmartPlaze` → **Create**, then select it.
+3. Configure the consent screen: left menu **APIs & Services → OAuth consent screen** (Google now calls this **Google Auth Platform → Branding/Audience**). Choose **External**, fill App name `SmartPlaze`, user support email, the app logo (optional), **Authorized domains** = your domain (e.g. `smartplaze.com`), developer contact email → Save.
 4. Scopes: add only `openid`, `email` and `profile` (these are non-sensitive; no verification review is needed).
 5. Audience / publishing: while testing, add the Google accounts you will log in with as **Test users**. Before launch click **Publish app** so any Google user can sign in.
-6. Create the client: **APIs & Services → Credentials → Create credentials → OAuth client ID** → Application type **Web application** → name `Smart Market web`.
-   - **Authorized JavaScript origins**: `https://smartmarket.example` (and `http://localhost:3020` for local development).
-   - **Authorized redirect URIs**: `https://smartmarket.example/api/auth/google/callback` (and `http://localhost:5000/api/auth/google/callback` for local development). The value must match `GOOGLE_REDIRECT_URI` character for character.
+6. Create the client: **APIs & Services → Credentials → Create credentials → OAuth client ID** → Application type **Web application** → name `SmartPlaze web`.
+   - **Authorized JavaScript origins**: `https://smartplaze.com` (and `http://localhost:3020` for local development).
+   - **Authorized redirect URIs**: `https://smartplaze.com/api/auth/google/callback` (and `http://localhost:5000/api/auth/google/callback` for local development). The value must match `GOOGLE_REDIRECT_URI` character for character.
 7. Click **Create** and copy the **Client ID** and **Client secret** into `backend/.env`:
-   `GOOGLE_CLIENT_ID=…`, `GOOGLE_CLIENT_SECRET=…`, `GOOGLE_REDIRECT_URI=https://smartmarket.example/api/auth/google/callback`, then restart the backend.
+   `GOOGLE_CLIENT_ID=…`, `GOOGLE_CLIENT_SECRET=…`, `GOOGLE_REDIRECT_URI=https://smartplaze.com/api/auth/google/callback`, then restart the backend.
 8. Test: open the site → **Continue with Google** → you should land back on the site signed in; the backend logs `login` with `provider: google` in the audit log. A `redirect_uri_mismatch` error means step 6 and `GOOGLE_REDIRECT_URI` differ.
 
 ## Variant: shared VPS with an existing nginx (staging on 31.97.53.16)

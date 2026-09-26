@@ -125,7 +125,7 @@ async function pay(orderId, buyerId, { provider, phoneNumber }) {
       provider,
       phoneNumber,
       externalId,
-      description: `Smart Market order — ${order.id}`,
+      description: `SmartPlaze order — ${order.id}`,
       metadata: { orderId: order.id },
     });
   } catch (err) {

@@ -37,8 +37,8 @@ export default async function ContactPage({ params }: Props) {
                   <Mail className="mt-0.5 size-4 text-brand-blue" />
                   <span>
                     <span className="block text-foreground-muted">{tc("emailUs")}</span>
-                    <a href="mailto:support@smartmarket.dev" className="font-semibold text-foreground hover:text-brand-blue">
-                      support@smartmarket.dev
+                    <a href="mailto:support@smartplaze.com" className="font-semibold text-foreground hover:text-brand-blue">
+                      support@smartplaze.com
                     </a>
                   </span>
                 </li>

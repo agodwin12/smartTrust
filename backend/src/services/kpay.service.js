@@ -132,7 +132,7 @@ function predictProvider(phoneNumber) {
 }
 
 /**
- * Sends funds FROM Smart Market's own K-Pay wallet TO a beneficiary's Mobile
+ * Sends funds FROM SmartPlaze's own K-Pay wallet TO a beneficiary's Mobile
  * Money number — this is how a seller cashes out their internal Wallet.balance.
  * Draws down the platform's aggregate K-Pay balance (built up from collected
  * payments), not any per-seller account at K-Pay itself.
