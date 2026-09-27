@@ -9,6 +9,8 @@ export function useAuthError() {
   return (error: unknown): string => {
     if (error instanceof ApiRequestError) {
       if (error.status === 429) return t("RATE_LIMITED");
+      // The API names the exact problem ("Password must contain at least one letter.") — show it.
+      if (error.code === "VALIDATION_ERROR" && error.message) return error.message;
       if (t.has(error.code)) return t(error.code);
       if (error.status < 500 && error.message) return error.message;
     }

@@ -5,7 +5,7 @@
  *   - everything else (HTML, JS, CSS, API) → network only (never intercepted)
  * Bump CACHE_VERSION to drop every old cache on the next activation.
  */
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2"; // v2: SmartPlaze logo and icons
 const ASSET_CACHE = `sm-assets-${CACHE_VERSION}`;
 const MAX_ASSET_ENTRIES = 200;
 

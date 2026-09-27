@@ -744,12 +744,11 @@
     "close": "Fermer l'assistant",
     "title": "Assistant SmartPlaze",
     "status": "En ligne",
-    "greeting": "Bonjour ! Je peux vous aider à trouver un produit, suivre une commande ou expliquer comment le séquestre vous protège. Que souhaitez-vous faire ?",
+    "greeting": "Bonjour ! Je peux vous aider à trouver des produits, vous expliquer comment le séquestre vous protège ou vous aider à vendre. Que souhaitez-vous faire ?",
     "placeholder": "Posez votre question…",
     "send": "Envoyer",
     "chips": {
       "find": "Trouver un produit",
-      "track": "Suivre ma commande",
       "escrow": "Expliquer le séquestre",
       "seller": "Devenir vendeur",
       "plans": "Voir les abonnements",
@@ -759,9 +758,7 @@
     "offline": "L'assistant est hors ligne pour le moment. Utilisez un raccourci ci-dessous ou contactez le support.",
     "error": "Une erreur est survenue. Veuillez réessayer.",
     "viewProduct": "Voir",
-    "viewOrder": "Ouvrir la commande",
     "products": "Annonces suggérées",
-    "orders": "Vos commandes",
     "reset": "Nouvelle conversation",
     "disclaimer": "Les réponses sont générées par une IA et peuvent contenir des erreurs. Prix et disponibilités proviennent des annonces en direct.",
     "offlineStatus": "Hors ligne",
@@ -1373,7 +1370,8 @@
         "phone": "Téléphone (facultatif)",
         "password": "Mot de passe temporaire",
         "role": "Rôle",
-        "submit": "Créer le compte"
+        "submit": "Créer le compte",
+        "passwordHint": "Au moins 8 caractères, avec au moins une lettre et un chiffre (ex. Staff2026)."
       },
       "verified": "Vérifié",
       "unverified": "Non vérifié",

@@ -11,7 +11,7 @@ type BrandMarkProps = {
   priority?: boolean;
 };
 
-/** The Smarttrustexpress logo, cropped to its artwork (public/logo-header.png, 993x198, transparent). */
+/** The SmartPlaze logo, cropped to its artwork (public/brand/smartplaze-logo.png, 1005x232, transparent). On a white plate on the navy bar and in dark mode, where the blue lettering would not read. */
 export function BrandMark({ tone = "dark", size = "md", className, priority = true }: BrandMarkProps) {
   const onNavy = tone === "dark";
   // Phones: 28px tall but never wider than 40% of the screen, so the header icons always fit.
@@ -20,9 +20,9 @@ export function BrandMark({ tone = "dark", size = "md", className, priority = tr
     <Link
       href="/"
       aria-label="SmartPlaze — home"
-      className={cn("inline-flex shrink-0 items-center", onNavy && "rounded-[7px] bg-white px-2 py-1", className)}
+      className={cn("inline-flex shrink-0 items-center", onNavy ? "rounded-[7px] bg-white px-2 py-1" : "dark:rounded-[7px] dark:bg-white dark:px-2 dark:py-1", className)}
     >
-      <Image src="/logo-header.png" alt="Smarttrustexpress" width={993} height={198} sizes="(max-width: 1024px) 40vw, 200px" priority={priority} className={cn("w-auto object-contain object-left", height)} />
+      <Image src="/brand/smartplaze-logo.png" alt="SmartPlaze" width={1005} height={232} sizes="(max-width: 1024px) 40vw, 200px" priority={priority} className={cn("w-auto object-contain object-left", height)} />
     </Link>
   );
 }

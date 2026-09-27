@@ -66,8 +66,8 @@ function CreateStaffSheet({ open, onOpenChange, onCreated }: { open: boolean; on
           <Field label={t("form.phone")}>
             <input name="phone" type="tel" className={cn(adminField, "w-full")} />
           </Field>
-          <Field label={t("form.password")}>
-            <input name="password" type="text" required minLength={8} autoComplete="new-password" className={cn(adminField, "w-full")} />
+          <Field label={t("form.password")} hint={t("form.passwordHint")}>
+            <input name="password" type="text" required minLength={8} pattern="(?=.*[A-Za-z])(?=.*[0-9]).{8,}" title={t("form.passwordHint")} autoComplete="new-password" className={cn(adminField, "w-full")} />
           </Field>
           <Field label={t("form.role")}>
             <select name="role" defaultValue="CUSTOMER_SERVICE" className={cn(adminField, "w-full")}>

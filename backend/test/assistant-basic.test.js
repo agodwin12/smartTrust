@@ -44,14 +44,20 @@ describe("storefront chat (built-in answers, no AI model)", () => {
     assert.deepEqual(fr.body.products.map((p) => p.title), ["Oak Coffee Table"]);
   });
 
-  test("orders, escrow, selling and human hand-off get useful answers", async () => {
+  test("the customer chat never looks up orders, it points to the order pages", async () => {
     const anon = await ask("where is my order?");
     assert.match(anon.body.reply, /\/login/);
     assert.match(anon.body.reply, /\/orders\/track/);
 
     await createPaidOrder(buyer.user.id, sofa);
     const mine = await ask("track my order", { token: buyer.token });
-    assert.equal(mine.body.orders.length, 1);
+    assert.equal(mine.status, 200);
+    assert.equal(mine.body.orders, undefined, "no order data in the reply");
+    assert.doesNotMatch(mine.body.reply, /Grey Fabric Sofa/, "no order details in the text");
+    assert.match(mine.body.reply, /\/account\/orders/);
+  });
+
+  test("escrow, selling and human hand-off get useful answers", async () => {
 
     assert.match((await ask("how does escrow work?")).body.reply, /escrow/i);
     assert.match((await ask("I want to sell my phones")).body.reply, /\/sell/);

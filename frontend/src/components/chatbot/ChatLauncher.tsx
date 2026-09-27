@@ -8,9 +8,8 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Link } from "@/i18n/navigation";
 import { ApiRequestError } from "@/lib/api";
-import { formatDate, formatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { OrderStatus } from "@/types";
 
 type ProductCard = {
   id: string;
@@ -22,15 +21,12 @@ type ProductCard = {
   store: { name: string; slug: string } | null;
 };
 
-type OrderCard = { id: string; title: string; slug: string | null; image: string | null; status: OrderStatus; totalAmount: string; createdAt: string };
+type ChatReply = { reply: string; products: ProductCard[] };
 
-type ChatReply = { reply: string; products: ProductCard[]; orders: OrderCard[] };
-
-type Message = { id: number; from: "assistant" | "user"; text: string; products?: ProductCard[]; orders?: OrderCard[]; tone?: "error" };
+type Message = { id: number; from: "assistant" | "user"; text: string; products?: ProductCard[]; tone?: "error" };
 
 const CHIPS = [
   { key: "find", href: "/categories" },
-  { key: "track", href: "/account/orders" },
   { key: "escrow", href: "/how-it-works#escrow" },
   { key: "seller", href: "/sell" },
   { key: "plans", href: "/subscriptions" },
@@ -41,7 +37,6 @@ const HISTORY_LIMIT = 12;
 /** Spec 23: bottom-right launcher, gentle idle pulse every ~10s, panel scales 0.96→1. */
 export function ChatLauncher({ whatsappUrl = null }: { whatsappUrl?: string | null }) {
   const t = useTranslations("chat");
-  const to = useTranslations("orders");
   const locale = useLocale();
   const reduceMotion = useReducedMotion();
   const { authFetch } = useAuth();
@@ -88,7 +83,7 @@ export function ChatLauncher({ whatsappUrl = null }: { whatsappUrl?: string | nu
       // The API wants the transcript to start with the user — drop a leading assistant turn if the window cut there.
       while (history.length && history[0].role !== "user") history.shift();
       const data = await authFetch<ChatReply>("assistant/chat", { method: "POST", body: { messages: history, locale } });
-      setMessages((m) => [...m, { id: id + 1, from: "assistant", text: data.reply, products: data.products, orders: data.orders }]);
+      setMessages((m) => [...m, { id: id + 1, from: "assistant", text: data.reply, products: data.products }]);
     } catch (err) {
       const offline = err instanceof ApiRequestError && (err.code === "ASSISTANT_UNAVAILABLE" || err.status === 503);
       if (offline) setEnabled(false);
@@ -171,24 +166,6 @@ export function ChatLauncher({ whatsappUrl = null }: { whatsappUrl?: string | nu
                               {p.store && <span className="block truncate text-xs text-foreground-muted">{p.store.name}</span>}
                             </span>
                             <ExternalLink className="size-4 shrink-0 text-foreground-muted" aria-label={t("viewProduct")} />
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {m.orders && m.orders.length > 0 && (
-                    <ul className="space-y-1.5" aria-label={t("orders")}>
-                      {m.orders.map((o) => (
-                        <li key={o.id}>
-                          <Link href={`/account/orders/${o.id}`} onClick={() => setOpen(false)} className="flex items-center gap-3 rounded-xl border border-border bg-background p-2 transition-colors hover:border-brand-blue">
-                            <span className="relative size-12 shrink-0 overflow-hidden rounded-lg bg-surface-hover">{o.image && <Image src={o.image} alt="" fill sizes="48px" className="object-cover" />}</span>
-                            <span className="min-w-0 flex-1">
-                              <span className="block truncate text-sm font-semibold text-foreground">{o.title}</span>
-                              <span className="block text-xs text-foreground-muted">
-                                {to(`status.${o.status}`)} · {formatPrice(o.totalAmount, locale)} · {formatDate(o.createdAt, locale)}
-                              </span>
-                            </span>
-                            <ExternalLink className="size-4 shrink-0 text-foreground-muted" aria-label={t("viewOrder")} />
                           </Link>
                         </li>
                       ))}

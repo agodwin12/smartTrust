@@ -137,7 +137,12 @@ async function updateRole(actor, userId, role) {
 /** SUPER_ADMIN only (route-enforced) — creates an ACCOUNTANT / CUSTOMER_SERVICE / SUPER_ADMIN account. */
 async function createStaff({ email, password, firstName, lastName, phone, role }) {
   const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) throw new ApiError(409, "An account with this email already exists.", "EMAIL_IN_USE");
+  if (existing) {
+    throw new ApiError(409, "This email already has an account. Use another email, or open that user in Users and change their role instead.", "EMAIL_IN_USE");
+  }
+  if (phone && (await prisma.user.findUnique({ where: { phone } }))) {
+    throw new ApiError(409, "This phone number is already used by another account. Leave it empty or use another number.", "PHONE_IN_USE");
+  }
 
   const passwordHash = await bcrypt.hash(password, auth.bcryptSaltRounds);
   const user = await prisma.user.create({

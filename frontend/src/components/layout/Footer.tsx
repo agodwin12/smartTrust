@@ -59,8 +59,8 @@ export async function Footer() {
         <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-12 xl:gap-8">
           {/* Brand */}
           <div className="xl:col-span-3">
-            <Link href="/" className="inline-block" aria-label="SmartPlaze — home">
-              <Image src="/logo.png" alt="Smarttrustexpress" width={1080} height={374} className="h-12 w-auto" />
+            <Link href="/" className="inline-block dark:rounded-xl dark:bg-white dark:px-3 dark:py-2" aria-label="SmartPlaze — home">
+              <Image src="/brand/smartplaze-logo.png" alt="SmartPlaze" width={1005} height={232} className="h-11 w-auto" />
             </Link>
             <p className="mt-3 font-accent text-lg text-foreground-secondary">{t("tagline")}</p>
             <div className="mt-5 flex items-center gap-2">
@@ -110,7 +110,7 @@ export async function Footer() {
 
         <div className="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-xs text-foreground-muted sm:flex-row sm:items-center sm:justify-between">
           <p>{t("copyright", { year: new Date().getFullYear() })}</p>
-          <p className="font-accent text-sm text-foreground-secondary">Smarttrustexpress</p>
+          <p className="font-accent text-sm text-foreground-secondary">smartplaze.com</p>
         </div>
       </Container>
     </footer>

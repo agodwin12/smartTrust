@@ -1,12 +1,13 @@
 const advertisementService = require("./advertisement.service");
 const categoryService = require("./category.service");
-const orderService = require("./order.service");
 const planService = require("./subscriptionPlan.service");
 
 /**
  * Storefront chat for shoppers and sellers. It answers without any AI model: keyword intents in
- * English and French over live data (product search with budgets, the user's own orders, escrow,
- * cash on delivery, plans, selling, deals, categories) and a hand-off to a person on WhatsApp.
+ * English and French over live data (product search with budgets, escrow, cash on delivery, plans,
+ * selling, deals, categories) and a hand-off to a person on WhatsApp. It never looks up orders:
+ * order questions get a link to the customer's own order pages. Order tracking and summaries are
+ * for the Super Admin only, in the back-office assistant.
  * Gemini is reserved for the Super Admin back-office assistant (adminAssistant.service.js).
  */
 
@@ -28,17 +29,6 @@ const productCard = (ad) => ({
   store: ad.store ? { name: ad.store.name, slug: ad.store.slug } : null,
 });
 
-const orderCard = (order) => ({
-  id: order.id,
-  title: order.advertisement?.title ?? "",
-  slug: order.advertisement?.slug ?? null,
-  image: order.advertisement?.images?.[0] ?? null,
-  status: order.status,
-  totalAmount: String(order.totalAmount),
-  createdAt: order.createdAt,
-});
-
-/** Runs one tool call. Returns { text, products?, orders? } — text goes back to the model. */
 /* ------------------------------------------------------------------------- */
 /* Built-in answers                                                           */
 /* ------------------------------------------------------------------------- */
@@ -113,13 +103,13 @@ async function basicChat({ messages, locale = "en", user = null }) {
   const raw = typeof last?.content === "string" ? last.content : "";
   const text = fold(raw).trim();
   const lang = FRENCH_HINTS.test(text) ? "fr" : locale === "fr" ? "fr" : "en";
-  const done = (reply, extra = {}) => ({ reply, products: [], orders: [], model: "basic", usage: { input: 0, output: 0 }, ...extra });
+  const done = (reply, extra = {}) => ({ reply, products: [], model: "basic", usage: { input: 0, output: 0 }, ...extra });
 
   if (!text) return done(say(lang, "What are you looking for today?", "Que recherchez-vous aujourd'hui ?"));
   if (GREETING.test(text)) {
     return done(say(lang,
-      "Hello! Tell me what you are looking for (for example \"sofa under 300000\") and I will show you listings. I can also track your orders, explain escrow or cash on delivery, and help you start selling.",
-      "Bonjour ! Dites-moi ce que vous cherchez (par exemple « canapé moins de 300000 ») et je vous montre les annonces. Je peux aussi suivre vos commandes, expliquer le séquestre ou le paiement à la livraison, et vous aider à vendre."));
+      "Hello! Tell me what you are looking for (for example \"sofa under 300000\") and I will show you listings. I can also explain escrow or cash on delivery and help you start selling.",
+      "Bonjour ! Dites-moi ce que vous cherchez (par exemple « canapé moins de 300000 ») et je vous montre les annonces. Je peux aussi expliquer le séquestre ou le paiement à la livraison, et vous aider à vendre."));
   }
   if (THANKS.test(text)) return done(say(lang, "You're welcome! Anything else I can help with?", "Avec plaisir ! Puis-je vous aider pour autre chose ?"));
 
@@ -128,16 +118,15 @@ async function basicChat({ messages, locale = "en", user = null }) {
   switch (intent) {
     case "human":
       return done(say(lang, "Of course. ", "Bien sûr. ") + contactLine(lang));
-    case "orders": {
-      if (!user) {
-        return done(say(lang,
-          "Sign in at /login to see your orders here. If you ordered as a guest, open the tracking link from your confirmation, or enter your order reference and phone number at /orders/track.",
-          "Connectez-vous sur /login pour voir vos commandes ici. Si vous avez commandé en invité, ouvrez le lien de suivi de votre confirmation, ou saisissez votre référence et votre numéro sur /orders/track."));
-      }
-      const { items } = await orderService.listMineAsBuyer(user.id, { pageSize: 5 });
-      if (items.length === 0) return done(say(lang, "You have no orders yet. Browse /categories to find something you like.", "Vous n'avez pas encore de commande. Parcourez /categories pour trouver votre bonheur."));
-      return done(say(lang, `Here are your ${items.length} most recent orders. Open one to confirm receipt or see its status. All of them are also in /account/orders.`, `Voici vos ${items.length} dernières commandes. Ouvrez-en une pour confirmer la réception ou voir son statut. Elles sont toutes dans /account/orders.`), { orders: items.map(orderCard) });
-    }
+    case "orders":
+      // No order lookup here: point to the customer's own order pages.
+      return done(user
+        ? say(lang,
+          "You can follow all your orders, confirm receipt or open a dispute in /account/orders. For a question about an order, talk to our team. ",
+          "Vous pouvez suivre toutes vos commandes, confirmer la réception ou ouvrir un litige dans /account/orders. Pour une question sur une commande, contactez notre équipe. ") + contactLine(lang)
+        : say(lang,
+          "Sign in at /login to follow your orders in /account/orders. If you ordered as a guest, open the tracking link from your confirmation, or enter your order reference and phone number at /orders/track.",
+          "Connectez-vous sur /login pour suivre vos commandes dans /account/orders. Si vous avez commandé en invité, ouvrez le lien de suivi de votre confirmation, ou saisissez votre référence et votre numéro sur /orders/track."));
     case "cod":
       return done(say(lang,
         "Most stores accept cash on delivery: choose it at checkout, give your address and phone, and pay the seller in cash when you receive the item. Then confirm receipt in /account/orders. Cash orders are not covered by escrow, but you can cancel until the seller confirms delivery.",
