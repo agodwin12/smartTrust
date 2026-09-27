@@ -1,4 +1,4 @@
-import { DEMO_CATEGORIES, DEMO_PRODUCTS, DEMO_STORES, CATEGORY_IMAGES } from "@/lib/demo-data";
+import { CATEGORY_IMAGES } from "@/lib/demo-data";
 import { getAllCategories, getCurrentFlashCampaign, getHeroProducts, getRootCategories, getUpcomingFlashCampaign, listProducts, listStores } from "@/features/catalog/api";
 import type { ShowcaseGroups } from "@/components/market/ProductShowcase";
 import type { Category, FlashCampaign, Product, Store } from "@/types";
@@ -28,23 +28,10 @@ const safe = async <T>(promise: Promise<T>, fallback: T): Promise<T> => {
   try {
     return await promise;
   } catch {
-    // Backend down or slow: the homepage must still render (demo content fills the gap).
+    // Backend down or slow: the homepage still renders, with empty sections instead of errors.
     return fallback;
   }
 };
-
-/**
- * Real rows first, then editorial placeholders until the section has enough to look like a
- * marketplace. A placeholder whose slug or name already exists among the real rows is skipped
- * so a fresh database never shows "Electronics" twice.
- */
-function topUp<T extends { id: string; slug: string }>(real: T[], demo: T[], min: number): T[] {
-  if (real.length >= min) return real.slice(0, min);
-  const label = (item: T) => (("title" in item ? item.title : "name" in item ? item.name : "") as string).trim().toLowerCase();
-  const taken = new Set(real.flatMap((item) => [item.slug, label(item)]));
-  const fillers = demo.filter((item) => !taken.has(item.slug) && !taken.has(label(item)));
-  return [...real, ...fillers.slice(0, min - real.length)];
-}
 
 const withCategoryImage = (category: Category): Category => ({
   ...category,
@@ -53,15 +40,11 @@ const withCategoryImage = (category: Category): Category => ({
 
 const byCount = (a: Category, b: Category) => (b.productCount ?? 0) - (a.productCount ?? 0);
 
-/** Twelve per row, never the same listing twice across the rows (or the "Newest" panel). */
+/** Up to twelve real listings per row, never the same listing twice across the rows (or the "Newest" panel). */
 function showcaseRows(popular: Product[], latest: Product[], budget: Product[], skip: Product[]): ShowcaseGroups {
   const seen = new Set(skip.map((p) => p.id));
   const take = (source: Product[]) => {
-    const row = topUp(
-      source.filter((p) => !seen.has(p.id)),
-      DEMO_PRODUCTS.filter((p) => !seen.has(p.id)),
-      MIN.row
-    );
+    const row = source.filter((p) => !seen.has(p.id)).slice(0, MIN.row);
     row.forEach((p) => seen.add(p.id));
     return row;
   };
@@ -83,21 +66,20 @@ export async function getHomeData(): Promise<HomeData> {
     getUpcomingFlashCampaign(),
   ]);
 
-  const subcategories = all.filter((c) => c.parentId).sort(byCount);
+  // Only real data: departments, the best-stocked sub-categories that have listings, real stores and listings.
+  const subcategories = all.filter((c) => c.parentId && (c.productCount ?? 0) > 0).sort(byCount).slice(0, MIN.subcategories);
+  // The hero shows three photos per slide: featured listings first, then popular ones.
+  const heroIds = new Set(hero.map((p) => p.id));
+  const heroProducts = [...hero, ...popular.filter((p) => p.images?.[0] && !heroIds.has(p.id))].slice(0, 12);
 
   return {
-    // Real departments are never mixed with placeholders; demo ones only cover an empty database.
-    categories: (categories.length > 0 ? categories.slice(0, MIN.categories) : DEMO_CATEGORIES).map(withCategoryImage),
-    subcategories: topUp(subcategories, DEMO_CATEGORIES, MIN.subcategories).map(withCategoryImage),
-    heroProducts: hero,
-    deals: topUp(
-      deals,
-      DEMO_PRODUCTS.filter((p) => p.compareAtPrice),
-      MIN.deals
-    ),
-    newest: topUp(newest, DEMO_PRODUCTS, MIN.newest),
-    stores: topUp(stores, DEMO_STORES, MIN.stores),
-    showcase: showcaseRows(popular, latest, budget, newest.slice(0, MIN.newest)),
+    categories: categories.slice(0, MIN.categories).map(withCategoryImage),
+    subcategories: subcategories.map(withCategoryImage),
+    heroProducts,
+    deals: deals.slice(0, MIN.deals),
+    newest: newest.slice(0, MIN.newest),
+    stores: stores.slice(0, MIN.stores),
+    showcase: showcaseRows(popular, latest, budget, newest),
     flashCurrent,
     flashUpcoming,
   };

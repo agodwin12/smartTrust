@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { animate, motion, useMotionValue, useReducedMotion, type PanInfo } from "motion/react";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Link } from "@/i18n/navigation";
-import { DEMO_PRODUCTS, HERO_IMAGES } from "@/lib/demo-data";
+import { HERO_IMAGES } from "@/lib/demo-data";
 import { cn } from "@/lib/utils";
 import { PaymentBadges } from "@/components/market/PaymentBadges";
 import type { Product } from "@/types";
@@ -32,11 +32,10 @@ const TRUST = [
 
 type Visual = { src: string; alt: string };
 
-/** Three product photos per slide, rotating through the featured listings (demo photos fill any gap). */
+/** Three product photos per slide, rotating through real listings (generic banner photos only if there are none). */
 function visualsFor(products: Product[], slide: number, lead?: string): Visual[] {
   const real = products.filter((p) => p.images?.[0]).map((p) => ({ src: p.images![0], alt: p.title }));
-  const demo = DEMO_PRODUCTS.map((p) => ({ src: p.images![0], alt: p.title }));
-  const pool = real.length >= 3 ? real : [...real, ...demo];
+  const pool = real.length > 0 ? real : Object.values(HERO_IMAGES).map((src) => ({ src, alt: "" }));
   const picks = [0, 1, 2].map((i) => pool[(slide * 3 + i) % pool.length]);
   return lead ? [{ src: lead, alt: "" }, picks[0], picks[1]] : picks;
 }
