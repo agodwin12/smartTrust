@@ -17,7 +17,7 @@ const { auth } = require("../src/config/env");
 const ROLES = ["CUSTOMER", "SUPER_ADMIN", "ACCOUNTANT", "CUSTOMER_SERVICE"];
 
 async function main() {
-  const { EMAIL, PASSWORD, ROLE = "CUSTOMER", FIRST_NAME = "Smart", LAST_NAME = "Market" } = process.env;
+  const { EMAIL, PASSWORD, ROLE = "CUSTOMER", FIRST_NAME = "SmartPlaze", LAST_NAME = "Admin" } = process.env;
   if (!EMAIL || !PASSWORD) throw new Error("EMAIL and PASSWORD are required.");
   if (PASSWORD.length < 8) throw new Error("PASSWORD must be at least 8 characters.");
   if (!ROLES.includes(ROLE)) throw new Error(`ROLE must be one of ${ROLES.join(", ")}.`);

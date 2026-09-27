@@ -6,7 +6,7 @@
     "description": "Smart Trust is the official Smarttrustexpress store: home appliances, mini cameras, modern sofas, sitting-room tables and canvas wall art, delivered across Cameroon and paid through escrow or cash at handover.",
     "location": "Douala",
     "logo": "../logo_cropped_final.png",
-    "owner": { "email": "smarttrust@smartmarket.dev", "firstName": "Smart", "lastName": "Trust" }
+    "owner": { "email": "smarttrust@smartplaze.com", "firstName": "Smart", "lastName": "Trust" }
   },
   "products": [
     { "file": "Blender/2 in 1 Electric Blender. 11000 - 13900 XAF.jpg", "category": "blenders-juicers", "title": "2-in-1 Electric Blender", "price": 13900, "range": [11000, 13900], "description": "Two-in-one electric blender: a large jug for smoothies, juices and soups plus a dry-mill cup for spices, pepper and groundnuts." },

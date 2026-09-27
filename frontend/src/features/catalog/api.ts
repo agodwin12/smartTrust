@@ -6,7 +6,7 @@ import type { Category, FlashCampaign, Paginated, Product, Store, SubscriptionPl
  * Server-side catalog fetchers. Public data only — cached with short revalidation
  * windows so the site stays fast under load while listings still feel live.
  */
-const REVALIDATE = { categories: 60, products: 30, product: 30, stores: 60, plans: 300, flash: 20 } as const;
+const REVALIDATE = { categories: 60, products: 30, product: 30, stores: 60, flash: 20 } as const;
 
 export const SORTS = ["newest", "price_asc", "price_desc", "popular"] as const;
 export type ProductSort = (typeof SORTS)[number];
@@ -123,7 +123,9 @@ export async function getStore(slug: string): Promise<Store | null> {
 
 export async function getPlans(): Promise<SubscriptionPlan[]> {
   try {
-    const { plans } = await apiFetch<{ plans: SubscriptionPlan[] }>("subscription-plans", { next: { revalidate: REVALIDATE.plans } });
+    // No page-level cache: an admin change to a plan must show on /subscriptions and /sell at once.
+    // The API serves plans from Redis and clears that cache whenever a plan is saved.
+    const { plans } = await apiFetch<{ plans: SubscriptionPlan[] }>("subscription-plans", { cache: "no-store" });
     return plans;
   } catch {
     return [];

@@ -41,4 +41,4 @@ Auth (JWT + rotating refresh cookie, OTP email verification via Resend, forgot/r
 
 ## Test accounts (local DB)
 - Local test accounts (super admin, accountant, customer service, buyer) exist only in the dev database; their passwords are kept out of the repository — ask the maintainer.
-- `unverified@smartmarket.dev` / `Unverif123` — CUSTOMER, email not verified
+- `unverified@smartplaze.com` / `Unverif123` — CUSTOMER, email not verified
