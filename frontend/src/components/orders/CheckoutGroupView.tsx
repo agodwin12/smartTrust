@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { formatDate, formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { CheckoutGroup, CheckoutLine } from "@/types";
+import { orderTokenHeader } from "@/lib/orderToken";
 import { useAuthError } from "@/components/auth/useAuthError";
 
 const PROVIDERS = ["MTN_MOMO_CMR", "ORANGE_CMR"] as const;
@@ -51,7 +52,7 @@ export function CheckoutGroupView({ mode, groupId }: { mode: Mode; groupId?: str
 
   const load = useCallback(
     (gid: string, tok?: string | null) =>
-      authFetch<{ group: CheckoutGroup }>(`checkout/${gid}`, { params: { token: tok ?? undefined } })
+      authFetch<{ group: CheckoutGroup }>(`checkout/${gid}`, { headers: orderTokenHeader(tok) })
         .then((r) => setGroup(r.group))
         .catch(() => setGroup(null)),
     [authFetch]
@@ -82,7 +83,7 @@ export function CheckoutGroupView({ mode, groupId }: { mode: Mode; groupId?: str
     if (action === "cancel" && !window.confirm(to("cancelConfirm"))) return;
     setBusy(line.id);
     try {
-      await authFetch(`checkout/${group.id}/orders/${line.id}/${action}`, { method: "POST", body: { token: token ?? undefined } });
+      await authFetch(`checkout/${group.id}/orders/${line.id}/${action}`, { method: "POST", body: {}, headers: orderTokenHeader(token) });
       toast.success(action === "cancel" ? to("cancelled") : to("confirmed"));
       await load(group.id, token);
     } catch (err) {
@@ -97,7 +98,7 @@ export function CheckoutGroupView({ mode, groupId }: { mode: Mode; groupId?: str
     if (!group) return;
     setPaying(true);
     try {
-      await authFetch(`checkout/${group.id}/pay`, { method: "POST", body: { provider, phoneNumber: phone.replace(/\s+/g, ""), token: token ?? undefined } });
+      await authFetch(`checkout/${group.id}/pay`, { method: "POST", body: { provider, phoneNumber: phone.replace(/\s+/g, "") }, headers: orderTokenHeader(token) });
       toast.success(tc("waiting.title"));
       pollTimer.current = window.setInterval(() => void load(group.id, token), 3000);
       window.setTimeout(() => window.clearInterval(pollTimer.current), 3 * 60 * 1000);

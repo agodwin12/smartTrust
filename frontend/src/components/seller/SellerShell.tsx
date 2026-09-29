@@ -7,6 +7,7 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { RequireAuth } from "@/components/auth/RequireAuth";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 import { Container } from "@/components/layout/Container";
 
 const ITEMS: { key: "dashboard" | "listings" | "flashDeals" | "orders" | "subscription" | "wallet" | "store"; href: string; icon: LucideIcon; exact?: boolean }[] = [
@@ -42,6 +43,9 @@ function SellerNav() {
             </Link>
           </li>
         ))}
+        <li className="shrink-0 lg:mt-2 lg:border-t lg:border-border lg:pt-2">
+          <SignOutButton />
+        </li>
       </ul>
       {user?.store && (
         <Link href={`/stores/${user.store.slug}`} className="mt-4 hidden items-center gap-2 rounded-2xl border border-border bg-surface p-4 text-sm font-semibold text-foreground transition-colors hover:border-brand-blue hover:text-brand-blue lg:flex">

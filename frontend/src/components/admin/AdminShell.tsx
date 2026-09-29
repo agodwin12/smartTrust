@@ -26,6 +26,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { User } from "@/types";
 import { RequireAuth } from "@/components/auth/RequireAuth";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 import { Container } from "@/components/layout/Container";
 
 type NavKey = "dashboard" | "assistant" | "users" | "stores" | "categories" | "listings" | "flashDeals" | "plans" | "orders" | "payments" | "disputes" | "withdrawals" | "support" | "audit";
@@ -82,6 +83,9 @@ function AdminNav({ user }: { user: User }) {
             </Link>
           </li>
         ))}
+        <li className="shrink-0 lg:mt-2 lg:border-t lg:border-border lg:pt-2">
+          <SignOutButton />
+        </li>
       </ul>
     </nav>
   );

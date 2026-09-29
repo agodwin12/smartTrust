@@ -16,6 +16,10 @@ function requestId(req, res, next) {
   next();
 }
 
+// Query values that must never reach the logs (guest order links, OAuth codes, reset links).
+const SECRET_PARAMS = /([?&](?:token|code|state|access_token|refresh_token|accessToken|refreshToken)=)[^&#]*/gi;
+const safeUrl = (url = "") => url.replace(SECRET_PARAMS, "$1[redacted]");
+
 /** One structured access-log line per request: method, url, status, duration, requestId, userId. */
 const requestLogger = pinoHttp({
   logger,
@@ -27,13 +31,13 @@ const requestLogger = pinoHttp({
     return "info";
   },
   customProps: (req) => ({ userId: req.user?.id ?? null }),
-  customSuccessMessage: (req, res) => `${req.method} ${req.originalUrl || req.url} ${res.statusCode}`,
-  customErrorMessage: (req, res) => `${req.method} ${req.originalUrl || req.url} ${res.statusCode}`,
+  customSuccessMessage: (req, res) => `${req.method} ${safeUrl(req.originalUrl || req.url)} ${res.statusCode}`,
+  customErrorMessage: (req, res) => `${req.method} ${safeUrl(req.originalUrl || req.url)} ${res.statusCode}`,
   serializers: {
     // Keep access lines compact: no headers/body dumps, just what you grep for.
-    req: (req) => ({ id: req.id, method: req.method, url: req.url, ip: req.remoteAddress }),
+    req: (req) => ({ id: req.id, method: req.method, url: safeUrl(req.url), ip: req.remoteAddress }),
     res: (res) => ({ statusCode: res.statusCode }),
   },
 });
 
-module.exports = { requestId, requestLogger, REQUEST_ID_HEADER };
+module.exports = { requestId, requestLogger, REQUEST_ID_HEADER, safeUrl };

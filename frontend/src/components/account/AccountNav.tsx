@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 
 const ITEMS: { key: "overview" | "orders" | "wishlist" | "notifications" | "profile"; href: string; icon: LucideIcon; exact?: boolean }[] = [
   { key: "overview", href: "/account", icon: LayoutDashboard, exact: true },
@@ -39,6 +40,9 @@ export function AccountNav() {
             </Link>
           </li>
         ))}
+        <li className="shrink-0 lg:mt-2 lg:border-t lg:border-border lg:pt-2">
+          <SignOutButton />
+        </li>
       </ul>
       <Link
         href={user?.store ? "/seller" : "/seller/onboarding"}

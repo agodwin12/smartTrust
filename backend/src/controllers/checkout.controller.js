@@ -2,7 +2,9 @@ const service = require("../services/checkout.service");
 const advertisementService = require("../services/advertisement.service");
 const audit = require("../services/audit.service");
 
-const requesterOf = (req) => ({ user: req.user ?? null, token: (typeof req.query.token === "string" && req.query.token) || req.body?.token || null });
+// The guest tracking token comes in the X-Order-Token header (kept out of URLs and logs);
+// the query/body forms remain accepted for links and clients already out there.
+const requesterOf = (req) => ({ user: req.user ?? null, token: req.get("x-order-token") || (typeof req.query.token === "string" && req.query.token) || req.body?.token || null });
 
 async function create(req, res) {
   const group = await service.create({ user: req.user ?? null, guest: req.body.guest, items: req.body.items, paymentMethod: req.body.paymentMethod, deliveryAddress: req.body.deliveryAddress, deliveryPhone: req.body.deliveryPhone });

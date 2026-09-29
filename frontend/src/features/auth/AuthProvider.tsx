@@ -17,8 +17,10 @@ type AuthContextValue = {
   login: (email: string, password: string) => Promise<User>;
   register: (input: RegisterInput) => Promise<User>;
   logout: () => Promise<void>;
-  /** Adopt a session obtained elsewhere (Google OAuth callback). */
+  /** Adopt a session obtained elsewhere. */
   setSession: (session: Session) => void;
+  /** Exchange the httpOnly refresh cookie for a session (Google sign-in callback); null if there is none. */
+  restoreSession: () => Promise<User | null>;
   /** Re-read /users/me (after email verification, profile edits, store creation…). */
   refreshUser: () => Promise<User | null>;
   /** Authenticated request: adds the bearer token, transparently refreshes once on 401. */
@@ -27,7 +29,7 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const AUTH_ERROR_CODES = new Set(["TOKEN_MISSING", "TOKEN_EXPIRED", "TOKEN_INVALID", "UNAUTHENTICATED"]);
+const AUTH_ERROR_CODES = new Set(["TOKEN_MISSING", "TOKEN_EXPIRED", "TOKEN_INVALID", "TOKEN_REVOKED", "UNAUTHENTICATED"]);
 
 // The refresh cookie is httpOnly, so the client keeps a plain hint that a session exists.
 // Visitors who never signed in resolve to "anonymous" instantly, with no refresh round-trip.
@@ -35,8 +37,9 @@ const SESSION_HINT_KEY = "sm:has-session";
 const SERVER_HINT = "server";
 
 /**
- * Session model: the short-lived access token lives only in memory here; the
- * refresh token is an httpOnly cookie owned by the API. On first render we ask
+ * Session model: the short-lived access token lives only in memory here (never in storage,
+ * never logged); the refresh token is an httpOnly cookie owned by the API. Signing out asks
+ * the API to end every session of the account, and other open tabs follow at once. On first render we ask
  * the API for a fresh access token (cookie → token) so a reload never logs the
  * visitor out, and every 401 triggers exactly one refresh + retry.
  */
@@ -81,7 +84,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [sessionHint, refresh]);
 
   const status: AuthStatus =
-    session.status === "authenticated"
+    // Signed out in another tab: the shared hint is gone, so this tab is anonymous too.
+    sessionHint === null
+      ? "anonymous"
+      : session.status === "authenticated"
       ? "authenticated"
       : sessionHint === SERVER_HINT
         ? "loading"
@@ -123,11 +129,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [applySession]
   );
 
+  const restoreSession = useCallback(async () => {
+    const token = await refresh();
+    if (!token) return null;
+    return apiFetch<{ user: User }>("users/me", { token })
+      .then((d) => d.user)
+      .catch(() => null);
+  }, [refresh]);
+
   const logout = useCallback(async () => {
+    const token = tokenRef.current;
+    tokenRef.current = null;
     try {
-      await apiFetch("auth/logout", { method: "POST", token: tokenRef.current });
+      // Ends every session of the account on the server (all devices, all tokens).
+      await apiFetch("auth/logout", { method: "POST", token });
     } catch {
-      /* the cookie is gone either way */
+      /* offline: the local session is cleared anyway */
     }
     applySession(null);
   }, [applySession]);
@@ -143,8 +160,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [authFetch]);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ status, user: status === "authenticated" ? session.user : null, login, register, logout, setSession: applySession, refreshUser, authFetch }),
-    [status, session.user, login, register, logout, applySession, refreshUser, authFetch]
+    () => ({ status, user: status === "authenticated" ? session.user : null, login, register, logout, setSession: applySession, restoreSession, refreshUser, authFetch }),
+    [status, session.user, login, register, logout, applySession, restoreSession, refreshUser, authFetch]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const prisma = require("../config/prisma");
 const { auth } = require("../config/env");
 const ApiError = require("../utils/ApiError");
-const { signAccessToken, issueRefreshToken, revokeAllUserTokens } = require("./token.service");
+const { signAccessToken, issueRefreshToken, revokeAllSessions } = require("./token.service");
 const otpService = require("./otp.service");
 const cacheService = require("./cache.service");
 const logger = require("../config/logger");
@@ -108,9 +108,8 @@ async function resetPassword({ email, code, newPassword }) {
   const passwordHash = await bcrypt.hash(newPassword, auth.bcryptSaltRounds);
   await prisma.user.update({ where: { id: user.id }, data: { passwordHash } });
 
-  // Same principle as the authenticated change-password flow — a reset should
-  // kill every existing session, not just leave old refresh tokens usable.
-  await revokeAllUserTokens(user.id);
+  // A reset kills every existing session: refresh tokens and access tokens alike.
+  await revokeAllSessions(user.id);
 }
 
 /**

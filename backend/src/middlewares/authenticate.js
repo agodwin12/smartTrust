@@ -45,6 +45,10 @@ async function authenticate(req, res, next) {
   if (!user || user.status !== "ACTIVE") {
     return next(new ApiError(401, "Account is no longer active.", "ACCOUNT_INACTIVE"));
   }
+  // Signed out (on any device) since this token was issued: refuse it.
+  if ((payload.tv ?? 0) !== (user.tokenVersion ?? 0)) {
+    return next(new ApiError(401, "Your session has ended. Please sign in again.", "TOKEN_REVOKED"));
+  }
 
   req.user = user;
   next();

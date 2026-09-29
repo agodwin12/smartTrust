@@ -3,6 +3,7 @@
 import { Heart, LayoutGrid, LogOut, Menu, Package, ShoppingCart, Store, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/features/auth/AuthProvider";
+import { useSignOut } from "@/features/auth/useSignOut";
 import { useCart } from "@/features/cart/CartProvider";
 import { useWishlist } from "@/features/wishlist/WishlistProvider";
 import { Link } from "@/i18n/navigation";
@@ -48,7 +49,8 @@ type HeaderProps = {
  */
 export function Header({ categories = [], quickLinks = true }: HeaderProps) {
   const t = useTranslations("nav");
-  const { status, user, logout } = useAuth();
+  const { status, user } = useAuth();
+  const { signOut } = useSignOut();
   const cart = useCart();
   const wishlist = useWishlist();
 
@@ -184,7 +186,7 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
               <div className="mt-auto flex flex-col gap-3 border-t border-border px-5 py-5">
                 {status === "authenticated" ? (
                   <SheetClose
-                    onClick={() => void logout()}
+                    onClick={() => void signOut()}
                     className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border text-sm font-semibold text-foreground transition-colors hover:bg-surface-hover"
                   >
                     <LogOut className="size-4" /> {t("signOut")}

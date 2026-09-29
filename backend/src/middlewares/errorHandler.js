@@ -1,7 +1,7 @@
 const logger = require("../config/logger");
 
 function notFound(req, res, next) {
-  res.status(404).json({ error: `Route not found: ${req.method} ${req.originalUrl}` });
+  res.status(404).json({ error: `Route not found: ${req.method} ${req.path}` });
 }
 
 // Prisma's "known request" errors carry a code; the two a client can actually

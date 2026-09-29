@@ -50,6 +50,8 @@ model User {
   // Set once the sign-up OTP is confirmed (see OtpCode) or immediately for a
   // Google sign-up — Google has already verified the email address for us.
   emailVerifiedAt DateTime?
+  // Bumped on sign-out (and password reset): every access token signed with an older value is refused.
+  tokenVersion    Int       @default(0)
   googleId        String?   @unique
 
   createdAt DateTime @default(now())

@@ -59,13 +59,14 @@ async function refresh(req, res) {
   res.json({ accessToken, user: await userService.getById(result.user.id) });
 }
 
+/** Sign-out ends every session of the account: all refresh tokens and all access tokens. */
 async function logout(req, res) {
-  const rawToken = req.cookies?.[authConfig.cookieName];
-  if (rawToken) {
-    await tokenService.revokeRefreshToken(rawToken);
-  }
+  const rawRefreshToken = req.cookies?.[authConfig.cookieName];
+  const [scheme, accessToken] = (req.get("authorization") || "").split(" ");
+  const userId = await tokenService.userIdForSignOut({ rawRefreshToken, accessToken: scheme === "Bearer" ? accessToken : null });
+  if (userId) await tokenService.revokeAllSessions(userId);
   clearRefreshCookie(res);
-  audit.record(req, { action: "LOGOUT" });
+  audit.record(req, { action: "LOGOUT", ...(userId && { entityType: "User", entityId: userId, actorId: userId, metadata: { allSessions: true } }) });
   res.status(204).send();
 }
 
@@ -126,11 +127,10 @@ async function googleCallback(req, res) {
 
     setRefreshCookie(res, refreshToken.raw, refreshToken.expiresAt);
     audit.record(req, { action: "LOGIN_GOOGLE", entityType: "User", entityId: user.id, actorId: user.id, actorRole: user.role });
-    // The fragment (#...), not a query string — fragments are never sent to any
-    // server (not ours on the next request, not analytics, not a Referer header),
-    // unlike a query param, which is exactly why the classic OAuth implicit flow
-    // used it for this same handoff.
-    res.redirect(`${frontendUrl}/auth/callback#accessToken=${encodeURIComponent(accessToken)}`);
+    // No token in the URL at all (not even a fragment, which can reach browser history): the
+    // refresh cookie is set above, and the callback page exchanges it for an access token.
+    void accessToken;
+    res.redirect(`${frontendUrl}/auth/callback?status=ok`);
   } catch (err) {
     logger.error({ err }, "Google OAuth callback failed");
     res.redirect(`${frontendUrl}/auth/callback?error=oauth_failed`);

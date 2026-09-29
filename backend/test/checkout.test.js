@@ -105,6 +105,8 @@ describe("cart checkout (groups) and guest orders", () => {
 
     const byLink = await request(app).get(`/api/checkout/${group.id}?token=${group.accessToken}`);
     assert.equal(byLink.status, 200);
+    const byHeader = await request(app).get(`/api/checkout/${group.id}`).set("X-Order-Token", group.accessToken);
+    assert.equal(byHeader.status, 200, "the site sends the tracking token in a header, keeping it out of URLs and logs");
     const badToken = await request(app).get(`/api/checkout/${group.id}?token=nope`);
     assert.equal(badToken.status, 403);
 

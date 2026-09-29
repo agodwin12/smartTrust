@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { CartItem, CheckoutGroup, PaymentMethod, Product } from "@/types";
+import { orderTokenHeader } from "@/lib/orderToken";
 import { Container } from "@/components/layout/Container";
 import { EmptyState } from "@/components/ui/EmptyState";
 
@@ -71,7 +72,7 @@ export function CartCheckoutFlow({ product, quantity = 1 }: { product?: Product;
     window.clearInterval(pollTimer.current);
     pollTimer.current = window.setInterval(async () => {
       try {
-        const { group: g } = await authFetch<{ group: CheckoutGroup }>(`checkout/${id}`, { params: { token: token ?? undefined } });
+        const { group: g } = await authFetch<{ group: CheckoutGroup }>(`checkout/${id}`, { headers: orderTokenHeader(token) });
         setGroup(g);
         const s = g.payment?.status;
         if (s === "COMPLETED") {
@@ -112,7 +113,7 @@ export function CartCheckoutFlow({ product, quantity = 1 }: { product?: Product;
         setPhase("cod-success");
         return;
       }
-      await authFetch(`checkout/${created.id}/pay`, { method: "POST", body: { provider, phoneNumber: (momoPhone || (isGuest ? guest.phone : "")).replace(/\s+/g, ""), token: created.accessToken } });
+      await authFetch(`checkout/${created.id}/pay`, { method: "POST", body: { provider, phoneNumber: (momoPhone || (isGuest ? guest.phone : "")).replace(/\s+/g, "") }, headers: orderTokenHeader(created.accessToken) });
       setPhase("waiting");
       poll(created.id, created.accessToken);
     } catch (err) {

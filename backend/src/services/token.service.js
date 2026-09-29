@@ -3,8 +3,10 @@ const prisma = require("../config/prisma");
 const { auth } = require("../config/env");
 const { sha256, randomToken } = require("../utils/hash");
 
+// `tv` = the user's token version: sign-out bumps it, which invalidates every access token
+// issued before, on every device, without waiting for them to expire.
 function signAccessToken(user) {
-  return jwt.sign({ sub: user.id, role: user.role }, auth.accessTokenSecret, {
+  return jwt.sign({ sub: user.id, role: user.role, tv: user.tokenVersion ?? 0 }, auth.accessTokenSecret, {
     expiresIn: auth.accessTokenTtl,
   });
 }
@@ -93,8 +95,39 @@ async function revokeAllUserTokens(userId) {
   });
 }
 
+/**
+ * Ends every session of a user at once: all refresh tokens revoked and the token version
+ * bumped, so access tokens already in circulation stop working immediately too.
+ */
+async function revokeAllSessions(userId) {
+  await prisma.$transaction([
+    prisma.refreshToken.updateMany({ where: { userId, revokedAt: null }, data: { revokedAt: new Date() } }),
+    prisma.user.update({ where: { id: userId }, data: { tokenVersion: { increment: 1 } } }),
+  ]);
+  // The authenticate middleware caches the user row for 60 s: drop it so the new version applies now.
+  await require("./cache.service").invalidateKey(require("./cache.service").userKey(userId)).catch(() => {});
+}
+
+/** Who a sign-out request belongs to: the refresh cookie (even an already-revoked one) or a valid access token. */
+async function userIdForSignOut({ rawRefreshToken, accessToken }) {
+  if (rawRefreshToken) {
+    const row = await prisma.refreshToken.findUnique({ where: { tokenHash: sha256(rawRefreshToken) }, select: { userId: true } });
+    if (row) return row.userId;
+  }
+  if (accessToken) {
+    try {
+      return verifyAccessToken(accessToken).sub;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
 module.exports = {
   REFRESH_ERROR,
+  revokeAllSessions,
+  userIdForSignOut,
   signAccessToken,
   verifyAccessToken,
   issueRefreshToken,

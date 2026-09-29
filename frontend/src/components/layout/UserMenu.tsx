@@ -2,10 +2,10 @@
 
 import { Bell, Heart, LayoutDashboard, LogOut, Package, ShieldCheck, Store, User as UserIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { isStaff } from "@/features/admin/roles";
 import { useAuth } from "@/features/auth/AuthProvider";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useSignOut } from "@/features/auth/useSignOut";
+import { Link } from "@/i18n/navigation";
 import { initials } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import {
@@ -20,9 +20,8 @@ import {
 /** Header account control: "Sign in" while anonymous, avatar + menu once authenticated. */
 export function UserMenu({ className, tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
   const t = useTranslations("nav");
-  const ta = useTranslations("auth");
-  const { status, user, logout } = useAuth();
-  const router = useRouter();
+  const { status, user } = useAuth();
+  const { signOut } = useSignOut();
 
   if (status === "loading") {
     return <span className={cn("inline-block size-9 animate-pulse rounded-full bg-surface-hover", className)} aria-hidden />;
@@ -47,12 +46,7 @@ export function UserMenu({ className, tone = "light" }: { className?: string; to
 
   const fullName = `${user.firstName} ${user.lastName}`.trim();
 
-  const onLogout = async () => {
-    await logout();
-    toast.success(ta("signedOut"));
-    router.push("/");
-    router.refresh();
-  };
+  const onLogout = () => void signOut();
 
   return (
     <DropdownMenu>
