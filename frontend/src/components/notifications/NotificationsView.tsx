@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/features/auth/AuthProvider";
-import { announceNotificationsChanged, notificationHref, notificationValues } from "@/features/notifications/notifications";
+import { announceNotificationsChanged, notificationHref, notificationMessageKey, notificationValues } from "@/features/notifications/notifications";
 import { Link, useRouter } from "@/i18n/navigation";
 import { formatDate, formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -34,8 +34,9 @@ export function NotificationsView() {
   }, [load]);
 
   const render = (n: AppNotification) => {
-    const values = notificationValues(n, (v) => formatPrice(v, locale));
-    const key = `types.${n.type}`;
+    const values = notificationValues(n, (v) => formatPrice(v, locale), (iso) => formatDate(iso, locale, { dateStyle: "long", timeZone: "Africa/Douala" }));
+    const variant = `types.${notificationMessageKey(n)}`;
+    const key = t.has(`${variant}.title`) ? variant : `types.${n.type}`;
     return {
       title: t.has(`${key}.title`) ? t(`${key}.title`, values) : n.title,
       body: t.has(`${key}.body`) ? t(`${key}.body`, values) : n.body,

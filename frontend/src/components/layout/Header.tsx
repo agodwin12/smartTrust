@@ -7,6 +7,7 @@ import { useSignOut } from "@/features/auth/useSignOut";
 import { useCart } from "@/features/cart/CartProvider";
 import { useWishlist } from "@/features/wishlist/WishlistProvider";
 import { Link } from "@/i18n/navigation";
+import { initials } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MarketSearch } from "@/components/layout/MarketSearch";
@@ -58,7 +59,8 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
   const sellerLabel = user?.store ? t("myStore") : t("becomeSeller");
 
   const navyAction = "relative inline-flex h-10 items-center gap-1.5 rounded-[7px] px-2 text-[12px] font-semibold text-white/90 transition-colors hover:bg-white/10 hover:text-white";
-  const lightAction = "relative inline-flex size-10 items-center justify-center rounded-full text-market-navy transition-colors hover:bg-market-blue-light";
+  // Phones/tablets: navy icons on the white bar, white icons once the bar turns dark.
+  const lightAction = "relative inline-flex size-10 shrink-0 items-center justify-center rounded-full text-market-navy transition-colors hover:bg-market-blue-light dark:text-white dark:hover:bg-white/10";
   const mobileLinkClass = "rounded-lg px-3 py-3 text-base font-medium text-foreground transition-colors hover:bg-surface-hover";
 
   return (
@@ -136,12 +138,25 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
               </div>
 
               {status === "authenticated" && user && (
-                <div className="border-b border-border px-5 py-4">
-                  <p className="text-[11px] uppercase tracking-wider text-foreground-muted">{t("signedInAs")}</p>
-                  <p className="truncate text-sm font-semibold text-foreground">
-                    {user.firstName} {user.lastName}
-                  </p>
-                  <p className="truncate text-xs text-foreground-muted">{user.email}</p>
+                <div className="flex items-center gap-3 border-b border-border px-5 py-4">
+                  <SheetClose nativeButton={false} render={<Link href="/account/profile" className="flex min-w-0 flex-1 items-center gap-3" />}>
+                    <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-market-orange text-xs font-bold text-white" aria-hidden>
+                      {initials(`${user.firstName} ${user.lastName}`.trim() || user.email)}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-[11px] uppercase tracking-wider text-foreground-muted">{t("signedInAs")}</span>
+                      <span className="block truncate text-sm font-semibold text-foreground">
+                        {user.firstName} {user.lastName}
+                      </span>
+                      <span className="block truncate text-xs text-foreground-muted">{user.email}</span>
+                    </span>
+                  </SheetClose>
+                  <SheetClose
+                    onClick={() => void signOut()}
+                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg border border-danger/40 px-2.5 text-xs font-semibold text-danger transition-colors hover:bg-danger/10"
+                  >
+                    <LogOut className="size-4" aria-hidden /> {t("signOut")}
+                  </SheetClose>
                 </div>
               )}
 
@@ -183,47 +198,40 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
                 </nav>
               )}
 
-              <div className="mt-auto flex flex-col gap-3 border-t border-border px-5 py-5">
-                {status === "authenticated" ? (
+              {status !== "authenticated" && (
+                <div className="mt-auto flex flex-col gap-3 border-t border-border px-5 py-5">
                   <SheetClose
-                    onClick={() => void signOut()}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border text-sm font-semibold text-foreground transition-colors hover:bg-surface-hover"
+                    nativeButton={false}
+                    render={<Link href="/sell" className="inline-flex h-11 items-center justify-center rounded-xl bg-market-orange text-sm font-semibold text-white transition-colors hover:bg-market-orange-dark" />}
                   >
-                    <LogOut className="size-4" /> {t("signOut")}
+                    {t("becomeSeller")}
                   </SheetClose>
-                ) : (
-                  <>
-                    <SheetClose
-                      nativeButton={false}
-                      render={<Link href="/sell" className="inline-flex h-11 items-center justify-center rounded-xl bg-market-orange text-sm font-semibold text-white transition-colors hover:bg-market-orange-dark" />}
-                    >
-                      {t("becomeSeller")}
-                    </SheetClose>
-                    <SheetClose
-                      nativeButton={false}
-                      render={<Link href="/login" className="inline-flex h-11 items-center justify-center rounded-xl border border-border text-sm font-semibold text-foreground transition-colors hover:bg-surface-hover" />}
-                    >
-                      {t("signIn")}
-                    </SheetClose>
-                  </>
-                )}
-              </div>
+                  <SheetClose
+                    nativeButton={false}
+                    render={<Link href="/login" className="inline-flex h-11 items-center justify-center rounded-xl border border-border text-sm font-semibold text-foreground transition-colors hover:bg-surface-hover" />}
+                  >
+                    {t("signIn")}
+                  </SheetClose>
+                </div>
+              )}
             </SheetContent>
           </Sheet>
 
           <BrandMark tone="light" size="sm" />
 
-          <div className="ml-auto flex items-center">
-            <LanguageSwitcher compact className="mr-1 size-9 text-[11px]" />
+          <div className="-mr-1 ml-auto flex items-center">
+            {/* Narrow phones: the language switch lives in the menu drawer, so the actions keep their size. */}
+            <LanguageSwitcher compact className="mr-0.5 hidden size-8 text-[11px] min-[400px]:inline-flex" />
             <NotificationBell className={lightAction} />
             <Link href="/wishlist" aria-label={t("wishlist")} className={lightAction}>
               <Heart className={cn("size-5", wishlist.count > 0 && "fill-market-orange text-market-orange")} aria-hidden />
               <CountBadge count={wishlist.count} />
             </Link>
-            <Link href="/cart" aria-label={t("cart")} className={cn(lightAction, "-mr-2")}>
+            <Link href="/cart" aria-label={t("cart")} className={lightAction}>
               <ShoppingCart className="size-5" aria-hidden />
               <CountBadge count={cart.count} />
             </Link>
+            <UserMenu className="ml-0.5 size-8 px-0 dark:text-white [&_svg]:size-5" />
           </div>
         </MarketContainer>
         <MarketContainer className="pb-2.5">

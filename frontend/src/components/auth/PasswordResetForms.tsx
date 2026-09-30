@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Link, useRouter } from "@/i18n/navigation";
 import { apiFetch } from "@/lib/api";
 import { AuthCard, authField, authPrimaryButton } from "@/components/auth/AuthCard";
+import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useAuthError } from "@/components/auth/useAuthError";
 
 export function ForgotPasswordForm() {
@@ -93,7 +94,7 @@ export function ResetPasswordForm() {
         </label>
         <label className="block text-sm font-medium text-foreground">
           {t("newPassword")}
-          <input name="newPassword" type="password" autoComplete="new-password" required minLength={8} className={`${authField} mt-1.5`} />
+          <PasswordInput name="newPassword" autoComplete="new-password" required minLength={8} className={authField} wrapperClassName="mt-1.5" />
         </label>
         {error && <p role="alert" className="rounded-xl bg-danger/10 px-3.5 py-2.5 text-sm text-danger">{error}</p>}
         <button type="submit" disabled={submitting} className={authPrimaryButton}>

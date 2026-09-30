@@ -83,7 +83,8 @@ function AdminNav({ user }: { user: User }) {
             </Link>
           </li>
         ))}
-        <li className="shrink-0 lg:mt-2 lg:border-t lg:border-border lg:pt-2">
+        {/* Phones get their own Sign out next to the section title. */}
+        <li className="hidden shrink-0 lg:mt-2 lg:block lg:border-t lg:border-border lg:pt-2">
           <SignOutButton />
         </li>
       </ul>
@@ -117,10 +118,13 @@ function StaffGate({ children }: { children: ReactNode }) {
 
   return (
     <Container className="py-8 sm:py-12">
-      <p className="mb-4 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-brand-blue lg:hidden">
-        {t("title")}
-        <span className="rounded-full bg-brand-blue/10 px-2 py-0.5 text-[10px] tracking-normal">{tr(user.role)}</span>
-      </p>
+      <div className="mb-4 flex items-center justify-between gap-3 lg:hidden">
+        <p className="flex min-w-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand-blue">
+          {t("title")}
+          <span className="truncate rounded-full bg-brand-blue/10 px-2 py-0.5 text-[10px] tracking-normal">{tr(user.role)}</span>
+        </p>
+        <SignOutButton className="h-9 shrink-0 border border-border px-3 text-xs font-semibold text-foreground" />
+      </div>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <AdminNav user={user} />
         <div className="min-w-0">{children}</div>

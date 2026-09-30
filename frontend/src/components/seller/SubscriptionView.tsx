@@ -11,6 +11,7 @@ import { formatDate, formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { Subscription, SubscriptionPlan } from "@/types";
 import { MobileMoneyPayment } from "@/components/seller/MobileMoneyPayment";
+import { launchOfferDate } from "@/components/subscriptions/LaunchOfferBanner";
 
 export function SubscriptionView() {
   const t = useTranslations("sellerArea.subscription");
@@ -49,6 +50,8 @@ export function SubscriptionView() {
   };
 
   const isActive = current?.status === "ACTIVE" && current.expiresAt && new Date(current.expiresAt) > new Date();
+  // Free launch plan: nothing to pay until it ends, the plans below are for afterwards.
+  const launchUntil = isActive && current?.plan.isLaunchOffer && current.expiresAt ? launchOfferDate(current.expiresAt, locale) : null;
 
   return (
     <div className="space-y-8">
@@ -65,10 +68,14 @@ export function SubscriptionView() {
           <p className="mt-2 text-sm text-foreground-secondary">{t("none")}</p>
         ) : (
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-foreground-secondary">
-            <span className="text-base font-semibold text-foreground">{current.plan.name}</span>
+            <span className="text-base font-semibold text-foreground">{launchUntil ? t("launch.name") : current.plan.name}</span>
             <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", isActive ? "bg-success/15 text-success" : "bg-warning/15 text-warning")}>{t(`status.${current.status}`)}</span>
             {current.startsAt && <span>{t("startsAt", { date: formatDate(current.startsAt, locale) })}</span>}
-            {current.expiresAt && <span>{t("expiresAt", { date: formatDate(current.expiresAt, locale) })}</span>}
+            {launchUntil ? (
+              <span className="font-semibold text-brand-orange">{t("launch.freeUntil", { date: launchUntil })}</span>
+            ) : (
+              current.expiresAt && <span>{t("expiresAt", { date: formatDate(current.expiresAt, locale) })}</span>
+            )}
             <span>{tp("ads", { count: current.plan.adQuota - current.adsUsed })}</span>
             {current.status === "PENDING_PAYMENT" && (
               <button type="button" onClick={refreshPending} className="inline-flex items-center gap-1 text-xs font-semibold text-brand-blue hover:underline">
@@ -78,10 +85,11 @@ export function SubscriptionView() {
           </div>
         )}
         {current?.status === "PENDING_PAYMENT" && <p className="mt-2 text-xs text-warning">{t("pending")}</p>}
+        {launchUntil && <p className="mt-3 rounded-xl bg-brand-orange/10 px-3.5 py-2.5 text-sm text-foreground">{t("launch.note", { date: launchUntil })}</p>}
       </section>
 
       <section>
-        <h2 className="mb-4 text-2xl">{t("plans")}</h2>
+        <h2 className="mb-4 text-2xl">{launchUntil ? t("launch.plans") : t("plans")}</h2>
         <ul className="grid gap-4 md:grid-cols-3">
           {plans.map((plan) => (
             <li key={plan.id}>

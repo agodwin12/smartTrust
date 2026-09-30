@@ -17,7 +17,8 @@ async function listPlans({ includeInactive = false } = {}) {
 
   return cacheService.getOrSet(cacheKey, CACHE_TTL_SECONDS, () =>
     prisma.subscriptionPlan.findMany({
-      where: includeInactive ? {} : { isActive: true },
+      // The free launch plan is granted automatically, never shown on the public pricing.
+      where: includeInactive ? {} : { isActive: true, isLaunchOffer: false },
       orderBy: { price: "asc" },
       take: 100,
       // Staff view: how many subscriptions ever used each plan (drives the "deactivate instead of delete" hint).
@@ -37,6 +38,12 @@ async function createPlan(data) {
 async function updatePlan(id, data) {
   const plan = await prisma.subscriptionPlan.findUnique({ where: { id } });
   if (!plan) throw new ApiError(404, "Plan not found.", "PLAN_NOT_FOUND");
+
+  // The launch plan stays free, hidden and tied to the offer's end date: only its quota,
+  // hero settings, name and bullet points can change.
+  if (plan.isLaunchOffer) {
+    data = Object.fromEntries(Object.entries(data).filter(([key]) => !["price", "durationDays", "isActive"].includes(key)));
+  }
 
   const heroEligible = data.heroEligible ?? plan.heroEligible;
   const heroDurationHours = data.heroDurationHours ?? plan.heroDurationHours;

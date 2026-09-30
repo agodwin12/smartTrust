@@ -49,11 +49,12 @@ export function ProductCard({ product, priority = false, className }: ProductCar
       transition={motionConfig.softSpring}
       className={cn(
         // Spec 15: surface, subtle border, rises on hover, border brightens, shadow grows a little.
-        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-[border-color,box-shadow] duration-300 hover:border-brand-blue/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]",
+        // Photo 65 % / text 35 % of the card: the text block has a fixed height (--card-info) and the photo is 13/7 of it.
+        "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-[border-color,box-shadow] duration-300 [--card-info:6.5rem] hover:border-brand-blue/50 hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)] sm:[--card-info:8.75rem]",
         className
       )}
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface-hover">
+      <div className="relative h-[calc(var(--card-info)*13/7)] shrink-0 overflow-hidden bg-surface-hover">
         <Link href={href} className="absolute inset-0" tabIndex={-1} aria-hidden>
           {image && (
             <Image
@@ -100,23 +101,22 @@ export function ProductCard({ product, priority = false, className }: ProductCar
         <Heart className={cn("size-4 transition-colors", wished && "fill-danger text-danger")} />
       </button>
 
-      <div className="flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-foreground-muted">{product.category?.name}</p>
-        <Link href={href} className="line-clamp-2 text-sm font-semibold leading-snug text-foreground hover:text-brand-blue">
+      <div className="flex h-[var(--card-info)] shrink-0 flex-col gap-1 overflow-hidden p-2.5 sm:p-3.5">
+        <Link href={href} className="line-clamp-2 text-[13px] font-semibold leading-snug text-foreground hover:text-brand-blue sm:text-sm">
           {product.title}
         </Link>
-        {product.description && (
-          <p className="line-clamp-2 text-[13px] leading-snug text-foreground-secondary sm:text-sm">{product.description}</p>
-        )}
-        <p className="text-xs text-foreground-muted">{t("soldBy", { store: product.store?.name ?? "" })}</p>
-        {typeof product.rating === "number" && <RatingStars rating={product.rating} count={product.reviewCount} />}
+        {product.description && <p className="hidden text-sm leading-snug text-foreground-secondary sm:line-clamp-1">{product.description}</p>}
+        <div className="flex min-w-0 items-center justify-between gap-2">
+          <p className="min-w-0 truncate text-xs text-foreground-muted">{t("soldBy", { store: product.store?.name ?? "" })}</p>
+          {typeof product.rating === "number" && <RatingStars rating={product.rating} count={product.reviewCount} className="shrink-0" />}
+        </div>
 
-        <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pt-2">
-          <p className="font-bold text-lg leading-tight text-brand-blue dark:text-brand-blue-light sm:text-xl">
+        <div className="mt-auto flex min-w-0 items-baseline gap-x-2">
+          <p className="truncate font-bold text-lg leading-tight text-brand-blue dark:text-brand-blue-light sm:text-xl">
             {formatPrice(product.price, locale)}
           </p>
           {product.compareAtPrice && (
-            <p className="text-xs text-foreground-muted line-through">{formatPrice(product.compareAtPrice, locale)}</p>
+            <p className="truncate text-xs text-foreground-muted line-through">{formatPrice(product.compareAtPrice, locale)}</p>
           )}
         </div>
       </div>

@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { faq } from "@/content/help";
 import { pick } from "@/content/types";
-import { getPlans } from "@/features/catalog/api";
+import { getPricing } from "@/features/catalog/api";
 import { FaqAccordion } from "@/components/content/FaqAccordion";
 import { Container } from "@/components/layout/Container";
 import { PageShell } from "@/components/layout/PageShell";
 import { SellCta } from "@/components/seller/SellCta";
+import { LaunchOfferBanner } from "@/components/subscriptions/LaunchOfferBanner";
 import { PlanCard } from "@/components/subscriptions/PlanCard";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHero } from "@/components/ui/PageHero";
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SubscriptionsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, plans] = await Promise.all([getTranslations("plans"), getPlans()]);
+  const [t, { plans, launchOffer }] = await Promise.all([getTranslations("plans"), getPricing()]);
   const sorted = [...plans].sort((a, b) => Number(a.price) - Number(b.price));
   const highlighted = sorted.length >= 3 ? sorted[1].id : sorted[sorted.length - 1]?.id;
   const sellerFaq = pick(faq, locale).find((g) => /sell|vend/i.test(g.group))?.items ?? [];
@@ -32,6 +33,12 @@ export default async function SubscriptionsPage({ params }: Props) {
     <PageShell>
       <PageHero title={t("title")} subtitle={t("subtitle")} crumbs={[{ label: t("title") }]} />
       <Container className="py-10 sm:py-14">
+        {launchOffer && (
+          <>
+            <LaunchOfferBanner endsAt={launchOffer.endsAt} action={<SellCta secondaryHref={null} />} className="mb-10" />
+            {sorted.length > 0 && <h2 className="mb-3 text-2xl sm:text-3xl">{t("launch.afterTitle")}</h2>}
+          </>
+        )}
         {sorted.length === 0 ? (
           <EmptyState title={t("title")} description={t("subtitle")} action={{ label: t("cta"), href: "/sell" }} />
         ) : (

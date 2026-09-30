@@ -8,6 +8,8 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { Link } from "@/i18n/navigation";
 import { authField, authPrimaryButton } from "@/components/auth/AuthCard";
 import { useAuthError } from "@/components/auth/useAuthError";
+import { PasswordInput } from "@/components/auth/PasswordInput";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 
 function GoogleMark() {
   return (
@@ -121,11 +123,11 @@ export function ProfileForms() {
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block text-sm font-medium text-foreground">
               {t("password.current")}
-              <input name="currentPassword" type="password" autoComplete="current-password" required className={`${authField} mt-1.5`} />
+              <PasswordInput name="currentPassword" autoComplete="current-password" required className={authField} wrapperClassName="mt-1.5" />
             </label>
             <label className="block text-sm font-medium text-foreground">
               {t("password.new")}
-              <input name="newPassword" type="password" autoComplete="new-password" required minLength={8} className={`${authField} mt-1.5`} />
+              <PasswordInput name="newPassword" autoComplete="new-password" required minLength={8} className={authField} wrapperClassName="mt-1.5" />
             </label>
           </div>
           {passwordError && (
@@ -138,6 +140,14 @@ export function ProfileForms() {
             {t("password.submit")}
           </button>
         </form>
+      </section>
+
+      <section className="flex flex-col gap-4 rounded-3xl border border-border bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-2xl">{t("signOut.title")}</h2>
+          <p className="mt-1 text-sm text-foreground-secondary">{t("signOut.subtitle")}</p>
+        </div>
+        <SignOutButton className="h-11 shrink-0 justify-center border border-danger/40 px-5 font-semibold text-danger sm:w-auto lg:w-auto" />
       </section>
     </div>
   );

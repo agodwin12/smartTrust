@@ -48,10 +48,14 @@ export function notificationHref(n: AppNotification): string {
   }
 }
 
+/** Message key under notifications.types: launch-offer plans have their own wording (<TYPE>_LAUNCH). */
+export const notificationMessageKey = (n: AppNotification) => (n.data?.launchOffer ? `${n.type}_LAUNCH` : n.type);
+
 /** Values for the localized title/body templates (messages → notifications.types.<TYPE>). */
-export function notificationValues(n: AppNotification, formatAmount: (value: number) => string) {
+export function notificationValues(n: AppNotification, formatAmount: (value: number) => string, formatDay: (iso: string) => string = (iso) => iso.slice(0, 10)) {
   const d = n.data ?? {};
   return {
+    date: d.expiresAt ? formatDay(d.expiresAt) : "",
     product: d.productTitle ?? "",
     store: d.storeName ?? "",
     amount: typeof d.amount === "number" ? formatAmount(d.amount) : "",

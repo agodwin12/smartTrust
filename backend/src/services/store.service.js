@@ -147,6 +147,7 @@ async function updateStatus(storeId, status) {
   const updated = await prisma.store.update({ where: { id: storeId }, data: { status } });
   // Suspending/reactivating a store shows or hides all its listings — bust the cached pages.
   await require("./advertisement.service").invalidateListingCache(); // lazy: advertisement.service is required by order.service which store.service must not cycle into
+  if (status === "ACTIVE") await grantLaunchOffer(storeId);
   return updated;
 }
 
@@ -164,7 +165,17 @@ async function review(storeId, { approve, reason }, reviewerId) {
     data: { status: approve ? "ACTIVE" : "SUSPENDED", reviewNote: approve ? null : reason, reviewedAt: new Date(), reviewedById: reviewerId },
   });
   await require("./advertisement.service").invalidateListingCache();
+  if (approve) await grantLaunchOffer(storeId);
   return updated;
+}
+
+/** While the launch offer runs, an approved store sells for free right away. Never blocks the approval. */
+async function grantLaunchOffer(storeId) {
+  try {
+    await require("./launchOffer.service").grant(storeId);
+  } catch (error) {
+    require("../config/logger").warn({ storeId, err: error.message }, "launch offer grant failed");
+  }
 }
 
 /** Selling actions (plans, publishing) need an approved store; drafts can be prepared meanwhile. */

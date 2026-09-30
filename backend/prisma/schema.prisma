@@ -233,6 +233,9 @@ model SubscriptionPlan {
   heroEligible      Boolean @default(false)
   heroDurationHours Int?
 
+  // The free launch plan (see launchOffer.service.js): granted automatically, never sold or listed.
+  isLaunchOffer Boolean @default(false)
+
   createdAt     DateTime       @default(now())
   subscriptions Subscription[]
 

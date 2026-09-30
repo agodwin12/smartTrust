@@ -43,7 +43,8 @@ function SellerNav() {
             </Link>
           </li>
         ))}
-        <li className="shrink-0 lg:mt-2 lg:border-t lg:border-border lg:pt-2">
+        {/* Phones get their own Sign out next to the section title. */}
+        <li className="hidden shrink-0 lg:mt-2 lg:block lg:border-t lg:border-border lg:pt-2">
           <SignOutButton />
         </li>
       </ul>
@@ -89,7 +90,10 @@ function StoreGate({ children }: { children: ReactNode }) {
 
   return (
     <Container className="py-8 sm:py-12">
-      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange lg:hidden">{t("title")}</p>
+      <div className="mb-4 flex items-center justify-between gap-3 lg:hidden">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">{t("title")}</p>
+        <SignOutButton className="h-9 border border-border px-3 text-xs font-semibold text-foreground" />
+      </div>
       <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <SellerNav />
         <div className="min-w-0">

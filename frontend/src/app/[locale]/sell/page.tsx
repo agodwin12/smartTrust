@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { BadgeCheck, Sparkles, Wallet, ShieldCheck } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getPlans } from "@/features/catalog/api";
+import { getPricing } from "@/features/catalog/api";
 import { HERO_IMAGES } from "@/lib/demo-data";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { PageShell } from "@/components/layout/PageShell";
 import { SellCta } from "@/components/seller/SellCta";
+import { LaunchOfferBanner } from "@/components/subscriptions/LaunchOfferBanner";
 import { PlanCard } from "@/components/subscriptions/PlanCard";
 import { seo } from "@/lib/seo";
 
@@ -29,7 +30,7 @@ const BENEFITS = [
 export default async function SellPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, plans] = await Promise.all([getTranslations("sell"), getPlans()]);
+  const [t, tp, { plans, launchOffer }] = await Promise.all([getTranslations("sell"), getTranslations("plans"), getPricing()]);
   const sorted = [...plans].sort((a, b) => Number(a.price) - Number(b.price));
 
   return (
@@ -49,6 +50,12 @@ export default async function SellPage({ params }: Props) {
           </div>
         </Container>
       </section>
+
+      {launchOffer && (
+        <Container className="pt-10 sm:pt-14">
+          <LaunchOfferBanner endsAt={launchOffer.endsAt} />
+        </Container>
+      )}
 
       <Container className="py-14">
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -83,7 +90,7 @@ export default async function SellPage({ params }: Props) {
 
       {sorted.length > 0 && (
         <Container className="py-14">
-          <h2 className="text-3xl">{t("plansTitle")}</h2>
+          <h2 className="text-3xl">{launchOffer ? tp("launch.afterTitle") : t("plansTitle")}</h2>
           <div className="mt-8 grid gap-6 pt-3 lg:grid-cols-3">
             {sorted.map((plan, i) => (
               <PlanCard key={plan.id} plan={plan} highlighted={i === 1} />

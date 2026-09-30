@@ -6,7 +6,8 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { Link } from "@/i18n/navigation";
 
 /** Primary "start selling" action — its destination depends on whether the visitor is signed in. */
-export function SellCta({ secondaryHref = "/subscriptions" }: { secondaryHref?: string }) {
+/** `secondaryHref={null}` shows the primary button alone. */
+export function SellCta({ secondaryHref = "/subscriptions" }: { secondaryHref?: string | null }) {
   const t = useTranslations("sell");
   const { status, user } = useAuth();
   const ts = useTranslations("sellerArea");
@@ -21,12 +22,14 @@ export function SellCta({ secondaryHref = "/subscriptions" }: { secondaryHref?: 
         {status === "authenticated" ? (user?.store ? ts("title") : t("cta")) : t("ctaLoggedOut")}
         <ArrowRight className="size-4" />
       </Link>
-      <Link
-        href={secondaryHref}
-        className="inline-flex h-12 items-center justify-center rounded-xl border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-colors hover:border-brand-blue hover:text-brand-blue"
-      >
-        {t("secondary")}
-      </Link>
+      {secondaryHref && (
+        <Link
+          href={secondaryHref}
+          className="inline-flex h-12 items-center justify-center rounded-xl border border-border bg-surface px-6 text-sm font-semibold text-foreground transition-colors hover:border-brand-blue hover:text-brand-blue"
+        >
+          {t("secondary")}
+        </Link>
+      )}
     </div>
   );
 }

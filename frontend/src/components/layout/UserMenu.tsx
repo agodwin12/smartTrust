@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Heart, LayoutDashboard, LogOut, Package, ShieldCheck, Store, User as UserIcon } from "lucide-react";
+import { LogOut, ShieldCheck, User as UserIcon, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { isStaff } from "@/features/admin/roles";
 import { useAuth } from "@/features/auth/AuthProvider";
@@ -11,13 +11,14 @@ import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-/** Header account control: "Sign in" while anonymous, avatar + menu once authenticated. */
+/** Header account control: "Sign in" while anonymous; once signed in, the avatar opens "View profile" and "Sign out". */
 export function UserMenu({ className, tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
   const t = useTranslations("nav");
   const { status, user } = useAuth();
@@ -61,26 +62,17 @@ export function UserMenu({ className, tone = "light" }: { className?: string; to
         {initials(fullName || user.email)}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-60">
-        <DropdownMenuLabel className="flex flex-col">
-          <span className="text-[11px] font-normal text-foreground-muted">{t("signedInAs")}</span>
-          <span className="truncate font-semibold">{fullName || user.email}</span>
-          <span className="truncate text-xs font-normal text-foreground-muted">{user.email}</span>
-        </DropdownMenuLabel>
+        {/* Base UI requires a group around a label: without it, opening the menu crashed the page. */}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="flex flex-col">
+            <span className="text-[11px] font-normal text-foreground-muted">{t("signedInAs")}</span>
+            <span className="truncate font-semibold">{fullName || user.email}</span>
+            <span className="truncate text-xs font-normal text-foreground-muted">{user.email}</span>
+          </DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem render={<Link href="/account" />}>
-          <LayoutDashboard className="size-4" /> {t("account")}
-        </DropdownMenuItem>
-        <DropdownMenuItem render={<Link href="/account/orders" />}>
-          <Package className="size-4" /> {t("myOrders")}
-        </DropdownMenuItem>
-        <DropdownMenuItem render={<Link href="/account/notifications" />}>
-          <Bell className="size-4" /> {t("notifications")}
-        </DropdownMenuItem>
-        <DropdownMenuItem render={<Link href="/wishlist" />}>
-          <Heart className="size-4" /> {t("wishlist")}
-        </DropdownMenuItem>
-        <DropdownMenuItem render={<Link href={user.store ? "/seller" : "/sell"} />}>
-          <Store className="size-4" /> {user.store ? t("myStore") : t("sell")}
+        <DropdownMenuItem render={<Link href="/account/profile" />}>
+          <UserRound className="size-4" /> {t("viewProfile")}
         </DropdownMenuItem>
         {isStaff(user) && (
           <DropdownMenuItem render={<Link href="/admin" />}>

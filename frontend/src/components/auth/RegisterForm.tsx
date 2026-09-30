@@ -8,6 +8,7 @@ import { useAuth } from "@/features/auth/AuthProvider";
 import { Link, useRouter } from "@/i18n/navigation";
 import { safeNextPath } from "@/lib/format";
 import { AuthCard, authField, authPrimaryButton } from "@/components/auth/AuthCard";
+import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useAuthError } from "@/components/auth/useAuthError";
 
 export function RegisterForm() {
@@ -78,7 +79,7 @@ export function RegisterForm() {
         </label>
         <label className="block text-sm font-medium text-foreground">
           {t("password")}
-          <input name="password" type="password" autoComplete="new-password" required minLength={8} className={`${authField} mt-1.5`} />
+          <PasswordInput name="password" autoComplete="new-password" required minLength={8} className={authField} wrapperClassName="mt-1.5" />
           <span className="mt-1 block text-xs font-normal text-foreground-muted">{t("passwordHint")}</span>
         </label>
         {error && (

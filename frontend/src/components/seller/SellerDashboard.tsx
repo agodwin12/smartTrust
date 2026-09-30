@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { formatDate, formatPrice } from "@/lib/format";
 import type { Order, Paginated, SellerDashboard as Dashboard } from "@/types";
 import { RatingStars } from "@/components/marketplace/RatingStars";
+import { launchOfferDate } from "@/components/subscriptions/LaunchOfferBanner";
 
 export function SellerDashboard() {
   const t = useTranslations("sellerArea.dashboard");
@@ -86,8 +87,13 @@ export function SellerDashboard() {
             {dash && !sub && <p className="mt-2 text-sm text-warning">{t("plan.none")}</p>}
             {sub && (
               <div className="mt-2 space-y-1 text-sm text-foreground-secondary">
-                <p className="text-base font-semibold text-foreground">{sub.plan.name}</p>
-                {sub.expiresAt && <p>{t("plan.expires", { date: formatDate(sub.expiresAt, locale) })}</p>}
+                <p className="text-base font-semibold text-foreground">{sub.plan.isLaunchOffer ? t("plan.launchName") : sub.plan.name}</p>
+                {sub.expiresAt &&
+                  (sub.plan.isLaunchOffer ? (
+                    <p className="font-semibold text-brand-orange">{t("plan.launchUntil", { date: launchOfferDate(sub.expiresAt, locale) })}</p>
+                  ) : (
+                    <p>{t("plan.expires", { date: formatDate(sub.expiresAt, locale) })}</p>
+                  ))}
                 <p>{t("plan.quota", { used: sub.adsUsed, quota: sub.plan.adQuota })}</p>
                 <p className="inline-flex items-center gap-1">
                   <Sparkles className="size-3.5 text-brand-orange" />
@@ -97,7 +103,7 @@ export function SellerDashboard() {
             )}
           </div>
           <Link href="/seller/subscription" className="inline-flex h-10 items-center rounded-xl border border-border px-4 text-sm font-semibold text-foreground hover:border-brand-blue hover:text-brand-blue">
-            {sub ? t("plan.renew") : t("plan.choose")}
+            {sub?.plan.isLaunchOffer ? t("plan.seePlans") : sub ? t("plan.renew") : t("plan.choose")}
           </Link>
         </div>
       </section>

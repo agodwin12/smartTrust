@@ -98,7 +98,12 @@ export type SubscriptionPlan = {
   isActive: boolean;
   heroEligible: boolean;
   heroDurationHours: number | null;
+  /** The free launch plan: granted automatically, never listed or sold. */
+  isLaunchOffer?: boolean;
 };
+
+/** Selling is free for every approved store until `endsAt` (then plans are paid). */
+export type LaunchOffer = { open: boolean; endsAt: string };
 
 export type OrderStatus = "PENDING_PAYMENT" | "CONFIRMED" | "PAID" | "COMPLETED" | "CANCELLED" | "DISPUTED" | "REFUNDED";
 export type PaymentMethod = "MOBILE_MONEY" | "CASH_ON_DELIVERY";
@@ -246,6 +251,7 @@ export type AppNotification = {
     expiresAt?: string;
     count?: number;
     days?: number;
+    launchOffer?: boolean;
     paymentMethod?: PaymentMethod;
     cancelledBy?: "BUYER" | "SELLER" | "STAFF";
   } | null;

@@ -1,14 +1,15 @@
 const planService = require("../services/subscriptionPlan.service");
 const audit = require("../services/audit.service");
+const launchOffer = require("../services/launchOffer.service");
 
 async function list(req, res) {
   const plans = await planService.listPlans();
-  res.json({ plans });
+  res.json({ plans, launchOffer: launchOffer.info() });
 }
 
 async function listAll(req, res) {
   const plans = await planService.listPlans({ includeInactive: true });
-  res.json({ plans });
+  res.json({ plans, launchOffer: launchOffer.info() });
 }
 
 async function create(req, res) {

@@ -9,6 +9,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { apiUrl } from "@/lib/api";
 import { safeNextPath } from "@/lib/format";
 import { AuthCard, authField, authPrimaryButton, authSecondaryButton } from "@/components/auth/AuthCard";
+import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useAuthError } from "@/components/auth/useAuthError";
 
 function GoogleIcon() {
@@ -71,7 +72,7 @@ export function LoginForm() {
               {t("forgot")}
             </Link>
           </span>
-          <input name="password" type="password" autoComplete="current-password" required className={`${authField} mt-1.5`} />
+          <PasswordInput name="password" autoComplete="current-password" required className={authField} wrapperClassName="mt-1.5" />
         </label>
         {error && <p role="alert" className="rounded-xl bg-danger/10 px-3.5 py-2.5 text-sm text-danger">{error}</p>}
         <button type="submit" disabled={submitting} className={authPrimaryButton}>

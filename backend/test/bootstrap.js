@@ -26,4 +26,6 @@ process.env.KPAY_BASE_URL = "http://127.0.0.1:9"; // closed port: every provider
 process.env.RESEND_API_KEY = "";
 process.env.GEMINI_API_KEY = ""; // never call Gemini from the tests
 process.env.SENTRY_DSN = "";
+// Launch offer closed by default so plan/quota tests keep their meaning; launch-offer.test.js opens it.
+process.env.LAUNCH_OFFER_ENDS_AT = "2000-01-01T00:00:00.000Z";
 process.env.GENERAL_RATE_LIMIT_PER_MINUTE = "100000";

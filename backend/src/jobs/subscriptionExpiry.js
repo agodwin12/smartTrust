@@ -2,17 +2,21 @@ const prisma = require("../config/prisma");
 const auditService = require("../services/audit.service");
 const eventNotifications = require("../services/eventNotifications");
 const advertisementService = require("../services/advertisement.service");
+const launchOffer = require("../services/launchOffer.service");
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const NOTICE_DAYS = 3;
 
-const include = { plan: { select: { name: true } }, store: { select: { id: true, ownerId: true, slug: true } } };
+const include = { plan: { select: { name: true, isLaunchOffer: true } }, store: { select: { id: true, ownerId: true, slug: true } } };
 
 /**
  * 1. ACTIVE subscriptions past `expiresAt` become EXPIRED. The seller is told, and if the
  *    store has no other active plan, how many published listings just disappeared from
  *    the marketplace (visibilityFilter only shows stores with an active plan).
  * 2. Subscriptions expiring within 3 days get one "renew soon" notice (flagged on the row).
+ * 3. Launch offer (launchOffer.service): running launch plans follow the configured end date,
+ *    and while the offer runs, approved stores left without a plan get it — including a store
+ *    whose paid plan just expired, which then keeps selling for free instead of going dark.
  */
 module.exports = {
   name: "subscription-expiry",
@@ -20,6 +24,7 @@ module.exports = {
   intervalMs: 15 * 60 * 1000,
   async run({ log }) {
     const now = new Date();
+    const launch = await launchOffer.sweep(now);
 
     const overdue = await prisma.subscription.findMany({ where: { status: "ACTIVE", expiresAt: { lte: now } }, include, take: 500 });
     let expired = 0;
@@ -27,6 +32,7 @@ module.exports = {
       const { count } = await prisma.subscription.updateMany({ where: { id: sub.id, status: "ACTIVE" }, data: { status: "EXPIRED" } });
       if (count === 0) continue;
       expired += 1;
+      if (launchOffer.isOpen(now)) await launchOffer.grant(sub.storeId, now);
       const stillCovered = await prisma.subscription.count({ where: { storeId: sub.storeId, status: "ACTIVE", expiresAt: { gt: now } } });
       const hiddenListings = stillCovered > 0 ? 0 : await prisma.advertisement.count({ where: { storeId: sub.storeId, status: "PUBLISHED" } });
       await eventNotifications.subscriptionExpired(sub, hiddenListings);
@@ -51,6 +57,6 @@ module.exports = {
       await eventNotifications.subscriptionExpiring(sub, daysLeft);
     }
 
-    return { expired, renewalNotices: notices };
+    return { expired, renewalNotices: notices, launchOfferGranted: launch.granted, launchOfferRealigned: launch.realigned };
   },
 };

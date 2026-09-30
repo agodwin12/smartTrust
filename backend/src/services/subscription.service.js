@@ -11,7 +11,7 @@ const STALE_PENDING_MS = 30 * 60 * 1000;
 
 async function checkout(storeId, { planId, provider, phoneNumber }) {
   const plan = await prisma.subscriptionPlan.findUnique({ where: { id: planId } });
-  if (!plan || !plan.isActive) {
+  if (!plan || !plan.isActive || plan.isLaunchOffer) {
     throw new ApiError(404, "Subscription plan not found.", "PLAN_NOT_FOUND");
   }
 

@@ -184,8 +184,13 @@ async function subscriptionActivated(subscription) {
     if (!store) return;
     await notify(store.ownerId, {
       type: "SUBSCRIPTION_ACTIVATED",
-      title: `${subscription.plan?.name ?? "Your"} plan is active`,
-      data: { subscriptionId: subscription.id, planName: subscription.plan?.name ?? null, storeSlug: store.slug },
+      title: subscription.plan?.isLaunchOffer ? "You can sell for free during the launch offer" : `${subscription.plan?.name ?? "Your"} plan is active`,
+      data: {
+        subscriptionId: subscription.id,
+        planName: subscription.plan?.name ?? null,
+        storeSlug: store.slug,
+        ...(subscription.plan?.isLaunchOffer && { launchOffer: true, expiresAt: subscription.expiresAt }),
+      },
     });
   } catch (error) {
     logger.warn({ err: error.message }, "[notifications] subscription event failed");
@@ -211,7 +216,7 @@ async function subscriptionExpiring(subscription, daysLeft) {
       type: "SUBSCRIPTION_EXPIRING",
       title: `${subscription.plan?.name ?? "Your"} plan expires in ${daysLeft} day${daysLeft === 1 ? "" : "s"}`,
       body: "Renew to keep your listings visible.",
-      data: { subscriptionId: subscription.id, planName: subscription.plan?.name ?? null, expiresAt: subscription.expiresAt, days: daysLeft, storeSlug: subscription.store.slug },
+      data: { subscriptionId: subscription.id, planName: subscription.plan?.name ?? null, expiresAt: subscription.expiresAt, days: daysLeft, storeSlug: subscription.store.slug, ...(subscription.plan?.isLaunchOffer && { launchOffer: true }) },
     });
   } catch (error) {
     logger.warn({ err: error.message }, "[notifications] subscription expiring event failed");
@@ -224,7 +229,7 @@ async function subscriptionExpired(subscription, hiddenListings) {
       type: "SUBSCRIPTION_EXPIRED",
       title: `${subscription.plan?.name ?? "Your"} plan has expired`,
       body: hiddenListings > 0 ? `${hiddenListings} listing${hiddenListings === 1 ? " is" : "s are"} no longer visible until you renew.` : null,
-      data: { subscriptionId: subscription.id, planName: subscription.plan?.name ?? null, count: hiddenListings, storeSlug: subscription.store.slug },
+      data: { subscriptionId: subscription.id, planName: subscription.plan?.name ?? null, count: hiddenListings, storeSlug: subscription.store.slug, ...(subscription.plan?.isLaunchOffer && { launchOffer: true }) },
     });
     if (hiddenListings > 0) {
       await notify(subscription.store.ownerId, {

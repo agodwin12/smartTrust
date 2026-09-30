@@ -67,8 +67,13 @@ async function sendContactNotification({ id, name, email, subject, message, loca
 /** Tells a seller whether their new store was approved (with the reason when it was not). */
 async function sendStoreDecisionEmail({ to, firstName, storeName, approved, reason, dashboardUrl }) {
   const subject = approved ? `Your store "${storeName}" is approved` : `Your store "${storeName}" was not approved`;
+  // While the launch offer runs, approved stores sell for free (launchOffer.service grants the plan).
+  const launchOffer = require("./launchOffer.service");
+  const nextStep = launchOffer.isOpen()
+    ? `You can publish your listings for free until ${launchOffer.endsAt().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Douala" })}: that's our launch offer.`
+    : "You can now choose a plan and publish your listings.";
   const body = approved
-    ? `<p style="color: #333; font-size: 15px;">Good news: your store <strong>${escapeHtml(storeName)}</strong> has been approved. You can now choose a plan and publish your listings.</p>`
+    ? `<p style="color: #333; font-size: 15px;">Good news: your store <strong>${escapeHtml(storeName)}</strong> has been approved. ${nextStep}</p>`
     : `<p style="color: #333; font-size: 15px;">Your store <strong>${escapeHtml(storeName)}</strong> was not approved yet.</p>
        ${reason ? `<p style="color: #333; font-size: 15px; background: #F2F2F2; padding: 12px 16px; border-radius: 8px;">${escapeHtml(reason)}</p>` : ""}
        <p style="color: #333; font-size: 15px;">Update your store details and reply to this email or contact support if you have questions.</p>`;

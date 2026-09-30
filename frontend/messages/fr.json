@@ -16,7 +16,9 @@
     "all": "Tout",
     "previous": "Précédent",
     "next": "Suivant",
-    "page": "Page {page} sur {total}"
+    "page": "Page {page} sur {total}",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
   },
   "nav": {
     "categories": "Catégories",
@@ -49,7 +51,8 @@
       "en": "anglais",
       "fr": "français"
     },
-    "allCategories": "Toutes les catégories"
+    "allCategories": "Toutes les catégories",
+    "viewProfile": "Voir mon profil"
   },
   "hero": {
     "badgeTitle": "Paiement sous séquestre",
@@ -577,7 +580,13 @@
     "supportIncluded": "Support prioritaire",
     "cta": "Prêt à vendre ?",
     "ctaDescription": "Créez votre compte, ouvrez votre boutique et choisissez un plan — cinq minutes suffisent.",
-    "faqTitle": "Questions sur les plans"
+    "faqTitle": "Questions sur les plans",
+    "launch": {
+      "badge": "Offre de lancement",
+      "title": "Vendez gratuitement jusqu'au {date}",
+      "body": "SmartPlaze vient d'ouvrir : créez votre boutique dès maintenant et publiez vos annonces sans frais. Les formules ci-dessous ne s'appliquent qu'après l'offre de lancement.",
+      "afterTitle": "Formules après l'offre de lancement"
+    }
   },
   "sell": {
     "eyebrow": "Vendre sur SmartPlaze",
@@ -829,6 +838,10 @@
         "submit": "Mettre à jour",
         "updated": "Mot de passe mis à jour.",
         "googleOnly": "Ce compte se connecte avec Google et n'a pas de mot de passe. Utilisez « Mot de passe oublié ? » sur la page de connexion pour en définir un."
+      },
+      "signOut": {
+        "title": "Déconnexion",
+        "subtitle": "Met fin à votre session sur cet appareil et sur tous les autres appareils où vous êtes connecté."
       }
     }
   },
@@ -946,11 +959,23 @@
       },
       "STORE_APPROVED": {
         "title": "{store} est approuvée",
-        "body": "Choisissez un forfait et publiez vos annonces."
+        "body": "Votre boutique est en ligne. Ouvrez votre espace vendeur pour publier vos annonces."
       },
       "STORE_REJECTED": {
         "title": "{store} n'a pas été approuvée",
         "body": "{comment}"
+      },
+      "SUBSCRIPTION_ACTIVATED_LAUNCH": {
+        "title": "Vous vendez gratuitement jusqu'au {date}",
+        "body": "Votre boutique est validée : publiez vos annonces sans frais pendant l'offre de lancement."
+      },
+      "SUBSCRIPTION_EXPIRING_LAUNCH": {
+        "title": "L'offre de lancement gratuite se termine dans {days, plural, one {# jour} other {# jours}}",
+        "body": "Choisissez une formule dès maintenant pour garder vos annonces en ligne."
+      },
+      "SUBSCRIPTION_EXPIRED_LAUNCH": {
+        "title": "L'offre de lancement gratuite est terminée",
+        "body": "{count, plural, =0 {Choisissez une formule pour publier à nouveau.} one {# annonce est masquée jusqu'au choix d'une formule.} other {# annonces sont masquées jusqu'au choix d'une formule.}}"
       }
     }
   },
@@ -1078,7 +1103,10 @@
         "expires": "Expire le {date}",
         "quota": "{used} annonces sur {quota} utilisées",
         "hero": "Mise en avant : {hours} h",
-        "noHero": "Pas de mise en avant sur ce plan"
+        "noHero": "Pas de mise en avant sur ce plan",
+        "launchName": "Offre de lancement — gratuite",
+        "launchUntil": "Gratuit jusqu'au {date}",
+        "seePlans": "Voir les formules"
       },
       "recentOrders": "Dernières commandes",
       "allOrders": "Toutes les commandes",
@@ -1190,7 +1218,13 @@
         "EXPIRED": "Expiré",
         "CANCELLED": "Annulé"
       },
-      "select": "Choisir"
+      "select": "Choisir",
+      "launch": {
+        "name": "Offre de lancement — gratuite",
+        "freeUntil": "Gratuit jusqu'au {date}",
+        "note": "Inutile de vous abonner maintenant : votre boutique vend gratuitement jusqu'au {date}. Ensuite, choisissez l'une des formules ci-dessous pour garder vos annonces en ligne.",
+        "plans": "Formules après l'offre de lancement"
+      }
     },
     "wallet": {
       "title": "Portefeuille",
@@ -1457,7 +1491,10 @@
       "updated": "Plan mis à jour.",
       "deleted": "Plan supprimé.",
       "inactive": "Masqué",
-      "subscriptions": "abonnements"
+      "subscriptions": "abonnements",
+      "launchBadge": "Offre de lancement · gratuite jusqu'au {date}",
+      "launchEnded": "Offre de lancement terminée",
+      "launchHint": "Attribuée automatiquement à chaque boutique validée jusqu'à la fin de l'offre de lancement. Invisible sur la page des tarifs et jamais vendue : seuls le quota d'annonces et la mise en avant sont modifiables."
     },
     "orders": {
       "title": "Commandes",

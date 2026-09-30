@@ -1,6 +1,6 @@
 import { apiFetch, isNotFound } from "@/lib/api";
 import { CATEGORY_IMAGES } from "@/lib/demo-data";
-import type { Category, FlashCampaign, Paginated, Product, Store, SubscriptionPlan } from "@/types";
+import type { Category, FlashCampaign, LaunchOffer, Paginated, Product, Store, SubscriptionPlan } from "@/types";
 
 /*
  * Server-side catalog fetchers. Public data only — cached with short revalidation
@@ -121,14 +121,15 @@ export async function getStore(slug: string): Promise<Store | null> {
   }
 }
 
-export async function getPlans(): Promise<SubscriptionPlan[]> {
+/** Public plans, plus the launch offer while it runs (null once plans are paid). Never throws. */
+export async function getPricing(): Promise<{ plans: SubscriptionPlan[]; launchOffer: LaunchOffer | null }> {
   try {
     // No page-level cache: an admin change to a plan must show on /subscriptions and /sell at once.
     // The API serves plans from Redis and clears that cache whenever a plan is saved.
-    const { plans } = await apiFetch<{ plans: SubscriptionPlan[] }>("subscription-plans", { cache: "no-store" });
-    return plans;
+    const { plans, launchOffer } = await apiFetch<{ plans: SubscriptionPlan[]; launchOffer?: LaunchOffer }>("subscription-plans", { cache: "no-store" });
+    return { plans, launchOffer: launchOffer?.open ? launchOffer : null };
   } catch {
-    return [];
+    return { plans: [], launchOffer: null };
   }
 }
 

@@ -8,7 +8,8 @@ import { canOperate } from "@/features/admin/roles";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { SubscriptionPlan } from "@/types";
+import type { LaunchOffer, SubscriptionPlan } from "@/types";
+import { launchOfferDate } from "@/components/subscriptions/LaunchOfferBanner";
 import { useAuthError } from "@/components/auth/useAuthError";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -25,6 +26,7 @@ function PlanSheet({ editing, onClose, onSaved }: { editing: Editing | null; onC
   const { authFetch } = useAuth();
   const describeError = useAuthError();
   const plan = editing?.mode === "edit" ? editing.plan : null;
+  const launch = !!plan?.isLaunchOffer;
   const [busy, setBusy] = useState(false);
   const [isActive, setIsActive] = useState(plan?.isActive ?? true);
   const [heroEligible, setHeroEligible] = useState(plan?.heroEligible ?? false);
@@ -47,6 +49,8 @@ function PlanSheet({ editing, onClose, onSaved }: { editing: Editing | null; onC
         .filter(Boolean),
     };
     if (heroEligible) body.heroDurationHours = Math.max(48, num("heroDurationHours") || 48);
+    // The launch plan stays free and hidden, and runs until the offer ends: those fields aren't shown.
+    if (launch) for (const key of ["durationDays", "price", "isActive"]) delete body[key];
     setBusy(true);
     try {
       if (editing.mode === "create") await authFetch("subscription-plans", { method: "POST", body });
@@ -73,18 +77,23 @@ function PlanSheet({ editing, onClose, onSaved }: { editing: Editing | null; onC
             <Field label={t("form.name")}>
               <input name="name" required defaultValue={plan?.name ?? ""} className={cn(adminField, "w-full")} />
             </Field>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <Field label={t("form.durationDays")}>
-                <input name="durationDays" type="number" min={1} required defaultValue={plan?.durationDays ?? 30} className={cn(adminField, "w-full")} />
-              </Field>
+            {launch && <p className="rounded-xl bg-brand-orange/10 px-3.5 py-2.5 text-sm text-foreground">{t("launchHint")}</p>}
+            <div className={cn("grid gap-4", !launch && "sm:grid-cols-3")}>
+              {!launch && (
+                <Field label={t("form.durationDays")}>
+                  <input name="durationDays" type="number" min={1} required defaultValue={plan?.durationDays ?? 30} className={cn(adminField, "w-full")} />
+                </Field>
+              )}
               <Field label={t("form.adQuota")}>
                 <input name="adQuota" type="number" min={1} required defaultValue={plan?.adQuota ?? 5} className={cn(adminField, "w-full")} />
               </Field>
-              <Field label={t("form.price")}>
-                <input name="price" type="number" min={0} step={100} required defaultValue={plan ? Number(plan.price) : 5000} className={cn(adminField, "w-full")} />
-              </Field>
+              {!launch && (
+                <Field label={t("form.price")}>
+                  <input name="price" type="number" min={0} step={100} required defaultValue={plan ? Number(plan.price) : 5000} className={cn(adminField, "w-full")} />
+                </Field>
+              )}
             </div>
-            <Checkbox label={t("form.isActive")} checked={isActive} onChange={setIsActive} />
+            {!launch && <Checkbox label={t("form.isActive")} checked={isActive} onChange={setIsActive} />}
             <Checkbox label={t("form.heroEligible")} checked={heroEligible} onChange={setHeroEligible} />
             {heroEligible && (
               <Field label={t("form.heroDurationHours")}>
@@ -112,13 +121,18 @@ export function PlansView() {
   const { user: me, authFetch } = useAuth();
   const describeError = useAuthError();
   const [plans, setPlans] = useState<PlanRow[] | null>(null);
+  const [launchOffer, setLaunchOffer] = useState<LaunchOffer | null>(null);
   const [editing, setEditing] = useState<Editing | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
 
   const load = useCallback(
     () =>
-      authFetch<{ plans: PlanRow[] }>("subscription-plans/all")
-        .then((r) => setPlans(r.plans))
+      authFetch<{ plans: PlanRow[]; launchOffer?: LaunchOffer }>("subscription-plans/all")
+        .then((r) => {
+          // Launch plan first: it is the one every new store is on while the offer runs.
+          setPlans([...r.plans].sort((a, b) => Number(!!b.isLaunchOffer) - Number(!!a.isLaunchOffer)));
+          setLaunchOffer(r.launchOffer ?? null);
+        })
         .catch(() => setPlans([])),
     [authFetch]
   );
@@ -167,19 +181,23 @@ export function PlansView() {
       ) : (
         <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {plans.map((plan) => (
-            <li key={plan.id} className={cn("flex flex-col rounded-2xl border border-border bg-surface p-5", !plan.isActive && "opacity-70")}>
+            <li key={plan.id} className={cn("flex flex-col rounded-2xl border bg-surface p-5", plan.isLaunchOffer ? "border-brand-orange/50" : "border-border", !plan.isActive && !plan.isLaunchOffer && "opacity-70")}>
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h2 className="text-xl">{plan.name}</h2>
                   <p className="font-bold text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(plan.price, locale)}</p>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  {!plan.isActive && <StatusPill tone="muted" label={t("inactive")} />}
+                  {plan.isLaunchOffer ? (
+                    <StatusPill tone={launchOffer?.open ? "success" : "muted"} label={launchOffer?.open ? t("launchBadge", { date: launchOfferDate(launchOffer.endsAt, locale) }) : t("launchEnded")} />
+                  ) : (
+                    !plan.isActive && <StatusPill tone="muted" label={t("inactive")} />
+                  )}
                   {plan.heroEligible && <StatusPill tone="warning" label={tp("hero", { hours: plan.heroDurationHours ?? 48 })} />}
                 </div>
               </div>
               <ul className="mt-3 space-y-1 text-sm text-foreground-secondary">
-                <li>{tp("duration", { days: plan.durationDays })}</li>
+                {plan.isLaunchOffer ? <li>{t("launchHint")}</li> : <li>{tp("duration", { days: plan.durationDays })}</li>}
                 <li>{tp("ads", { count: plan.adQuota })}</li>
                 {!plan.heroEligible && <li>{tp("noHero")}</li>}
                 {featureLines(plan.features).map((f) => (
@@ -194,9 +212,11 @@ export function PlansView() {
                   <button type="button" onClick={() => setEditing({ mode: "edit", plan })} className={rowAction}>
                     <Pencil className="size-3.5" /> {tc("edit")}
                   </button>
-                  <button type="button" disabled={busyId === plan.id} onClick={() => remove(plan)} className={cn(rowAction, "border-danger/40 text-danger hover:border-danger")}>
-                    {busyId === plan.id ? <Loader2 className="size-3.5 animate-spin" /> : <Trash2 className="size-3.5" />} {tc("delete")}
-                  </button>
+                  {!plan.isLaunchOffer && (
+                    <button type="button" disabled={busyId === plan.id} onClick={() => remove(plan)} className={cn(rowAction, "border-danger/40 text-danger hover:border-danger")}>
+                      {busyId === plan.id ? <Loader2 className="size-3.5 animate-spin" /> : <Trash2 className="size-3.5" />} {tc("delete")}
+                    </button>
+                  )}
                 </div>
               )}
             </li>

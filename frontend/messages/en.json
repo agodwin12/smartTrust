@@ -16,7 +16,9 @@
     "all": "All",
     "previous": "Previous",
     "next": "Next",
-    "page": "Page {page} of {total}"
+    "page": "Page {page} of {total}",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "nav": {
     "categories": "Categories",
@@ -49,7 +51,8 @@
       "en": "English",
       "fr": "French"
     },
-    "allCategories": "All categories"
+    "allCategories": "All categories",
+    "viewProfile": "View profile"
   },
   "hero": {
     "badgeTitle": "Escrow protected",
@@ -577,7 +580,13 @@
     "supportIncluded": "Priority support",
     "cta": "Ready to sell?",
     "ctaDescription": "Create your account, open your store and choose a plan — it takes about five minutes.",
-    "faqTitle": "Plan questions"
+    "faqTitle": "Plan questions",
+    "launch": {
+      "badge": "Launch offer",
+      "title": "Sell for free until {date}",
+      "body": "SmartPlaze has just launched: open your store now and publish your listings at no cost. The plans below only apply after the launch offer.",
+      "afterTitle": "Plans after the launch offer"
+    }
   },
   "sell": {
     "eyebrow": "Sell on SmartPlaze",
@@ -829,6 +838,10 @@
         "submit": "Update password",
         "updated": "Password updated.",
         "googleOnly": "This account signs in with Google and has no password. Use “Forgot password?” on the sign-in page to set one."
+      },
+      "signOut": {
+        "title": "Sign out",
+        "subtitle": "Ends your session on this device and on every other device where you're signed in."
       }
     }
   },
@@ -946,11 +959,23 @@
       },
       "STORE_APPROVED": {
         "title": "{store} is approved",
-        "body": "Choose a plan and publish your listings."
+        "body": "Your store is live. Open your seller area to publish your listings."
       },
       "STORE_REJECTED": {
         "title": "{store} was not approved",
         "body": "{comment}"
+      },
+      "SUBSCRIPTION_ACTIVATED_LAUNCH": {
+        "title": "You can sell for free until {date}",
+        "body": "Your store is approved: publish your listings at no cost during the launch offer."
+      },
+      "SUBSCRIPTION_EXPIRING_LAUNCH": {
+        "title": "The free launch offer ends in {days, plural, one {# day} other {# days}}",
+        "body": "Choose a plan now to keep your listings online."
+      },
+      "SUBSCRIPTION_EXPIRED_LAUNCH": {
+        "title": "The free launch offer has ended",
+        "body": "{count, plural, =0 {Choose a plan to publish again.} one {# listing is hidden until you choose a plan.} other {# listings are hidden until you choose a plan.}}"
       }
     }
   },
@@ -1078,7 +1103,10 @@
         "expires": "Expires {date}",
         "quota": "{used} of {quota} listings used",
         "hero": "Hero placement: {hours}h",
-        "noHero": "No hero placement on this plan"
+        "noHero": "No hero placement on this plan",
+        "launchName": "Launch offer — free",
+        "launchUntil": "Free until {date}",
+        "seePlans": "See plans"
       },
       "recentOrders": "Latest orders",
       "allOrders": "All orders",
@@ -1190,7 +1218,13 @@
         "EXPIRED": "Expired",
         "CANCELLED": "Cancelled"
       },
-      "select": "Select"
+      "select": "Select",
+      "launch": {
+        "name": "Launch offer — free",
+        "freeUntil": "Free until {date}",
+        "note": "No need to subscribe now: your store sells for free until {date}. After that, choose one of the plans below to keep your listings online.",
+        "plans": "Plans after the launch offer"
+      }
     },
     "wallet": {
       "title": "Wallet",
@@ -1457,7 +1491,10 @@
       "updated": "Plan updated.",
       "deleted": "Plan deleted.",
       "inactive": "Hidden",
-      "subscriptions": "subscriptions"
+      "subscriptions": "subscriptions",
+      "launchBadge": "Launch offer · free until {date}",
+      "launchEnded": "Launch offer ended",
+      "launchHint": "Given automatically to every approved store until the launch offer ends. Hidden from the public pricing and never sold: only its listing quota and hero settings can change."
     },
     "orders": {
       "title": "Orders",

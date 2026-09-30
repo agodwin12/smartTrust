@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { AccountNav } from "@/components/account/AccountNav";
 import { RequireAuth } from "@/components/auth/RequireAuth";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 import { Container } from "@/components/layout/Container";
 import { PageShell } from "@/components/layout/PageShell";
 
@@ -13,7 +14,10 @@ export default async function AccountLayout({ children }: { children: ReactNode 
     <PageShell>
       <RequireAuth>
         <Container className="py-8 sm:py-12">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange lg:hidden">{t("title")}</p>
+          <div className="mb-4 flex items-center justify-between gap-3 lg:hidden">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">{t("title")}</p>
+            <SignOutButton className="h-9 border border-border px-3 text-xs font-semibold text-foreground" />
+          </div>
           <div className="grid gap-8 lg:grid-cols-[240px_minmax(0,1fr)]">
             <AccountNav />
             <div className="min-w-0">{children}</div>

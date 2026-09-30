@@ -40,7 +40,8 @@ export function AccountNav() {
             </Link>
           </li>
         ))}
-        <li className="shrink-0 lg:mt-2 lg:border-t lg:border-border lg:pt-2">
+        {/* Phones get their own Sign out next to the section title (see the account layout). */}
+        <li className="hidden shrink-0 lg:mt-2 lg:block lg:border-t lg:border-border lg:pt-2">
           <SignOutButton />
         </li>
       </ul>
