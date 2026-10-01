@@ -52,7 +52,9 @@
       "fr": "français"
     },
     "allCategories": "Toutes les catégories",
-    "viewProfile": "Voir mon profil"
+    "viewProfile": "Voir mon profil",
+    "sellStrip": "Envie de vendre ?",
+    "sellStripSeller": "Gérez vos annonces et vos commandes."
   },
   "hero": {
     "badgeTitle": "Paiement sous séquestre",

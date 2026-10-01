@@ -5,7 +5,7 @@ export const about: Localized<PageContent> = {
     title: "About SmartPlaze",
     subtitle: "A marketplace built on trust, made in Cameroon.",
     intro:
-      "SmartPlaze (Smarttrustexpress) was created by Godwin Tech Solution to fix the one thing that stops people from buying and selling online in Central Africa: trust. We put escrow at the centre of every transaction so that buyers pay with confidence and sellers get paid, every time.",
+      "SmartPlaze (SmartTrustExpress) was built to make online buying and selling safer and more trustworthy across Cameroon and Central Africa. Through our secure escrow system, buyers can shop with confidence while sellers receive payments securely. The vision was conceived by Che Blaise and developed into a modern digital marketplace by Godwill Tech, combining local insight with innovative technology. Today, we continue to connect people and businesses through a reliable eCommerce experience.",
     sections: [
       {
         heading: "Our mission",
@@ -23,12 +23,6 @@ export const about: Localized<PageContent> = {
         ],
       },
       {
-        heading: "Who we are",
-        paragraphs: [
-          "Godwin Tech Solution is a software company building products for African businesses — from logistics and fintech to marketplaces. SmartPlaze is our own product: we design it, build it and run it.",
-        ],
-      },
-      {
         heading: "Contact",
         bullets: ["Support: support@smartplaze.com", "Partnerships: hello@smartplaze.com"],
       },
@@ -38,7 +32,7 @@ export const about: Localized<PageContent> = {
     title: "À propos de SmartPlaze",
     subtitle: "Une marketplace fondée sur la confiance, faite au Cameroun.",
     intro:
-      "SmartPlaze (Smarttrustexpress) a été créée par Godwin Tech Solution pour résoudre ce qui empêche les gens d'acheter et de vendre en ligne en Afrique centrale : la confiance. Nous plaçons le séquestre au cœur de chaque transaction pour que les acheteurs paient en confiance et que les vendeurs soient payés, à chaque fois.",
+      "SmartPlaze (SmartTrustExpress) a été créée pour rendre l'achat et la vente en ligne plus sûrs et plus fiables au Cameroun et en Afrique centrale. Grâce à notre système de séquestre sécurisé, les acheteurs achètent en toute confiance et les vendeurs reçoivent leurs paiements en toute sécurité. La vision a été conçue par Che Blaise et transformée en une marketplace numérique moderne par Godwill Tech, alliant la connaissance du terrain à une technologie innovante. Aujourd'hui, nous continuons de connecter les personnes et les entreprises grâce à une expérience e-commerce fiable.",
     sections: [
       {
         heading: "Notre mission",
@@ -53,12 +47,6 @@ export const about: Localized<PageContent> = {
           "Boutiques vérifiées avec profil public, bannière et contact d'un geste.",
           "Mobile Money d'abord : MTN Mobile Money et Orange Money pour les paiements et les retraits.",
           "Litiges équitables : une équipe humaine examine les deux parties et tranche en quelques jours.",
-        ],
-      },
-      {
-        heading: "Qui sommes-nous",
-        paragraphs: [
-          "Godwin Tech Solution est une société de logiciels qui construit des produits pour les entreprises africaines — de la logistique et la fintech aux marketplaces. SmartPlaze est notre propre produit : nous le concevons, le développons et l'exploitons.",
         ],
       },
       {

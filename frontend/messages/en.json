@@ -52,7 +52,9 @@
       "fr": "French"
     },
     "allCategories": "All categories",
-    "viewProfile": "View profile"
+    "viewProfile": "View profile",
+    "sellStrip": "Have something to sell?",
+    "sellStripSeller": "Manage your listings and orders."
   },
   "hero": {
     "badgeTitle": "Escrow protected",
