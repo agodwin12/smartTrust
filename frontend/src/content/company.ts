@@ -5,7 +5,7 @@ export const about: Localized<PageContent> = {
     title: "About SmartPlaze",
     subtitle: "A marketplace built on trust, made in Cameroon.",
     intro:
-      "SmartPlaze (SmartTrustExpress) was built to make online buying and selling safer and more trustworthy across Cameroon and Central Africa. Through our secure escrow system, buyers can shop with confidence while sellers receive payments securely. The vision was conceived by Che Blaise and developed into a modern digital marketplace by Godwill Tech, combining local insight with innovative technology. Today, we continue to connect people and businesses through a reliable eCommerce experience.",
+      "SmartPlaze (SmartTrustExpress) was built to make online buying and selling safer and more trustworthy across Cameroon and Central Africa. Through our secure escrow system, buyers can shop with confidence while sellers receive payments securely. The vision was conceived by Che Blaise and developed into a modern digital marketplace by Godwin Tech Solution, combining local insight with innovative technology. Today, we continue to connect people and businesses through a reliable eCommerce experience.",
     sections: [
       {
         heading: "Our mission",
@@ -32,7 +32,7 @@ export const about: Localized<PageContent> = {
     title: "À propos de SmartPlaze",
     subtitle: "Une marketplace fondée sur la confiance, faite au Cameroun.",
     intro:
-      "SmartPlaze (SmartTrustExpress) a été créée pour rendre l'achat et la vente en ligne plus sûrs et plus fiables au Cameroun et en Afrique centrale. Grâce à notre système de séquestre sécurisé, les acheteurs achètent en toute confiance et les vendeurs reçoivent leurs paiements en toute sécurité. La vision a été conçue par Che Blaise et transformée en une marketplace numérique moderne par Godwill Tech, alliant la connaissance du terrain à une technologie innovante. Aujourd'hui, nous continuons de connecter les personnes et les entreprises grâce à une expérience e-commerce fiable.",
+      "SmartPlaze (SmartTrustExpress) a été créée pour rendre l'achat et la vente en ligne plus sûrs et plus fiables au Cameroun et en Afrique centrale. Grâce à notre système de séquestre sécurisé, les acheteurs achètent en toute confiance et les vendeurs reçoivent leurs paiements en toute sécurité. La vision a été conçue par Che Blaise et transformée en une marketplace numérique moderne par Godwin Tech Solution, alliant la connaissance du terrain à une technologie innovante. Aujourd'hui, nous continuons de connecter les personnes et les entreprises grâce à une expérience e-commerce fiable.",
     sections: [
       {
         heading: "Notre mission",
