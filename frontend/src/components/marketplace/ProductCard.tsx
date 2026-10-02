@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, Play, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "motion/react";
@@ -80,6 +80,11 @@ export function ProductCard({ product, priority = false, className }: ProductCar
             </span>
           )}
         </div>
+        {product.videoUrl && (
+          <span title={t("hasVideo")} className="pointer-events-none absolute bottom-3 left-3 inline-flex h-7 items-center gap-1 rounded-full bg-black/60 px-2 text-[11px] font-semibold text-white backdrop-blur">
+            <Play className="size-3 fill-current" aria-hidden /> <span className="sr-only sm:not-sr-only">{t("hasVideo")}</span>
+          </span>
+        )}
         {/* Cart action lives on the image corner so the price row never has to fight for width. */}
         <button
           type="button"

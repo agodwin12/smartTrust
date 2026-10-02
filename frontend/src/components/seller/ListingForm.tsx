@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import type { Category, Product } from "@/types";
 import { authField } from "@/components/auth/AuthCard";
 import { useAuthError } from "@/components/auth/useAuthError";
+import { ListingVideoField, pickVideo, type ListingVideo } from "@/components/seller/ListingVideoField";
 
 const MAX_IMAGES = 8;
 
@@ -20,11 +21,45 @@ export function ListingForm({ mode, initial, categories }: ListingFormProps) {
   const t = useTranslations("sellerArea.listingForm");
   const tl = useTranslations("sellerArea.listings");
   const tp = useTranslations("products");
-  const { authFetch } = useAuth();
+  const { authFetch, authUpload } = useAuth();
   const router = useRouter();
   const describeError = useAuthError();
   const [files, setFiles] = useState<File[]>([]);
   const [saving, setSaving] = useState<null | "draft" | "publish">(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoProgress, setVideoProgress] = useState<number | null>(null);
+  const [video, setVideo] = useState<ListingVideo | null>(initial ? pickVideo(initial) : null);
+
+  // While the saved video is being converted, check back every few seconds.
+  const listingId = initial?.id;
+  useEffect(() => {
+    if (!listingId || video?.videoStatus !== "PROCESSING") return;
+    const timer = setInterval(() => {
+      authFetch<{ advertisement: Product }>(`advertisements/me/${listingId}`)
+        .then(({ advertisement }) => setVideo(pickVideo(advertisement)))
+        .catch(() => {});
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [listingId, video?.videoStatus, authFetch]);
+
+  // Leaving the page would cancel a video upload in progress: ask first.
+  useEffect(() => {
+    if (videoProgress === null) return;
+    const warn = (event: BeforeUnloadEvent) => event.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [videoProgress]);
+
+  const removeVideo = async () => {
+    if (!listingId || !window.confirm(t("videoField.confirmRemove"))) return;
+    try {
+      const { advertisement } = await authFetch<{ advertisement: Product }>(`advertisements/${listingId}/video`, { method: "DELETE" });
+      setVideo(pickVideo(advertisement));
+      toast.success(t("videoField.removed"));
+    } catch (err) {
+      toast.error(describeError(err));
+    }
+  };
 
   const previews = useMemo(() => files.map((f) => URL.createObjectURL(f)), [files]);
   useEffect(() => () => previews.forEach((url) => URL.revokeObjectURL(url)), [previews]);
@@ -47,7 +82,7 @@ export function ListingForm({ mode, initial, categories }: ListingFormProps) {
     form.delete("images");
     files.forEach((file) => form.append("images", file));
     // Untouched optional fields would fail validation as empty strings (except compareAtPrice, which "" clears).
-    for (const key of ["location", "video"]) if (!String(form.get(key) ?? "").trim()) form.delete(key);
+    if (!String(form.get("location") ?? "").trim()) form.delete("location");
     if (mode === "create" && !String(form.get("compareAtPrice") ?? "").trim()) form.delete("compareAtPrice");
 
     setSaving(publishAfter ? "publish" : "draft");
@@ -63,6 +98,24 @@ export function ListingForm({ mode, initial, categories }: ListingFormProps) {
           toast.success(tl("published"));
         } catch (err) {
           toast.error(describeError(err));
+        }
+      }
+      if (videoFile) {
+        setVideoProgress(0);
+        try {
+          const body = new FormData();
+          body.append("video", videoFile);
+          const { advertisement: withVideo } = await authUpload<{ advertisement: Product }>(`advertisements/${advertisement.id}/video`, body, setVideoProgress);
+          setVideo(pickVideo(withVideo));
+          setVideoFile(null);
+          toast.success(t("videoField.uploaded"));
+        } catch (err) {
+          toast.error(describeError(err));
+          // The listing itself is saved: carry on from its edit page, where the video can be sent again.
+          if (mode === "create") router.push(`/seller/listings/${advertisement.id}/edit`);
+          return;
+        } finally {
+          setVideoProgress(null);
         }
       }
       router.push("/seller/listings");
@@ -135,11 +188,6 @@ export function ListingForm({ mode, initial, categories }: ListingFormProps) {
         <textarea name="description" required minLength={10} maxLength={5000} rows={6} defaultValue={initial?.description ?? ""} placeholder={t("descriptionPlaceholder")} className={`${authField} mt-1.5 h-auto py-3`} />
       </label>
 
-      <label className="block text-sm font-medium text-foreground">
-        {t("video")}
-        <input name="video" type="url" defaultValue={initial?.video ?? ""} placeholder="https://youtube.com/…" className={`${authField} mt-1.5`} />
-      </label>
-
       <div>
         <p className="text-sm font-medium text-foreground">{t("images")}</p>
         <p className="text-xs text-foreground-muted">{t("imagesHint")}</p>
@@ -169,6 +217,8 @@ export function ListingForm({ mode, initial, categories }: ListingFormProps) {
           )}
         </div>
       </div>
+
+      <ListingVideoField current={video} file={videoFile} onFileChange={setVideoFile} onRemove={mode === "edit" ? removeVideo : undefined} progress={videoProgress} />
 
       <div className="flex flex-wrap gap-3 pt-2">
         <button type="submit" disabled={saving !== null} className="inline-flex h-12 items-center gap-2 rounded-xl border border-border px-6 text-sm font-semibold text-foreground hover:border-brand-blue hover:text-brand-blue disabled:opacity-60">

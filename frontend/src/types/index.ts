@@ -59,7 +59,13 @@ export type Product = {
   condition: ProductCondition;
   location: string | null;
   images: string[] | null;
-  video?: string | null;
+  /** One optional short video: the URLs are set only once it has been converted (READY). */
+  videoStatus?: "PROCESSING" | "READY" | "FAILED" | null;
+  videoUrl?: string | null;
+  videoPosterUrl?: string | null;
+  videoDuration?: number | null;
+  videoWidth?: number | null;
+  videoHeight?: number | null;
   status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   viewCount: number;
   featuredAt: string | null;
@@ -210,6 +216,8 @@ export type NotificationType =
   | "WITHDRAWAL_COMPLETED"
   | "WITHDRAWAL_FAILED"
   | "SUBSCRIPTION_ACTIVATED"
+  | "VIDEO_READY"
+  | "VIDEO_FAILED"
   | "REVIEW_RECEIVED"
   | "SUBSCRIPTION_EXPIRED"
   | "REFUND_SENT"
@@ -248,6 +256,7 @@ export type AppNotification = {
     refundId?: string;
     phoneNumber?: string;
     subscriptionId?: string;
+    advertisementId?: string;
     expiresAt?: string;
     count?: number;
     days?: number;

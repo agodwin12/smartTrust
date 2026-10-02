@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
-import { apiFetch, ApiRequestError, type FetchOptions } from "@/lib/api";
+import { apiFetch, ApiRequestError, apiUrl, type FetchOptions } from "@/lib/api";
 import { readKey, subscribeKey, writeKey } from "@/lib/local-store";
 import type { User } from "@/types";
 
@@ -25,6 +25,8 @@ type AuthContextValue = {
   refreshUser: () => Promise<User | null>;
   /** Authenticated request: adds the bearer token, transparently refreshes once on 401. */
   authFetch: <T>(path: string, options?: FetchOptions) => Promise<T>;
+  /** Authenticated multipart POST that reports upload progress (0..1): product videos. */
+  authUpload: <T>(path: string, form: FormData, onProgress?: (fraction: number) => void) => Promise<T>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -111,6 +113,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [refresh]
   );
 
+  const authUpload = useCallback(
+    async <T,>(path: string, form: FormData, onProgress?: (fraction: number) => void): Promise<T> => {
+      // Refresh the access token first if needed: a 401 after sending a large file would mean sending it twice.
+      await authFetch("users/me").catch(() => undefined);
+      // XMLHttpRequest, because fetch cannot report upload progress.
+      return new Promise<T>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", apiUrl(path));
+        xhr.withCredentials = true;
+        xhr.responseType = "json";
+        xhr.setRequestHeader("Accept", "application/json");
+        if (tokenRef.current) xhr.setRequestHeader("Authorization", `Bearer ${tokenRef.current}`);
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) onProgress?.(event.loaded / event.total);
+        };
+        xhr.onload = () => {
+          const data = (xhr.response ?? null) as { error?: string; code?: string } | null;
+          if (xhr.status >= 200 && xhr.status < 300) return resolve(data as T);
+          // 413 comes from the web server in front of the API, before our own size check.
+          if (xhr.status === 413) return reject(new ApiRequestError(413, "File too large.", "VIDEO_TOO_LARGE"));
+          reject(new ApiRequestError(xhr.status, data?.error ?? `Upload failed (${xhr.status})`, data?.code));
+        };
+        xhr.onerror = () => reject(new ApiRequestError(0, "Network error during the upload.", "NETWORK_ERROR"));
+        xhr.send(form);
+      });
+    },
+    [authFetch]
+  );
+
   const login = useCallback(
     async (email: string, password: string) => {
       const data = await apiFetch<Session>("auth/login", { method: "POST", body: { email, password } });
@@ -160,8 +191,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [authFetch]);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ status, user: status === "authenticated" ? session.user : null, login, register, logout, setSession: applySession, restoreSession, refreshUser, authFetch }),
-    [status, session.user, login, register, logout, applySession, restoreSession, refreshUser, authFetch]
+    () => ({ status, user: status === "authenticated" ? session.user : null, login, register, logout, setSession: applySession, restoreSession, refreshUser, authFetch, authUpload }),
+    [status, session.user, login, register, logout, applySession, restoreSession, refreshUser, authFetch, authUpload]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

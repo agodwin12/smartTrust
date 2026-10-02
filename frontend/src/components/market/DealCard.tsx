@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCart } from "lucide-react";
+import { Play, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -35,6 +35,11 @@ export function DealCard({ product, className, tone = "deal" }: DealCardProps) {
       )}
       <Link href={href} tabIndex={-1} aria-hidden className="relative block h-[calc(var(--deal-info)*13/7-0.5rem)] shrink-0 overflow-hidden rounded-[6px] bg-market-blue-light/60">
         {image && <Image src={image} alt="" fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px" loading="lazy" className="object-cover" />}
+        {product.videoUrl && (
+          <span title={t("hasVideo")} className="absolute bottom-1.5 left-1.5 inline-flex size-6 items-center justify-center rounded-full bg-black/60 text-white">
+            <Play className="size-3 fill-current" aria-hidden />
+          </span>
+        )}
       </Link>
       <div className="flex h-[calc(var(--deal-info)-0.5rem)] shrink-0 flex-col overflow-hidden">
         <Link href={href} className="mt-1.5 line-clamp-2 text-[13px] font-semibold leading-snug text-market-ink transition-colors hover:text-market-blue sm:line-clamp-1 sm:text-[12px] sm:leading-tight">

@@ -33,6 +33,9 @@ export function notificationHref(n: AppNotification): string {
       return "/seller/subscription";
     case "ADVERTISEMENT_EXPIRED":
       return "/seller/listings";
+    case "VIDEO_READY":
+    case "VIDEO_FAILED":
+      return d.advertisementId ? `/seller/listings/${d.advertisementId}/edit` : "/seller/listings";
     case "STORE_SUBMITTED":
       return "/admin/stores?status=PENDING";
     case "STORE_APPROVED":

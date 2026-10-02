@@ -2,6 +2,7 @@ const { Router } = require("express");
 const controller = require("../controllers/advertisement.controller");
 const authenticate = require("../middlewares/authenticate");
 const upload = require("../middlewares/upload");
+const videoUpload = require("../middlewares/videoUpload");
 const { validateBody } = require("../middlewares/validate");
 const { uploadRateLimiter } = require("../middlewares/rateLimiter");
 const authorize = require("../middlewares/authorize");
@@ -42,6 +43,9 @@ router.post("/:id/publish", authenticate, controller.publish);
 router.post("/:id/archive", authenticate, controller.archive);
 router.post("/:id/feature", authenticate, validateBody(featureSchema), controller.feature);
 router.delete("/:id/feature", authenticate, controller.unfeature);
+// One optional product video: ownership is checked before the (up to 100 MB) body is read.
+router.post("/:id/video", authenticate, uploadRateLimiter, controller.ownVideoTarget, videoUpload, controller.uploadVideo);
+router.delete("/:id/video", authenticate, controller.removeVideo);
 
 // Public storefront-style detail page — kept last so it never shadows the routes above.
 router.get("/:slug", controller.getBySlug);

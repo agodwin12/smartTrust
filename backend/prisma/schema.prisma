@@ -277,6 +277,12 @@ enum AdvertisementStatus {
   ARCHIVED
 }
 
+enum VideoStatus {
+  PROCESSING
+  READY
+  FAILED
+}
+
 enum ProductCondition {
   NEW
   USED
@@ -298,7 +304,18 @@ model Advertisement {
   condition   ProductCondition    @default(NEW)
   location    String?
   images      Json? // array of image URLs
-  video       String?
+
+  // One optional product video (≤ 30 s), converted on our server to a 720p MP4 (video.service.js).
+  // videoUrl/videoPosterUrl are set only once READY; videoJobId ties a conversion to its upload.
+  videoStatus    VideoStatus?
+  videoUrl       String?
+  videoPosterUrl String?
+  videoDuration  Float?
+  videoWidth     Int?
+  videoHeight    Int?
+  videoError     String?
+  videoJobId     String?
+  videoUpdatedAt DateTime?
   status      AdvertisementStatus @default(DRAFT)
   viewCount   Int                 @default(0)
 
@@ -609,6 +626,8 @@ enum NotificationType {
   STORE_SUBMITTED
   STORE_APPROVED
   STORE_REJECTED
+  VIDEO_READY
+  VIDEO_FAILED
 }
 
 model Notification {

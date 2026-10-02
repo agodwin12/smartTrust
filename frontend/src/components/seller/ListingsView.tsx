@@ -115,6 +115,11 @@ export function ListingsView() {
                     </p>
                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                       <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", STATUS_STYLES[ad.status])}>{t(`status.${ad.status}`)}</span>
+                      {ad.videoStatus && (
+                        <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", ad.videoStatus === "READY" ? "bg-brand-blue/10 text-brand-blue dark:text-brand-blue-light" : ad.videoStatus === "FAILED" ? "bg-danger/10 text-danger" : "bg-warning/15 text-warning")}>
+                          {t(`video.${ad.videoStatus}`)}
+                        </span>
+                      )}
                       {featured && (
                         <span className="inline-flex items-center gap-1 rounded-full bg-brand-orange/15 px-2.5 py-0.5 text-xs font-semibold text-brand-orange">
                           <Sparkles className="size-3" /> {t("featuredUntil", { date: formatDate(ad.featuredUntil!, locale) })}

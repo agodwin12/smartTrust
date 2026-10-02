@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const fs = require("fs");
 const path = require("path");
 const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const r2Client = require("../config/r2Client");
@@ -12,6 +13,11 @@ function buildKey(folder, originalName) {
   const ext = path.extname(originalName || "").toLowerCase() || ".jpg";
   const uniqueName = `${Date.now()}-${crypto.randomBytes(8).toString("hex")}${ext}`;
   return `${r2.keyPrefix}/${folder}/${uniqueName}`;
+}
+
+/** A fresh unique key under smart-market/<folder>/ (append the extension yourself, or pass it). */
+function newKey(folder, ext = "") {
+  return `${r2.keyPrefix}/${folder}/${Date.now()}-${crypto.randomBytes(8).toString("hex")}${ext}`;
 }
 
 function keyToUrl(key) {
@@ -77,6 +83,25 @@ async function uploadImage(file, folder) {
   return keyToUrl(key);
 }
 
+/**
+ * Streams a file from local disk to R2 (product videos and their posters, produced on this
+ * server, so the content type is ours, not the client's). Long cache: every key is unique.
+ */
+async function uploadFile(localPath, key, contentType) {
+  const { size } = await fs.promises.stat(localPath);
+  await r2Client.send(
+    new PutObjectCommand({
+      Bucket: r2.bucket,
+      Key: key,
+      Body: fs.createReadStream(localPath),
+      ContentLength: size,
+      ContentType: contentType,
+      CacheControl: "public, max-age=31536000, immutable",
+    })
+  );
+  return keyToUrl(key);
+}
+
 /** Best-effort cleanup — swallow errors so a storage hiccup never breaks the calling request. */
 async function deleteImageByUrl(url) {
   const key = urlToKey(url);
@@ -89,4 +114,4 @@ async function deleteImageByUrl(url) {
   }
 }
 
-module.exports = { uploadImage, deleteImageByUrl, ALLOWED_MIME_TYPES, MAX_FILE_SIZE_BYTES };
+module.exports = { uploadImage, uploadFile, newKey, deleteImageByUrl, ALLOWED_MIME_TYPES, MAX_FILE_SIZE_BYTES };

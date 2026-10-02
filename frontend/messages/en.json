@@ -174,7 +174,10 @@
       "NEW": "New",
       "USED": "Used",
       "REFURBISHED": "Refurbished"
-    }
+    },
+    "hasVideo": "Video",
+    "playVideo": "Play the product video",
+    "videoOf": "Video of {title}"
   },
   "catalog": {
     "categoriesTitle": "All Categories",
@@ -347,7 +350,12 @@
       "RATE_LIMITED": "Too many attempts. Please wait a few minutes.",
       "ACCOUNT_SUSPENDED": "This account is suspended. Contact support.",
       "EMAIL_NOT_CONFIGURED": "Email sending isn't configured on this environment yet.",
-      "generic": "Something went wrong. Please try again."
+      "generic": "Something went wrong. Please try again.",
+      "VIDEO_TOO_LARGE": "This video is over 100 MB. Record in HD (1080p) rather than 4K, or trim it.",
+      "VIDEO_TOO_LONG": "This video is longer than 30 seconds. Trim it and upload it again.",
+      "VIDEO_TOO_SHORT": "This video is too short.",
+      "UNSUPPORTED_VIDEO": "This file isn't a video we can read. Upload an MP4, MOV or WebM video.",
+      "NETWORK_ERROR": "The connection dropped during the upload. Check your network and try again."
     }
   },
   "cart": {
@@ -978,6 +986,14 @@
       "SUBSCRIPTION_EXPIRED_LAUNCH": {
         "title": "The free launch offer has ended",
         "body": "{count, plural, =0 {Choose a plan to publish again.} one {# listing is hidden until you choose a plan.} other {# listings are hidden until you choose a plan.}}"
+      },
+      "VIDEO_READY": {
+        "title": "Your video for {product} is live",
+        "body": "Buyers can now watch it on your listing."
+      },
+      "VIDEO_FAILED": {
+        "title": "Your video for {product} could not be processed",
+        "body": "Try another file: MP4 or MOV, up to 30 seconds."
       }
     }
   },
@@ -1155,7 +1171,12 @@
       "archived": "Listing archived.",
       "featured": "Listing featured in the hero.",
       "unfeatured": "Listing removed from the hero.",
-      "quota": "{used}/{quota} listings used on your plan"
+      "quota": "{used}/{quota} listings used on your plan",
+      "video": {
+        "PROCESSING": "Video processing",
+        "READY": "Video",
+        "FAILED": "Video failed"
+      }
     },
     "listingForm": {
       "createTitle": "New listing",
@@ -1172,7 +1193,6 @@
       "location": "Location",
       "description": "Description",
       "descriptionPlaceholder": "Specs, what's included, condition details, delivery options…",
-      "video": "Video URL (optional)",
       "images": "Photos (up to 8)",
       "imagesHint": "First photo is the cover. JPEG, PNG or WebP, max 5 MB each.",
       "keepImages": "Current photos are kept unless you upload new ones.",
@@ -1181,7 +1201,33 @@
       "update": "Save changes",
       "created": "Listing saved as draft.",
       "updated": "Listing updated.",
-      "tooMany": "Maximum 8 photos."
+      "tooMany": "Maximum 8 photos.",
+      "videoField": {
+        "label": "Video (optional)",
+        "hint": "One short video per product: up to 30 seconds, 100 MB max (MP4, MOV or WebM). Buyers see it next to your photos.",
+        "add": "Add a video",
+        "addHint": "Up to 30 seconds · 100 MB max",
+        "checking": "Checking the video…",
+        "noPreview": "No preview in this browser. The video will still be converted.",
+        "seconds": "{seconds} s",
+        "willUpload": "It will be uploaded when you save the listing.",
+        "willReplace": "It will replace the current video when you save the listing.",
+        "cancelSelection": "Don't add this video",
+        "uploading": "Uploading the video… {percent}%",
+        "keepOpen": "Keep this page open until the upload finishes.",
+        "uploaded": "Video uploaded. It will appear on your listing in a minute or two.",
+        "processing": "Your video is being prepared…",
+        "processingHint": "It will appear on your listing in a minute or two. You can leave this page.",
+        "live": "Your video is live ({seconds} s).",
+        "replace": "Replace",
+        "remove": "Remove",
+        "confirmRemove": "Remove this video from the listing?",
+        "removed": "Video removed.",
+        "failed": "We couldn't process your last video. Try another file (MP4 or MOV, up to 30 seconds).",
+        "notVideo": "Choose a video file (MP4, MOV or WebM).",
+        "tooLarge": "This video is over 100 MB. Record in HD (1080p) rather than 4K, or trim it.",
+        "tooLong": "This video is {seconds} seconds long. Videos can be up to 30 seconds: trim it and try again."
+      }
     },
     "orders": {
       "title": "Orders",
@@ -1472,7 +1518,10 @@
       "archived": "Listing archived.",
       "featuredUntil": "Featured until {date}",
       "views": "{count, plural, one {# view} other {# views}}",
-      "confirmArchive": "Archive this listing? It disappears from the marketplace."
+      "confirmArchive": "Archive this listing? It disappears from the marketplace.",
+      "removeVideo": "Remove video",
+      "videoRemoved": "Video removed.",
+      "confirmRemoveVideo": "Remove this listing's video? The seller can upload another one."
     },
     "plans": {
       "title": "Subscription plans",

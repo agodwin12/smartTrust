@@ -69,7 +69,7 @@ export default async function ProductPage({ params }: Props) {
         />
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-10">
           <div className="min-w-0">
-            <ProductGallery images={product.images ?? []} title={product.title} />
+            <ProductGallery images={product.images ?? []} title={product.title} video={product.videoUrl ? { url: product.videoUrl, poster: product.videoPosterUrl ?? null } : null} />
             <h1 className="mt-6 text-3xl sm:text-4xl">{product.title}</h1>
             <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-foreground-muted">
               <span className="inline-flex items-center gap-1"><Eye className="size-3.5" /> {t("views", { count: product.viewCount })}</span>

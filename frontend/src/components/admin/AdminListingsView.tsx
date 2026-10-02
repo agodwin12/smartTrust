@@ -1,6 +1,6 @@
 "use client";
 
-import { Archive, Eye, Loader2, Sparkles } from "lucide-react";
+import { Archive, Eye, Loader2, Sparkles, VideoOff } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
@@ -123,6 +123,11 @@ export function AdminListingsView() {
             {canOperate(me) && featured && (
               <button type="button" disabled={busy} onClick={() => act(ad.id, `advertisements/${ad.id}/feature`, "DELETE", undefined, t("unfeatured"))} className={rowAction}>
                 <Sparkles className="size-3.5" /> {t("unfeature")}
+              </button>
+            )}
+            {canOperate(me) && ad.videoStatus && (
+              <button type="button" disabled={busy} onClick={() => act(ad.id, `advertisements/${ad.id}/video`, "DELETE", undefined, t("videoRemoved"), t("confirmRemoveVideo"))} className={cn(rowAction, "text-foreground-secondary")}>
+                <VideoOff className="size-3.5" /> {t("removeVideo")}
               </button>
             )}
             {canOperate(me) && ad.status !== "ARCHIVED" && (

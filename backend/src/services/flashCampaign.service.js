@@ -27,6 +27,7 @@ const adSelect = {
   price: true,
   compareAtPrice: true,
   images: true,
+  videoUrl: true,
   condition: true,
   status: true,
   store: { select: { id: true, name: true, slug: true, ownerId: true } },

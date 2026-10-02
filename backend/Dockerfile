@@ -10,6 +10,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 RUN addgroup -S nodejs && adduser -S expressjs -G nodejs
+# ffmpeg/ffprobe convert product videos (video.service.js).
+RUN apk add --no-cache ffmpeg
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY package*.json ./

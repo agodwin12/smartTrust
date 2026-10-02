@@ -6,6 +6,7 @@ const bust = () => advertisementService.invalidateListingCache().catch(() => {})
 const audit = require("../services/audit.service");
 const ApiError = require("../utils/ApiError");
 const { OPERATIONS } = require("../utils/roles");
+const videoService = require("../services/video.service");
 
 async function myStoreId(userId, { requireApproved = false } = {}) {
   const store = await prisma.store.findUnique({ where: { ownerId: userId } });
@@ -120,6 +121,37 @@ async function listHero(req, res) {
   res.json({ items });
 }
 
+/** Runs before the upload is read: only the listing's own seller may send it a video. */
+async function ownVideoTarget(req, res, next) {
+  const storeId = await myStoreId(req.user.id);
+  const ad = await prisma.advertisement.findUnique({ where: { id: req.params.id } });
+  if (!ad) throw new ApiError(404, "Advertisement not found.", "ADVERTISEMENT_NOT_FOUND");
+  if (ad.storeId !== storeId) throw new ApiError(403, "This advertisement does not belong to you.", "FORBIDDEN");
+  req.advertisement = ad;
+  next();
+}
+
+async function uploadVideo(req, res) {
+  if (!req.file) throw new ApiError(422, "Choose a video to upload.", "VIDEO_REQUIRED");
+  const ad = await videoService.acceptUpload(req.advertisement, req.file);
+  audit.record(req, { action: "AD_VIDEO_UPLOADED", entityType: "Advertisement", entityId: ad.id, metadata: { sizeBytes: req.file.size, replaced: Boolean(req.advertisement.videoUrl) } });
+  res.status(202).json({ advertisement: ad });
+}
+
+/** The seller removes their video, or staff take one down (moderation). */
+async function removeVideo(req, res) {
+  const isAdmin = OPERATIONS.includes(req.user.role);
+  const ad = await prisma.advertisement.findUnique({ where: { id: req.params.id } });
+  if (!ad) throw new ApiError(404, "Advertisement not found.", "ADVERTISEMENT_NOT_FOUND");
+  if (!isAdmin && ad.storeId !== (await myStoreId(req.user.id))) throw new ApiError(403, "This advertisement does not belong to you.", "FORBIDDEN");
+  const updated = await videoService.remove(ad);
+  audit.record(req, { action: "AD_VIDEO_REMOVED", entityType: "Advertisement", entityId: ad.id, metadata: { byStaff: isAdmin } });
+  res.json({ advertisement: updated });
+}
+
 module.exports = {
+  ownVideoTarget,
+  uploadVideo,
+  removeVideo,
   listAll,
   getMine, create, update, publish, archive, list, getBySlug, listMine, feature, unfeature, listHero };

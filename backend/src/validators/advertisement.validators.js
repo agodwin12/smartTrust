@@ -21,7 +21,6 @@ const createAdvertisementSchema = z
     categoryId: z.string().min(1, "categoryId is required."),
     condition: z.enum(["NEW", "USED"]).optional(),
     location: z.string().trim().max(160).optional(),
-    video: z.string().trim().url().optional(),
   })
   .superRefine(compareAtRule);
 
@@ -38,7 +37,6 @@ const updateAdvertisementSchema = z
     categoryId: z.string().min(1).optional(),
     condition: z.enum(["NEW", "USED"]).optional(),
     location: z.string().trim().max(160).optional(),
-    video: z.string().trim().url().optional(),
   })
   .superRefine((data, ctx) => {
     if (typeof data.compareAtPrice === "number") compareAtRule(data, ctx);
