@@ -355,7 +355,9 @@
       "VIDEO_TOO_LONG": "Cette vidéo dure plus de 30 secondes. Raccourcissez-la et envoyez-la à nouveau.",
       "VIDEO_TOO_SHORT": "Cette vidéo est trop courte.",
       "UNSUPPORTED_VIDEO": "Ce fichier n'est pas une vidéo lisible. Envoyez une vidéo MP4, MOV ou WebM.",
-      "NETWORK_ERROR": "La connexion a été coupée pendant l'envoi. Vérifiez votre réseau et réessayez."
+      "NETWORK_ERROR": "La connexion a été coupée pendant l'envoi. Vérifiez votre réseau et réessayez.",
+      "VIDEO_RESOLUTION_TOO_HIGH": "La résolution de cette vidéo est trop élevée. Les vidéos sont limitées à la 4K.",
+      "VIDEO_QUEUE_FULL": "Vous avez déjà 3 vidéos en préparation. Attendez qu'elles soient prêtes, puis réessayez."
     }
   },
   "cart": {

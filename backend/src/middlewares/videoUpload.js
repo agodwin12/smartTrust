@@ -12,7 +12,8 @@ fs.mkdirSync(TMP_DIR, { recursive: true });
 const upload = multer({
   storage: multer.diskStorage({
     destination: TMP_DIR,
-    filename: (req, file, cb) => cb(null, `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${path.extname(file.originalname || "").toLowerCase().slice(0, 6)}`),
+    // Our own name, never the uploader's extension: the format is decided by the file's bytes.
+    filename: (req, file, cb) => cb(null, `${Date.now()}-${crypto.randomBytes(8).toString("hex")}.upload`),
   }),
   limits: { fileSize: MAX_UPLOAD_BYTES, files: 1 },
   fileFilter(req, file, cb) {

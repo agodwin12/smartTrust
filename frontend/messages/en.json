@@ -355,7 +355,9 @@
       "VIDEO_TOO_LONG": "This video is longer than 30 seconds. Trim it and upload it again.",
       "VIDEO_TOO_SHORT": "This video is too short.",
       "UNSUPPORTED_VIDEO": "This file isn't a video we can read. Upload an MP4, MOV or WebM video.",
-      "NETWORK_ERROR": "The connection dropped during the upload. Check your network and try again."
+      "NETWORK_ERROR": "The connection dropped during the upload. Check your network and try again.",
+      "VIDEO_RESOLUTION_TOO_HIGH": "This video's resolution is too high. Videos can be up to 4K.",
+      "VIDEO_QUEUE_FULL": "You already have 3 videos being prepared. Wait until they are ready, then try again."
     }
   },
   "cart": {

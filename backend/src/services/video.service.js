@@ -27,11 +27,43 @@ const STUCK_AFTER_MS = 30 * 60 * 1000;
 const ALLOWED_EXTENSIONS = new Set([".mp4", ".mov", ".m4v", ".webm", ".3gp", ".mkv", ".avi"]);
 // ffprobe format names of real video containers (an image would probe as image2/png_pipe/…).
 const VIDEO_CONTAINERS = ["mov", "mp4", "matroska", "webm", "avi", "3gp"];
+// Largest accepted frame side: 4K. A tiny file can claim a huge frame size (a "decompression
+// bomb") and exhaust memory while decoding.
+const MAX_SIDE = 4096;
+// Videos one store may have converting at once, so nobody can monopolise the queue.
+const MAX_PROCESSING_PER_STORE = 3;
+// ISO-BMFF top-level boxes a real MP4/MOV/3GP/M4V file starts with.
+const ISO_BOXES = new Set(["ftyp", "moov", "mdat", "wide", "free", "skip", "pnot"]);
 const FAILED_MESSAGE = "We couldn't process this video. Try another file (MP4 or MOV, up to 30 seconds).";
 const INTERRUPTED_MESSAGE = "Processing was interrupted. Please upload the video again.";
 
 const ffmpegPath = () => process.env.FFMPEG_PATH || "ffmpeg";
 const ffprobePath = () => process.env.FFPROBE_PATH || "ffprobe";
+
+/**
+ * Security (SSRF / local file read): ffmpeg chooses how to read a file from its content, and some
+ * formats are not media at all but lists of other resources (HLS playlists, concat scripts) that
+ * it would then open. So the container is identified HERE, from the first bytes, before ffmpeg
+ * sees the file; only MP4/MOV, WebM/MKV and AVI pass, and every ffmpeg/ffprobe call is then told
+ * that exact demuxer (-f) and may open local files only (-protocol_whitelist file).
+ * Returns the demuxer name, or null for anything else.
+ */
+async function sniffContainer(file) {
+  const handle = await fs.open(file, "r");
+  try {
+    const { buffer, bytesRead } = await handle.read(Buffer.alloc(16), 0, 16, 0);
+    if (bytesRead < 12) return null;
+    if (ISO_BOXES.has(buffer.toString("latin1", 4, 8))) return "mov";
+    if (buffer.readUInt32BE(0) === 0x1a45dfa3) return "matroska"; // EBML: WebM and MKV
+    if (buffer.toString("latin1", 0, 4) === "RIFF" && buffer.toString("latin1", 8, 12) === "AVI ") return "avi";
+    return null;
+  } finally {
+    await handle.close();
+  }
+}
+
+/** Input options for every ffmpeg/ffprobe call: the known demuxer, local files only. */
+const safeInput = (demuxer) => ["-protocol_whitelist", "file", "-f", demuxer];
 
 /** Runs a command and resolves with its stdout; rejects with the end of stderr. */
 function run(command, args, { timeoutMs = 10 * 60 * 1000 } = {}) {
@@ -60,10 +92,10 @@ function run(command, args, { timeoutMs = 10 * 60 * 1000 } = {}) {
 }
 
 /** Duration, displayed size and audio presence of a video file, or null when it isn't a readable video. */
-async function probe(file) {
+async function probe(file, demuxer) {
   let info;
   try {
-    info = JSON.parse(await run(ffprobePath(), ["-v", "error", "-print_format", "json", "-show_format", "-show_streams", file], { timeoutMs: 60 * 1000 }));
+    info = JSON.parse(await run(ffprobePath(), ["-v", "error", ...safeInput(demuxer), "-print_format", "json", "-show_format", "-show_streams", file], { timeoutMs: 60 * 1000 }));
   } catch {
     return null;
   }
@@ -87,10 +119,10 @@ async function probe(file) {
  * ffmpeg arguments for the published file: H.264 Main + AAC (plays everywhere), longest side
  * 1280 px, at most 30 fps and 30 s, no metadata (GPS location, device), fast start for streaming.
  */
-function transcodeArgs(input, output) {
+function transcodeArgs(input, output, demuxer = "mov") {
   // prettier-ignore
   return [
-    "-hide_banner", "-loglevel", "error", "-y", "-i", input,
+    "-hide_banner", "-loglevel", "error", "-y", ...safeInput(demuxer), "-i", input,
     "-t", String(MAX_SECONDS),
     "-map", "0:v:0", "-map", "0:a:0?",
     "-vf", "scale=w='min(1280,iw)':h='min(1280,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2",
@@ -125,9 +157,14 @@ const bustListings = () => require("./advertisement.service").invalidateListingC
  * conversion. The listing is returned with videoStatus PROCESSING.
  */
 async function acceptUpload(ad, file) {
+  let demuxer;
   try {
-    const meta = await probe(file.path);
+    demuxer = await sniffContainer(file.path);
+    const meta = demuxer && (await probe(file.path, demuxer));
     if (!meta) throw new ApiError(422, "This file isn't a video we can read. Upload an MP4, MOV or WebM video.", "UNSUPPORTED_VIDEO");
+    if (Math.max(meta.width ?? 0, meta.height ?? 0) > MAX_SIDE) {
+      throw new ApiError(422, "This video's resolution is too high. Videos can be up to 4K.", "VIDEO_RESOLUTION_TOO_HIGH");
+    }
     if (meta.duration !== null && meta.duration > MAX_SECONDS + 0.5) {
       throw new ApiError(422, `This video is ${Math.round(meta.duration)} seconds long. Videos can be up to ${MAX_SECONDS} seconds: trim it and upload it again.`, "VIDEO_TOO_LONG");
     }
@@ -145,21 +182,23 @@ async function acceptUpload(ad, file) {
   // One video per listing: the new upload replaces the previous one.
   await deleteFiles(ad.videoUrl, ad.videoPosterUrl);
   if (ad.videoUrl) await bustListings();
-  void enqueue(() => processJob(ad.id, jobId, file.path));
+  void enqueue(() => processJob(ad.id, jobId, file.path, demuxer));
   return updated;
 }
 
 /** Converts one upload and publishes it, unless the listing got another video (or none) meanwhile. */
-async function processJob(adId, jobId, input) {
+async function processJob(adId, jobId, input, demuxer) {
   const output = path.join(TMP_DIR, `${jobId}.mp4`);
   const poster = path.join(TMP_DIR, `${jobId}.jpg`);
   const uploaded = [];
   try {
-    await run(ffmpegPath(), transcodeArgs(input, output));
-    const meta = await probe(output);
+    // Replaced or removed while waiting in the queue: don't spend the CPU.
+    if ((await prisma.advertisement.count({ where: { id: adId, videoJobId: jobId } })) === 0) return;
+    await run(ffmpegPath(), transcodeArgs(input, output, demuxer));
+    const meta = await probe(output, "mov");
     if (!meta) throw new Error("the converted file is not a readable video");
     const at = Math.min(1, (meta.duration ?? 2) / 2).toFixed(2);
-    await run(ffmpegPath(), ["-hide_banner", "-loglevel", "error", "-y", "-ss", at, "-i", output, "-frames:v", "1", "-q:v", "4", poster]);
+    await run(ffmpegPath(), ["-hide_banner", "-loglevel", "error", "-y", "-ss", at, ...safeInput("mov"), "-i", output, "-frames:v", "1", "-q:v", "4", poster]);
 
     const name = storage.newKey("advertisements/videos", "");
     const videoUrl = await storage.uploadFile(output, `${name}.mp4`, "video/mp4");
@@ -214,6 +253,14 @@ async function notifyOwner(adId, type) {
   }
 }
 
+/** Refuses a new upload while the store already has its share of videos converting (other listings). */
+async function assertQueueRoom(ad) {
+  const busy = await prisma.advertisement.count({ where: { storeId: ad.storeId, videoStatus: "PROCESSING", id: { not: ad.id } } });
+  if (busy >= MAX_PROCESSING_PER_STORE) {
+    throw new ApiError(409, `You already have ${busy} videos being prepared. Wait until they are ready, then try again.`, "VIDEO_QUEUE_FULL");
+  }
+}
+
 /** Removes the listing's video (seller or staff). Any conversion still running is discarded. */
 async function remove(ad) {
   const updated = await prisma.advertisement.update({
@@ -239,8 +286,10 @@ module.exports = {
   MAX_UPLOAD_BYTES,
   TMP_DIR,
   ALLOWED_EXTENSIONS,
+  sniffContainer,
   probe,
   transcodeArgs,
+  assertQueueRoom,
   run,
   acceptUpload,
   remove,

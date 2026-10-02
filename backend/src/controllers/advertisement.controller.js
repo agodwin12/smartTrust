@@ -127,6 +127,7 @@ async function ownVideoTarget(req, res, next) {
   const ad = await prisma.advertisement.findUnique({ where: { id: req.params.id } });
   if (!ad) throw new ApiError(404, "Advertisement not found.", "ADVERTISEMENT_NOT_FOUND");
   if (ad.storeId !== storeId) throw new ApiError(403, "This advertisement does not belong to you.", "FORBIDDEN");
+  await videoService.assertQueueRoom(ad);
   req.advertisement = ad;
   next();
 }

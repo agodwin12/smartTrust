@@ -1,6 +1,7 @@
 const { test, describe, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const { spawnSync } = require("node:child_process");
+const http = require("node:http");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
@@ -42,6 +43,8 @@ describe("product videos", { skip: !hasFfmpeg && "ffmpeg is not installed" }, ()
     ffmpeg("-f", "lavfi", "-i", "testsrc=size=320x240", "-frames:v", "1", fixture("photo.jpg"));
     fs.copyFileSync(fixture("photo.jpg"), fixture("photo-renamed.mp4"));
     fs.writeFileSync(fixture("notes.mp4"), "definitely not a video");
+    // Above 4K: refused before any decoding.
+    ffmpeg("-f", "lavfi", "-i", "testsrc=duration=1.5:size=4200x120:rate=5", "-c:v", "libx264", "-pix_fmt", "yuv420p", fixture("too-wide.mp4"));
 
     const [s, o, c, cu] = await Promise.all([createUser(), createUser(), createUser({ role: "CUSTOMER_SERVICE" }), createUser()]);
     seller = { ...s, ...(await login(s.user.email)) };
@@ -137,6 +140,70 @@ describe("product videos", { skip: !hasFfmpeg && "ffmpeg is not installed" }, ()
     const row = await prisma.advertisement.findUnique({ where: { id: ad.id } });
     assert.equal(row.videoStatus, "FAILED");
     assert.match(row.videoError, /upload the video again/);
+  });
+
+  test("security: playlists and scripts that point elsewhere are refused before ffmpeg reads them, and nothing is fetched", async () => {
+    const hits = [];
+    const internal = http.createServer((req, res) => {
+      hits.push(req.url);
+      res.end("secret");
+    });
+    await new Promise((resolve) => internal.listen(0, "127.0.0.1", resolve));
+    const target = `http://127.0.0.1:${internal.address().port}`;
+    const playlist = `#EXTM3U
+#EXT-X-TARGETDURATION:10
+#EXT-X-MEDIA-SEQUENCE:0
+#EXTINF:10.0,
+${target}/internal.ts
+#EXTINF:10.0,
+file:///etc/passwd
+#EXT-X-ENDLIST
+`;
+    const crafted = {
+      "evil.m3u8": playlist, // the classic HLS trick, with the extension ffmpeg looks for
+      "evil.mp4": playlist,
+      "evil.ffconcat": `ffconcat version 1.0
+file '${target}/via-concat.mp4'
+`,
+      "evil.sdp": `v=0
+o=- 0 0 IN IP4 127.0.0.1
+s=x
+c=IN IP4 127.0.0.1
+t=0 0
+m=video 9 RTP/AVP 96
+`,
+    };
+    try {
+      for (const [name, body] of Object.entries(crafted)) {
+        const res = await as(seller.token).post(`/api/advertisements/${ad.id}/video`).attach("video", Buffer.from(body), { filename: name, contentType: "video/mp4" });
+        assert.equal(res.status, 422, name);
+        assert.equal(res.body.code, "UNSUPPORTED_VIDEO", name);
+      }
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      assert.deepEqual(hits, [], "the server never fetched anything");
+    } finally {
+      internal.close();
+    }
+    // Even a file with a real video signature is read with a fixed demuxer and local files only.
+    assert.ok(videoService.transcodeArgs("in", "out", "mov").join(" ").includes("-protocol_whitelist file -f mov -i in"));
+  });
+
+  test("security: videos above 4K are refused (a small file can claim a huge frame)", async () => {
+    const res = await send(seller.token, "too-wide.mp4");
+    assert.equal(res.status, 422);
+    assert.equal(res.body.code, "VIDEO_RESOLUTION_TOO_HIGH");
+  });
+
+  test("a store can't flood the conversion queue: at most 3 videos processing at once", async () => {
+    const { store } = await prisma.advertisement.findUnique({ where: { id: ad.id }, select: { store: true } });
+    const category = await createCategory();
+    const busy = [];
+    for (let i = 0; i < 3; i += 1) busy.push(await createListing(store.id, category.id));
+    await prisma.advertisement.updateMany({ where: { id: { in: busy.map((b) => b.id) } }, data: { videoStatus: "PROCESSING", videoJobId: "busy", videoUpdatedAt: new Date() } });
+    const res = await send(seller.token, "second.mp4");
+    assert.equal(res.status, 409);
+    assert.equal(res.body.code, "VIDEO_QUEUE_FULL");
+    await prisma.advertisement.updateMany({ where: { id: { in: busy.map((b) => b.id) } }, data: { videoStatus: null, videoJobId: null } });
   });
 
   test("listings no longer take a video link", async () => {
