@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MarketSearch } from "@/components/layout/MarketSearch";
 import { UserMenu } from "@/components/layout/UserMenu";
+import { MessagesLink } from "@/components/chat/MessagesLink";
 import { BrandMark } from "@/components/market/BrandMark";
 import { categoryIcon } from "@/components/market/CategoryIcon";
 import { MarketContainer } from "@/components/market/MarketContainer";
@@ -102,6 +103,7 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
               <LanguageSwitcher tone="dark" />
               <ThemeToggle tone="dark" className="ml-1" />
               <NotificationBell className="text-white/90 hover:bg-white/10 hover:text-white" />
+              <MessagesLink className={navyAction} withLabel />
               <Link href="/wishlist" aria-label={t("wishlist")} className={navyAction}>
                 <Heart className={cn("size-5", wishlist.count > 0 && "fill-market-orange text-market-orange")} aria-hidden />
                 <span className="hidden xl:inline">{t("wishlist")}</span>
@@ -243,10 +245,14 @@ export function Header({ categories = [], quickLinks = true }: HeaderProps) {
               {/* Narrow phones: the language switch lives in the menu drawer, so the actions keep their size. */}
               <LanguageSwitcher compact className="mr-0.5 hidden size-8 text-[11px] min-[400px]:inline-flex" />
               <NotificationBell className={lightAction} />
-              <Link href="/wishlist" aria-label={t("wishlist")} className={lightAction}>
-                <Heart className={cn("size-5", wishlist.count > 0 && "fill-market-orange text-market-orange")} aria-hidden />
-                <CountBadge count={wishlist.count} />
-              </Link>
+              {status === "authenticated" ? (
+                <MessagesLink className={lightAction} />
+              ) : (
+                <Link href="/wishlist" aria-label={t("wishlist")} className={lightAction}>
+                  <Heart className={cn("size-5", wishlist.count > 0 && "fill-market-orange text-market-orange")} aria-hidden />
+                  <CountBadge count={wishlist.count} />
+                </Link>
+              )}
               <Link href="/cart" aria-label={t("cart")} className={lightAction}>
                 <ShoppingCart className="size-5" aria-hidden />
                 <CountBadge count={cart.count} />

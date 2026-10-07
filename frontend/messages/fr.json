@@ -54,7 +54,9 @@
     "allCategories": "Toutes les catégories",
     "viewProfile": "Voir mon profil",
     "sellStrip": "Envie de vendre ?",
-    "sellStripSeller": "Gérez vos annonces et vos commandes."
+    "sellStripSeller": "Gérez vos annonces et vos commandes.",
+    "messages": "Messages",
+    "messagesCount": "{count, plural, =0 {Messages} one {Messages, # non lu} other {Messages, # non lus}}"
   },
   "hero": {
     "badgeTitle": "Paiement sous séquestre",
@@ -260,7 +262,8 @@
     "email": "E-mail",
     "about": "À propos de {name}",
     "noListings": "Cette boutique n'a aucune annonce active pour le moment.",
-    "noStores": "Aucune boutique ne correspond à votre recherche."
+    "noStores": "Aucune boutique ne correspond à votre recherche.",
+    "chat": "Discuter avec le vendeur"
   },
   "search": {
     "title": "Résultats pour « {query} »",
@@ -357,7 +360,15 @@
       "UNSUPPORTED_VIDEO": "Ce fichier n'est pas une vidéo lisible. Envoyez une vidéo MP4, MOV ou WebM.",
       "NETWORK_ERROR": "La connexion a été coupée pendant l'envoi. Vérifiez votre réseau et réessayez.",
       "VIDEO_RESOLUTION_TOO_HIGH": "La résolution de cette vidéo est trop élevée. Les vidéos sont limitées à la 4K.",
-      "VIDEO_QUEUE_FULL": "Vous avez déjà 3 vidéos en préparation. Attendez qu'elles soient prêtes, puis réessayez."
+      "VIDEO_QUEUE_FULL": "Vous avez déjà 3 vidéos en préparation. Attendez qu'elles soient prêtes, puis réessayez.",
+      "OWN_STORE": "C'est votre propre boutique.",
+      "MESSAGE_EMPTY": "Écrivez un message ou ajoutez une photo.",
+      "MESSAGE_TOO_LONG": "Les messages sont limités à 2 000 caractères.",
+      "STORE_UNAVAILABLE": "Cette boutique n'est pas disponible pour le moment.",
+      "CONVERSATION_NOT_FOUND": "Cette conversation n'existe pas ou ne vous concerne pas.",
+      "ADVERTISEMENT_NOT_IN_STORE": "Ce produit n'appartient pas à cette boutique.",
+      "UNSUPPORTED_FILE_TYPE": "Seules les photos JPEG, PNG ou WebP peuvent être envoyées.",
+      "FILE_TOO_LARGE": "Les photos doivent faire moins de 5 Mo."
     }
   },
   "cart": {
@@ -802,7 +813,8 @@
       "notifications": "Notifications",
       "profile": "Profil",
       "seller": "Espace vendeur",
-      "sellerHint": "Ouvrez une boutique ou gérez la vôtre"
+      "sellerHint": "Ouvrez une boutique ou gérez la vôtre",
+      "messages": "Messages"
     },
     "overview": {
       "greeting": "Bonjour, {name}",
@@ -1055,7 +1067,8 @@
       "title": "Livraison",
       "address": "Adresse",
       "phone": "Téléphone"
-    }
+    },
+    "messageSeller": "Écrire au vendeur"
   },
   "reviews": {
     "title": "Avis",
@@ -1074,7 +1087,8 @@
       "wallet": "Portefeuille",
       "store": "Paramètres boutique",
       "viewStore": "Voir la page publique",
-      "flashDeals": "Ventes flash"
+      "flashDeals": "Ventes flash",
+      "messages": "Messages"
     },
     "gate": {
       "title": "Ouvrez votre boutique",
@@ -1375,7 +1389,8 @@
       "support": "Messagerie support",
       "audit": "Journal d'audit",
       "flashDeals": "Ventes flash",
-      "assistant": "Assistant IA"
+      "assistant": "Assistant IA",
+      "messages": "Messages"
     },
     "common": {
       "search": "Rechercher…",
@@ -1785,6 +1800,22 @@
       "footnote": "Réponses générées par Gemini à partir de données en lecture seule. Vérifiez les commandes avant toute action sur l'argent.",
       "restrictedTitle": "Réservé au Super Admin",
       "restrictedBody": "L'assistant IA est réservé au Super Admin."
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "Conversations acheteurs ↔ vendeurs, en lecture seule. Chaque conversation ouverte est enregistrée dans le journal d'audit.",
+      "conversation": "Conversation",
+      "lastMessage": "Dernier message",
+      "messageCount": "{count, plural, one {# message} other {# messages}}",
+      "flagged": "Signalé",
+      "flaggedOnly": "Signalées uniquement",
+      "open": "Ouvrir",
+      "buyer": "Acheteur",
+      "seller": "Vendeur",
+      "readOnly": "Lecture seule. L'ouverture de cette conversation a été enregistrée dans le journal d'audit. Les messages signalés mentionnent un numéro de téléphone ou un paiement hors de SmartPlaze.",
+      "loadEarlier": "Afficher les messages précédents",
+      "noMessages": "Aucun message.",
+      "notFound": "Conversation introuvable."
     }
   },
   "market": {
@@ -1930,5 +1961,50 @@
     "whatsapp": "Discutez avec nous sur WhatsApp",
     "whatsappMessage": "Bonjour SmartPlaze, j'ai besoin d'aide pour…",
     "backToTop": "Retour en haut"
+  },
+  "messaging": {
+    "title": "Messages",
+    "tabs": {
+      "all": "Tous",
+      "buying": "Achats",
+      "selling": "Ventes"
+    },
+    "empty": {
+      "title": "Aucun message pour l'instant",
+      "description": "Posez une question à un vendeur depuis n'importe quelle fiche produit : vos conversations apparaîtront ici."
+    },
+    "select": "Choisissez une conversation",
+    "selectHint": "Vos conversations avec les vendeurs et les clients s'affichent à gauche.",
+    "startChat": "Discuter avec le vendeur",
+    "photo": "Photo",
+    "product": "Produit",
+    "customerTag": "Client",
+    "storeTag": "Vendeur",
+    "back": "Retour aux messages",
+    "viewStore": "Voir la boutique",
+    "about": "À propos de : {title}",
+    "removeProduct": "Ne pas joindre ce produit",
+    "safety": "Payez uniquement via SmartPlaze : le séquestre ne protège votre argent que pour les commandes passées sur le site. N'envoyez jamais de Mobile Money directement à un vendeur.",
+    "flaggedWarning": "Attention : ce message mentionne un numéro de téléphone ou un paiement en dehors de SmartPlaze. Le séquestre ne protège pas les paiements faits hors du site.",
+    "flaggedTag": "Signalé",
+    "placeholder": "Écrire un message…",
+    "send": "Envoyer",
+    "attachPhoto": "Ajouter une photo",
+    "removePhoto": "Retirer la photo",
+    "photoTooLarge": "Les photos doivent faire moins de 5 Mo.",
+    "photoType": "Seules les photos JPEG, PNG ou WebP peuvent être envoyées.",
+    "seen": "Vu",
+    "sending": "Envoi…",
+    "failed": "Non envoyé.",
+    "retry": "Réessayer",
+    "typing": "En train d'écrire…",
+    "loadEarlier": "Afficher les messages précédents",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "unavailable": "Cette boutique n'est pas disponible pour le moment : vous pouvez lire la conversation mais pas répondre.",
+    "productUnavailable": "Plus disponible",
+    "firstMessage": "Posez toutes vos questions à {store} sur le produit : disponibilité, livraison, détails…",
+    "noMessages": "Aucun message pour l'instant.",
+    "notFound": "Cette conversation n'existe pas ou ne vous concerne pas."
   }
 }

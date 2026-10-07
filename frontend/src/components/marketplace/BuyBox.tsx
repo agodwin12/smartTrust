@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { toCartItem, useCart } from "@/features/cart/CartProvider";
 import { toWishlistItem, useWishlist } from "@/features/wishlist/WishlistProvider";
 import { Link, useRouter } from "@/i18n/navigation";
+import { ChatButton } from "@/components/chat/ChatButton";
 import { discountPercent, formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { Product, Store as StoreModel } from "@/types";
@@ -101,6 +102,7 @@ export function BuyBox({ product, store }: { product: Product; store?: StoreMode
             <Heart className={cn("size-5", wished && "fill-danger text-danger")} />
           </button>
         </div>
+        <ChatButton advertisementId={product.id} storeId={product.storeId} />
       </div>
 
       <div className="mt-6 rounded-2xl bg-brand-sky/50 p-4 text-sm dark:bg-surface-elevated">

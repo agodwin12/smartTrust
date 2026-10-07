@@ -106,6 +106,7 @@ async function revokeAllSessions(userId) {
   ]);
   // The authenticate middleware caches the user row for 60 s: drop it so the new version applies now.
   await require("./cache.service").invalidateKey(require("./cache.service").userKey(userId)).catch(() => {});
+  require("../realtime").disconnectUser(userId);
 }
 
 /** Who a sign-out request belongs to: the refresh cookie (even an already-revoked one) or a valid access token. */

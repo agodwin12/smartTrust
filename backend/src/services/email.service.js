@@ -92,4 +92,23 @@ async function sendStoreDecisionEmail({ to, firstName, storeName, approved, reas
   });
 }
 
-module.exports = { sendOtpEmail, sendContactNotification, sendStoreDecisionEmail };
+/** "You have a new message" — sent at most once per conversation and hour, only when the recipient is offline. */
+async function sendChatMessageEmail({ to, firstName, senderName, preview, url }) {
+  return getClient().emails.send({
+    from: resendConfig.fromEmail,
+    to,
+    subject: `New message from ${senderName} on SmartPlaze`,
+    html: `
+      <div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 520px; margin: 0 auto; padding: 24px;">
+        <h2 style="color: #1B2A4A; margin-bottom: 4px;">SmartPlaze</h2>
+        <p style="color: #333; font-size: 15px;">Hi ${escapeHtml(firstName || "there")},</p>
+        <p style="color: #333; font-size: 15px;"><strong>${escapeHtml(senderName)}</strong> sent you a message:</p>
+        <p style="color: #333; font-size: 15px; background: #F2F2F2; padding: 12px 16px; border-radius: 8px; white-space: pre-line;">${escapeHtml(preview)}</p>
+        <p style="margin-top: 20px;"><a href="${escapeHtml(url)}" style="display: inline-block; background: #F7941D; color: #fff; text-decoration: none; font-weight: 600; padding: 12px 20px; border-radius: 8px;">Reply on SmartPlaze</a></p>
+        <p style="color: #777; font-size: 12px; margin-top: 20px;">For your safety, only pay through SmartPlaze: escrow protects you only on orders placed on the site.</p>
+      </div>
+    `,
+  });
+}
+
+module.exports = { sendOtpEmail, sendContactNotification, sendStoreDecisionEmail, sendChatMessageEmail };

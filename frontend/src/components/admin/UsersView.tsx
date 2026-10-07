@@ -51,7 +51,7 @@ function CreateStaffSheet({ open, onOpenChange, onCreated }: { open: boolean; on
           <SheetTitle>{t("createStaff")}</SheetTitle>
           <SheetDescription>{t("subtitle")}</SheetDescription>
         </SheetHeader>
-        <form onSubmit={submit} className="space-y-4 px-4 pb-6">
+        <form onSubmit={submit} method="post" className="space-y-4 px-4 pb-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t("form.firstName")}>
               <input name="firstName" required className={cn(adminField, "w-full")} />

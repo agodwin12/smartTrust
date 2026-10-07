@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, LayoutDashboard, Package, ShoppingBag, Store, Wallet, CreditCard, Settings, Zap, type LucideIcon, Clock, ShieldAlert } from "lucide-react";
+import { ExternalLink, LayoutDashboard, MessageCircle, Package, ShoppingBag, Store, Wallet, CreditCard, Settings, Zap, type LucideIcon, Clock, ShieldAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, type ReactNode } from "react";
 import { useAuth } from "@/features/auth/AuthProvider";
@@ -10,11 +10,12 @@ import { RequireAuth } from "@/components/auth/RequireAuth";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import { Container } from "@/components/layout/Container";
 
-const ITEMS: { key: "dashboard" | "listings" | "flashDeals" | "orders" | "subscription" | "wallet" | "store"; href: string; icon: LucideIcon; exact?: boolean }[] = [
+const ITEMS: { key: "dashboard" | "listings" | "flashDeals" | "orders" | "messages" | "subscription" | "wallet" | "store"; href: string; icon: LucideIcon; exact?: boolean }[] = [
   { key: "dashboard", href: "/seller", icon: LayoutDashboard, exact: true },
   { key: "listings", href: "/seller/listings", icon: Package },
   { key: "flashDeals", href: "/seller/flash-deals", icon: Zap },
   { key: "orders", href: "/seller/orders", icon: ShoppingBag },
+  { key: "messages", href: "/messages?tab=selling", icon: MessageCircle },
   { key: "subscription", href: "/seller/subscription", icon: CreditCard },
   { key: "wallet", href: "/seller/wallet", icon: Wallet },
   { key: "store", href: "/seller/store", icon: Settings },

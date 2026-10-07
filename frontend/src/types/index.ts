@@ -499,3 +499,43 @@ export type FlashCampaign = {
   pendingCount?: number;
   _count?: { items: number };
 };
+
+/** A product shown as a card inside a chat (price as the API serialises Decimals). */
+export type ChatProductCard = { id: ID; title: string; slug: string; price: string; image: string | null; available: boolean };
+
+/** A buyer ↔ seller conversation as one participant (side) or staff (side null) sees it. */
+export type Conversation = {
+  id: ID;
+  side: "buyer" | "seller" | null;
+  store: { id: ID; name: string; slug: string; logoUrl: string | null };
+  buyer: { id: ID; name: string; email?: string };
+  seller?: { id: ID; name: string; email: string };
+  advertisement: ChatProductCard | null;
+  lastMessageAt: string;
+  /** Text snippet, or "[image]" / "[product]" for a photo or product-only message. */
+  lastMessagePreview: string | null;
+  unread: number;
+  counterpartReadAt: string | null;
+  buyerLastReadAt?: string | null;
+  sellerLastReadAt?: string | null;
+  flagged?: boolean;
+  messageCount?: number;
+  storeAvailable: boolean;
+  createdAt: string;
+};
+
+export type ChatMessage = {
+  id: ID;
+  conversationId: ID;
+  senderId: ID;
+  body: string | null;
+  imageUrl: string | null;
+  advertisement: ChatProductCard | null;
+  /** Mentions a phone number or paying outside SmartPlaze: a warning is shown under it. */
+  flagged: boolean;
+  clientId: string | null;
+  createdAt: string;
+  /** Client-only: still sending, or failed to send. */
+  pending?: "sending" | "failed";
+};
+

@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/Container";
 import { formatDate, initials } from "@/lib/format";
 import { RatingStars } from "@/components/marketplace/RatingStars";
+import { ChatButton } from "@/components/chat/ChatButton";
 import type { Store } from "@/types";
 
 /** Store page masthead: banner, logo (or initials), name, location, member-since and tap-to-contact buttons. */
@@ -46,20 +47,19 @@ export async function StoreHeader({ store, listingCount }: { store: Store; listi
               {typeof store.rating === "number" && <RatingStars rating={store.rating} count={store.reviewCount} />}
             </p>
           </div>
-          {(store.contactPhone || store.contactEmail) && (
-            <div className="flex flex-wrap gap-2">
-              {store.contactPhone && (
-                <a href={`tel:${store.contactPhone}`} className={button}>
-                  <Phone className="size-4" /> {t("call")}
-                </a>
-              )}
-              {store.contactEmail && (
-                <a href={`mailto:${store.contactEmail}`} className={button}>
-                  <Mail className="size-4" /> {t("email")}
-                </a>
-              )}
-            </div>
-          )}
+          <div className="flex flex-wrap gap-2">
+            <ChatButton storeId={store.id} label={t("chat")} className="h-auto min-h-10 border-brand-orange bg-brand-orange px-4 py-2 text-white hover:bg-brand-orange-light hover:text-white" />
+            {store.contactPhone && (
+              <a href={`tel:${store.contactPhone}`} className={button}>
+                <Phone className="size-4" /> {t("call")}
+              </a>
+            )}
+            {store.contactEmail && (
+              <a href={`mailto:${store.contactEmail}`} className={button}>
+                <Mail className="size-4" /> {t("email")}
+              </a>
+            )}
+          </div>
         </div>
         {store.description && (
           <div className="mt-5 max-w-3xl">

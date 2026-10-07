@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { AuthProvider } from "@/features/auth/AuthProvider";
 import { CartProvider } from "@/features/cart/CartProvider";
+import { ChatProvider } from "@/features/chat/ChatProvider";
 import { WishlistProvider } from "@/features/wishlist/WishlistProvider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -10,12 +11,14 @@ import { Toaster } from "@/components/ui/sonner";
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
-      <CartProvider>
-        <WishlistProvider>
-          {children}
-          <Toaster position="bottom-center" closeButton richColors />
-        </WishlistProvider>
-      </CartProvider>
+      <ChatProvider>
+        <CartProvider>
+          <WishlistProvider>
+            {children}
+            <Toaster position="bottom-center" closeButton richColors />
+          </WishlistProvider>
+        </CartProvider>
+      </ChatProvider>
     </AuthProvider>
   );
 }

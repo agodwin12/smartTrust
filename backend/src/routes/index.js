@@ -22,6 +22,7 @@ const refundRoutes = require("./refund.routes");
 const searchRoutes = require("./search.routes");
 const flashCampaignRoutes = require("./flashCampaign.routes");
 const checkoutRoutes = require("./checkout.routes");
+const chatRoutes = require("./chat.routes");
 
 const router = Router();
 
@@ -48,5 +49,6 @@ router.use("/refunds", refundRoutes);
 router.use("/search", searchRoutes);
 router.use("/flash-campaigns", flashCampaignRoutes);
 router.use("/checkout", checkoutRoutes);
+router.use("/conversations", chatRoutes);
 
 module.exports = router;

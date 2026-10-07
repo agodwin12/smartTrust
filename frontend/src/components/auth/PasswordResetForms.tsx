@@ -40,7 +40,7 @@ export function ForgotPasswordForm() {
           </Link>
         </div>
       ) : (
-        <form onSubmit={onSubmit} className="space-y-4" noValidate>
+        <form onSubmit={onSubmit} method="post" className="space-y-4" noValidate>
           <label className="block text-sm font-medium text-foreground">
             {t("email")}
             <input name="email" type="email" autoComplete="email" required className={`${authField} mt-1.5`} />
@@ -83,7 +83,7 @@ export function ResetPasswordForm() {
 
   return (
     <AuthCard title={t("title")} subtitle={t("subtitle")}>
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
+      <form onSubmit={onSubmit} method="post" className="space-y-4" noValidate>
         <label className="block text-sm font-medium text-foreground">
           {t("email")}
           <input name="email" type="email" autoComplete="email" required defaultValue={searchParams.get("email") ?? ""} className={`${authField} mt-1.5`} />

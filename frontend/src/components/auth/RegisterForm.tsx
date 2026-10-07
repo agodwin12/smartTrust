@@ -58,7 +58,7 @@ export function RegisterForm() {
         </>
       }
     >
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
+      <form onSubmit={onSubmit} method="post" className="space-y-4" noValidate>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-sm font-medium text-foreground">
             {t("firstName")}

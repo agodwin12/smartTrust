@@ -114,4 +114,4 @@ async function deleteImageByUrl(url) {
   }
 }
 
-module.exports = { uploadImage, uploadFile, newKey, deleteImageByUrl, ALLOWED_MIME_TYPES, MAX_FILE_SIZE_BYTES };
+module.exports = { uploadImage, uploadFile, newKey, deleteImageByUrl, detectImageType, ALLOWED_MIME_TYPES, MAX_FILE_SIZE_BYTES };

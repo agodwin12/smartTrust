@@ -1,15 +1,17 @@
 "use client";
 
-import { Bell, Heart, LayoutDashboard, Package, Store, UserRound, type LucideIcon } from "lucide-react";
+import { Bell, Heart, LayoutDashboard, MessageCircle, Package, Store, UserRound, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/features/auth/AuthProvider";
+import { useChat } from "@/features/chat/ChatProvider";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 
-const ITEMS: { key: "overview" | "orders" | "wishlist" | "notifications" | "profile"; href: string; icon: LucideIcon; exact?: boolean }[] = [
+const ITEMS: { key: "overview" | "orders" | "messages" | "wishlist" | "notifications" | "profile"; href: string; icon: LucideIcon; exact?: boolean }[] = [
   { key: "overview", href: "/account", icon: LayoutDashboard, exact: true },
   { key: "orders", href: "/account/orders", icon: Package },
+  { key: "messages", href: "/messages", icon: MessageCircle },
   { key: "wishlist", href: "/wishlist", icon: Heart },
   { key: "notifications", href: "/account/notifications", icon: Bell },
   { key: "profile", href: "/account/profile", icon: UserRound },
@@ -20,6 +22,7 @@ export function AccountNav() {
   const t = useTranslations("account.nav");
   const pathname = usePathname();
   const { user } = useAuth();
+  const { unread } = useChat();
 
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`));
 
@@ -37,6 +40,7 @@ export function AccountNav() {
               )}
             >
               <Icon className="size-4" /> {t(key)}
+              {key === "messages" && unread > 0 && <span className="ml-auto inline-flex min-w-5 items-center justify-center rounded-full bg-brand-orange px-1.5 text-[11px] font-bold leading-5 text-white">{unread}</span>}
             </Link>
           </li>
         ))}

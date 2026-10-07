@@ -16,7 +16,10 @@ const jobs = require("./jobs");
 
 // HOST lets a host-networked container bind to 127.0.0.1 only (reverse proxy in front).
 const host = process.env.HOST || "0.0.0.0";
-const server = app.listen(port, host, () => {
+const server = require("http").createServer(app);
+// Socket.IO shares the API's port (real-time chat, see src/realtime).
+require("./realtime").init(server);
+server.listen(port, host, () => {
   logger.info({ port }, `SmartPlaze API listening on http://localhost:${port}`);
   if (jobsConfig.enabled) jobs.start();
   else logger.info("Background jobs disabled (JOBS_ENABLED=false)");

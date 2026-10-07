@@ -25,6 +25,8 @@ type AuthContextValue = {
   refreshUser: () => Promise<User | null>;
   /** Authenticated request: adds the bearer token, transparently refreshes once on 401. */
   authFetch: <T>(path: string, options?: FetchOptions) => Promise<T>;
+  /** The current access token (for the chat socket handshake); `fresh` forces a refresh first. Never stored. */
+  getToken: (fresh?: boolean) => Promise<string | null>;
   /** Authenticated multipart POST that reports upload progress (0..1): product videos. */
   authUpload: <T>(path: string, form: FormData, onProgress?: (fraction: number) => void) => Promise<T>;
 };
@@ -113,6 +115,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [refresh]
   );
 
+  const getToken = useCallback(async (fresh = false) => (fresh || !tokenRef.current ? refresh() : tokenRef.current), [refresh]);
+
   const authUpload = useCallback(
     async <T,>(path: string, form: FormData, onProgress?: (fraction: number) => void): Promise<T> => {
       // Refresh the access token first if needed: a 401 after sending a large file would mean sending it twice.
@@ -191,8 +195,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [authFetch]);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ status, user: status === "authenticated" ? session.user : null, login, register, logout, setSession: applySession, restoreSession, refreshUser, authFetch, authUpload }),
-    [status, session.user, login, register, logout, applySession, restoreSession, refreshUser, authFetch, authUpload]
+    () => ({ status, user: status === "authenticated" ? session.user : null, login, register, logout, setSession: applySession, restoreSession, refreshUser, authFetch, authUpload, getToken }),
+    [status, session.user, login, register, logout, applySession, restoreSession, refreshUser, authFetch, authUpload, getToken]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

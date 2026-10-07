@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  MessagesSquare,
   ArrowDownToLine,
   Banknote,
   CreditCard,
@@ -20,7 +21,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import { canFinance, isStaff, isSuperAdmin } from "@/features/admin/roles";
+import { canFinance, canOperate, isStaff, isSuperAdmin } from "@/features/admin/roles";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -29,13 +30,14 @@ import { RequireAuth } from "@/components/auth/RequireAuth";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import { Container } from "@/components/layout/Container";
 
-type NavKey = "dashboard" | "assistant" | "users" | "stores" | "categories" | "listings" | "flashDeals" | "plans" | "orders" | "payments" | "disputes" | "withdrawals" | "support" | "audit";
+type NavKey = "dashboard" | "assistant" | "users" | "stores" | "categories" | "listings" | "flashDeals" | "plans" | "orders" | "messages" | "payments" | "disputes" | "withdrawals" | "support" | "audit";
 
 const ITEMS: { key: NavKey; href: string; icon: LucideIcon; exact?: boolean; visible?: (user: User) => boolean }[] = [
   { key: "dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
   { key: "assistant", href: "/admin/assistant", icon: Sparkles, visible: isSuperAdmin },
   { key: "orders", href: "/admin/orders", icon: ShoppingBag },
   { key: "disputes", href: "/admin/disputes", icon: Scale },
+  { key: "messages", href: "/admin/messages", icon: MessagesSquare, visible: canOperate },
   { key: "payments", href: "/admin/payments", icon: Banknote, visible: canFinance },
   { key: "withdrawals", href: "/admin/withdrawals", icon: ArrowDownToLine, visible: canFinance },
   { key: "users", href: "/admin/users", icon: Users },

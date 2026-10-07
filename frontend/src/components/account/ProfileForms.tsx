@@ -119,7 +119,7 @@ export function ProfileForms() {
         <h2 className="text-2xl">{t("password.title")}</h2>
         <p className="mt-1 text-sm text-foreground-secondary">{t("password.subtitle")}</p>
         {user.googleId && !user.emailVerifiedAt ? null : null}
-        <form onSubmit={savePassword} className="mt-5 space-y-4">
+        <form onSubmit={savePassword} method="post" className="mt-5 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block text-sm font-medium text-foreground">
               {t("password.current")}

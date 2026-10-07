@@ -60,7 +60,9 @@ export function LoginForm() {
         </>
       }
     >
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
+      {/* method="post": if someone submits before the page script has loaded, the browser's own
+          fallback sends the fields in the request body, never in the URL (history, server logs). */}
+      <form onSubmit={onSubmit} method="post" className="space-y-4" noValidate>
         <label className="block text-sm font-medium text-foreground">
           {t("email")}
           <input name="email" type="email" autoComplete="email" required className={`${authField} mt-1.5`} />

@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/features/auth/AuthProvider";
+import { ChatButton } from "@/components/chat/ChatButton";
 import { Link } from "@/i18n/navigation";
 import { ApiRequestError } from "@/lib/api";
 import { formatDate, formatPrice } from "@/lib/format";
@@ -208,6 +209,7 @@ export function OrderDetail({ orderId, perspective = "buyer" }: { orderId: strin
                   </p>
                 )}
                 <p className="mt-2 font-bold text-2xl text-brand-blue dark:text-brand-blue-light">{formatPrice(order.totalAmount, locale)}</p>
+                {isBuyer && store?.id && <ChatButton advertisementId={order.advertisementId} storeId={store.id} label={t("messageSeller")} className="mt-3 h-10 px-4" />}
               </div>
             </div>
           </section>

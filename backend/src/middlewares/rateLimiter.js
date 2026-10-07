@@ -123,6 +123,22 @@ const generalApiRateLimiter = makeLimiter({
   message: "Too many requests. Please slow down.",
 });
 
+// Chat: a person typing fast sends a few messages a minute; 40 is room for bursts, not floods.
+const chatMessageRateLimiter = makeLimiter({
+  prefix: "chat-msg",
+  windowMs: 60 * 1000,
+  limit: 40,
+  message: "You're sending messages too fast. Please wait a moment.",
+});
+
+// Opening conversations with many different stores in a short time looks like spam.
+const chatStartRateLimiter = makeLimiter({
+  prefix: "chat-start",
+  windowMs: 60 * 60 * 1000,
+  limit: 30,
+  message: "Too many new conversations. Please try again later.",
+});
+
 // Image uploads land in memory (multer) before going to R2 — up to 8 × 5MB per
 // request. Without a limiter, one client hammering the upload endpoints is a
 // cheap way to exhaust the process's memory.
@@ -148,4 +164,6 @@ module.exports = {
   otpVerifyRateLimiter,
   generalApiRateLimiter,
   uploadRateLimiter,
+  chatMessageRateLimiter,
+  chatStartRateLimiter,
 };
